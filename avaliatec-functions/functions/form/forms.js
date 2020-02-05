@@ -1,0 +1,39 @@
+const { db } = require('../util/admin');
+const { validateForm } = require('../util/validators');
+
+exports.createForm = (req, res) => {
+
+	const newForm = {
+		course: req.body.course,
+		questions: req.body.questions,
+		comments: req.body.comments,
+		teachers: req.body.teachers
+	};
+
+	const { valid, errosForm } = validateForm(newForm);
+
+	let formId;
+
+	if (!valid) return res.status(400).json(errosForm);
+	 else {
+		return db.collection('forms')
+			.add(newForm)
+			.then((data) => {
+				formId = data.id;
+			})
+			.then(() => {
+				const addForm = {
+					course: newForm.course,
+					questions: newForm.questions,
+					comments: newForm.comments,
+					teachers: newForm.teachers,
+					formId
+				}
+				return db.doc(`/forms/${formId}`).set(addForm);
+			})
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).json({ error: err.code });
+			})
+	}
+}
