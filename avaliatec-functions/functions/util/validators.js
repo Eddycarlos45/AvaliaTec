@@ -30,6 +30,17 @@ exports.validateSignupData = (data) => {
 	};
 };
 
+exports.validateLogin = (data) => {
+	let errorsLogin = {};
+	if (isEmpty(data.email)) errorsLogin.email = 'Must not be empty';
+	if (isEmpty(data.password)) errorsLogin.password = 'Must not be empty';
+
+	return {
+		errorsLogin,
+		valid: Object.keys(errorsLogin).length === 0 ? true : false
+	};
+};
+
 exports.validateTheme = (data) => {
 	let errorsTheme = {};
 	if (isEmpty(data.theme)) errorsTheme.theme = 'Must not be empty';

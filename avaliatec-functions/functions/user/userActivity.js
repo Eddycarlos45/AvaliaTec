@@ -3,7 +3,7 @@ const config = require('../util/config')
 const firebase = require('firebase');
 firebase.initializeApp(config)
 
-const { validateSignupData } = require('../util/validators');
+const { validateSignupData, validateLogin } = require('../util/validators');
 
 exports.signup = (req, res) => {
 
@@ -59,7 +59,10 @@ exports.login = (req, res) => {
 		email: req.body.email,
 		password: req.body.password
 	};
-	
+	const { valid, errorsLogin } = validateLogin(user);
+
+	if (!valid) return res.status(400).json(errorsLogin);
+
 	firebase.auth().signInWithEmailAndPassword(user.email, user.password)
 		.then(data => {
 			return data.user.getIdToken();
@@ -69,6 +72,9 @@ exports.login = (req, res) => {
 		})
 		.catch(err => {
 			console.error(err);
+			if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+				return res.status(403).json({ general: 'Wrong credentials, please try again' })
+			}
 			return res.status(500).json({ error: err.code });
 		})
 }
