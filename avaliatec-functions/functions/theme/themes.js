@@ -6,6 +6,7 @@ exports.createTheme = (req, res) => {
 
 	const newTheme = {
 		theme: req.body.theme,
+		course: req.body.course,
 		members: req.body.members
 	};
 
@@ -22,6 +23,7 @@ exports.createTheme = (req, res) => {
 			.then(() => {
 				const addTheme = {
 					theme: newTheme.theme,
+					course: newTheme.course,
 					members: newTheme.members,
 					groupId
 				}

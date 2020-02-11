@@ -44,6 +44,7 @@ exports.validateLogin = (data) => {
 exports.validateTheme = (data) => {
 	let errorsTheme = {};
 	if (isEmpty(data.theme)) errorsTheme.theme = 'Must not be empty';
+	if (isEmpty(data.course)) errorsTheme.course = 'Must not be empty';
 	if (isEmpty(data.members[0])) errorsTheme.members = 'Must not be empty';
 
 	return {
