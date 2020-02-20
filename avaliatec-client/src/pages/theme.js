@@ -1,8 +1,7 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 //MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -16,10 +15,10 @@ const styles = {
 		textAlign: 'center'
 	},
 	pageTitle: {
-		margin: '20px auto 20px auto'
+		margin: '0 auto 10px auto'
 	},
 	textField: {
-		margin: '20px auto 20px auto'
+		margin: '10px auto 10px auto'
 	},
 	button: {
 		marginTop: 20,
@@ -36,12 +35,13 @@ const styles = {
 };
 
 
-class login extends Component {
+class theme extends Component {
 	constructor() {
 		super();
 		this.state = {
-			email: '',
-			password: '',
+			theme: '',
+			course: '',
+			members: [],
 			loading: false,
 			errors: {}
 		}
@@ -52,17 +52,18 @@ class login extends Component {
 		this.setState({
 			loading: true
 		});
-		const userData = {
-			email: this.state.email,
-			password: this.state.password
+		const newTheme = {
+			theme: this.state.theme,
+			course: this.state.course,
+			members: this.state.members,
 		}
-		axios.post('/login', userData)
+		axios.post('/theme', newTheme)
 			.then(res => {
 				console.log(res.data);
 				this.setState({
 					loading: false
 				});
-				this.props.history.push('/home');
+				this.props.history.push('/');
 			})
 			.catch(err => {
 				this.setState({
@@ -87,29 +88,74 @@ class login extends Component {
 				<Grid item sm />
 				<Grid item sm>
 					<Typography variant="h2" className={classes.pageTitle}>
-						AVALIATEC
+						Novo Tema
 					</Typography>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<TextField
-							id="email"
-							name="email"
-							type="email"
-							label="Email"
+							id="theme"
+							name="theme"
+							type="text"
+							label="Nome do Tema"
 							className={classes.textField}
-							helperText={errors.email}
-							error={errors.email ? true : false}
-							value={this.state.email}
+							helperText={errors.themeName}
+							error={errors.theme ? true : false}
+							value={this.state.theme}
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
-							id="password"
-							name="password"
-							type="password"
-							label="Password"
+							id="course"
+							name="course"
+							type="text"
+							label="Curso"
 							className={classes.textField}
-							helperText={errors.password}
-							error={errors.password ? true : false}
-							value={this.state.password}
+							helperText={errors.course}
+							error={errors.course ? true : false}
+							value={this.state.course}
+							onChange={this.handleChange}
+							fullWidth />
+						<small>MEMBROS</small>
+						<TextField
+							id="member"
+							name="member"
+							type="text"
+							label="Primeiro membro"
+							className={classes.textField}
+							helperText={errors.member}
+							error={errors.member ? true : false}
+							value={this.state.members[0]}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							id="member2"
+							name="member2"
+							type="text"
+							label="Segundo membro"
+							className={classes.textField}
+							helperText={errors.member}
+							error={errors.member ? true : false}
+							value={this.state.members[1]}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							id="member"
+							name="member"
+							type="text"
+							label="Terceiro membro"
+							className={classes.textField}
+							helperText={errors.member}
+							error={errors.member ? true : false}
+							value={this.state.members[2]}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							id="member"
+							name="member"
+							type="text"
+							label="Quarto membro"
+							className={classes.textField}
+							helperText={errors.member}
+							error={errors.member ? true : false}
+							value={this.state.members[3]}
 							onChange={this.handleChange}
 							fullWidth />
 						{errors.general && (
@@ -123,13 +169,11 @@ class login extends Component {
 							color="primary"
 							className={classes.button}
 							disabled={loading}>
-							LOGIN
+							Adicionar
 							{loading && (
 								<CircularProgress size={30} className={classes.progress} />
 							)}
 						</Button>
-						<br />
-						<small className={classes.small}>dont have an account ? sign up <Link to="/signup">here</Link></small>
 					</form>
 				</Grid>
 				<Grid item sm />
@@ -138,8 +182,7 @@ class login extends Component {
 	}
 }
 
-login.propTypes = {
+theme.propTypes = {
 	classes: PropTypes.object.isRequired
 }
-export default withStyles(styles)(login);
-
+export default withStyles(styles)(theme);

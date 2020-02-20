@@ -16,10 +16,10 @@ const styles = {
 		textAlign: 'center'
 	},
 	pageTitle: {
-		margin: '20px auto 20px auto'
+		margin: '0 auto 10px auto'
 	},
 	textField: {
-		margin: '20px auto 20px auto'
+		margin: '10px auto 10px auto'
 	},
 	button: {
 		marginTop: 20,
@@ -32,9 +32,6 @@ const styles = {
 	},
 	progress: {
 		position: 'absolute'
-	},
-	small: {
-		marginTop: 10
 	}
 };
 
