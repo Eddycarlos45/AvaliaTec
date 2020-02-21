@@ -1,35 +1,80 @@
-import React, { Component, Fragment } from 'react';
-import Link from 'react-router-dom/Link';
-
-//MUI stuff
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import File from '../pages/file'
-import Theme from '../pages/theme'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-const pageRender = (pageIndex) => {
-	if(pageIndex === 1) {return pageIndex } 
-	if (pageIndex === 2){return pageIndex}
+//pages
+import File from '../pages/file';
+import Theme from '../pages/theme';
+import Avaluation from '../pages/avaluation'
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<Typography
+			component="div"
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Box p={3}>{children}</Box>}
+		</Typography>
+	);
 }
 
-class Navbar extends Component {
-	render() {
-		return (
-			<div>
-			<AppBar>
-				<Toolbar className="nav">
-					<Button color="inherit" onSubmit = {this.pageRender(1)}>Ficha</Button>
-					<Button color="inherit" onSubmit = {this.pageRender(2)}>Tema</Button>
-					<Button color="inherit" component={Link} to="/evaluation">Avaliação</Button>
-				</Toolbar>
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+	return {
+		id: `simple-tab-${index}`,
+		'aria-controls': `simple-tabpanel-${index}`,
+	};
+}
+
+const useStyles = makeStyles(theme => ({
+	root: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper,
+	},
+}));
+
+export default function SimpleTabs() {
+	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	return (
+		<div className={classes.root}>
+			<AppBar position="static">
+				<Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+					<Tab label="Fichas" {...a11yProps(0)} />
+					<Tab label="Temas" {...a11yProps(1)} />
+					<Tab label="Avaliações" {...a11yProps(2)} />
+				</Tabs>
 			</AppBar>
-			<Fragment>
-				{pageRender() === "file" ? <File/> : <Theme/>}
-			</Fragment>
-			</div>
-		)
-	}
+			<TabPanel value={value} index={0}>
+				<File/>
+      </TabPanel>
+			<TabPanel value={value} index={1}>
+				<Theme/>
+      </TabPanel>
+			<TabPanel value={value} index={2}>
+				<Avaluation/>
+      </TabPanel>
+		</div>
+	);
 }
-
-export default Navbar;
