@@ -6,7 +6,6 @@ export class home extends Component {
         return (
             <div>
                 <Navbar/>
-                
             </div>
         )
     }
