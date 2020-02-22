@@ -1,4 +1,5 @@
-const { db } = require('../util/admin');
+const { db, admin } = require('../util/admin');
+const functions = require('firebase-functions');
 const { validateForm } = require('../util/validators');
 
 exports.createForm = (req, res) => {
@@ -15,7 +16,7 @@ exports.createForm = (req, res) => {
 	let formId;
 
 	if (!valid) return res.status(400).json(errosForm);
-	 else {
+	else {
 		return db.collection('forms')
 			.add(newForm)
 			.then((data) => {
@@ -37,3 +38,18 @@ exports.createForm = (req, res) => {
 			})
 	}
 }
+
+exports.getForms = (req, res) => {
+	admin
+		.firestore()
+		.collection('forms')
+		.get()
+		.then((data) => {
+			let forms = [];
+			data.forEach((doc) => {
+				forms.push(doc.data());
+			});
+			return res.json(forms);
+		})
+		.catch((err) => console.error(err));
+};
