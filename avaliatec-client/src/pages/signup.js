@@ -182,7 +182,7 @@ class signup extends Component {
 							)}
 						</Button>
 						<br />
-						<small className={classes.small}>already have an account ? login <Link to="/login">here</Link></small>
+						<small className={classes.small}>already have an account ? login <Link to="/">here</Link></small>
 					</form>
 				</Grid>
 				<Grid item sm />

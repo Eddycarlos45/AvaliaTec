@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import Select from '../components/Select'
 
 //MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -31,7 +32,7 @@ const styles = {
 	},
 	progress: {
 		position: 'absolute'
-	}
+	},
 };
 
 
@@ -43,9 +44,37 @@ class file extends Component {
 			questions: [],
 			comments: [],
 			teachers: [],
-			errors: {}
+			theme: '',
+			errors: {},
+			age: '',
+			setAge: '',
+			open: false,
+			setOpen: false,
+			themes: null
 		}
 	}
+	componentDidMount() {
+		axios.get('/form')
+			.then(res => {
+				console.log(res.data)
+				this.setState({
+					themes: res.data
+				})
+			})
+			.catch(err => console.log(err));
+	}
+
+	handleChangCourse = (event) => {
+		this.state.setAge(event.target.value);
+	};
+
+	handleClose = () => {
+		this.state.setOpen(false);
+	};
+
+	handleOpen = () => {
+		this.state.setOpen(true);
+	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
@@ -56,7 +85,8 @@ class file extends Component {
 			course: this.state.course,
 			questions: this.state.questions,
 			comments: this.state.comments,
-			teachers: this.state.teachers
+			teachers: this.state.teachers,
+			theme: this.state.theme
 		}
 		axios.post('/form', newFile)
 			.then(res => {
@@ -83,6 +113,9 @@ class file extends Component {
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
+		let listThemes = this.state.themes ? (
+			this.state.themes.map((file) => <p>{file.theme}</p>)
+		) : (<p>Loading...</p>)
 
 		return (
 			<Grid container className={classes.form}>
@@ -91,6 +124,9 @@ class file extends Component {
 					<Typography variant="h2" className={classes.pageTitle}>
 						Formulário
 					</Typography>
+					<Select
+						theme={listThemes}
+					></Select>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<TextField
 							id="course"
@@ -133,7 +169,7 @@ class file extends Component {
 							className={classes.textField}
 							helperText={errors.teachers}
 							error={errors.teachers ? true : false}
-							value={this.state.teachers}
+							value={this.state.teachers} c
 							onChange={this.handleChange}
 							fullWidth />
 						{errors.general && (
