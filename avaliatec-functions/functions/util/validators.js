@@ -4,24 +4,24 @@ const isEmail = (email) => {
 	else return false;
 };
 const isEmpty = (string) => {
-	if (string.trim() === '') return true;
+	if (string === '') return true;
 	else return false;
 };
 
 exports.validateSignupData = (data) => {
 	let errors = {};
 
-	if (isEmpty(data.email)) {
+	if (isEmpty(data.email.trim())) {
 		errors.email = 'Must not be empty'
 	} else if (!isEmail(data.email)) {
 		errors.email = 'Must be a valid email address'
 	}
 
-	if (isEmpty(data.password)) errors.password = 'Must not be empty'
+	if (isEmpty(data.password.trim())) errors.password = 'Must not be empty'
 	if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passwords must match';
-	if (isEmpty(data.userLogin)) errors.userLogin = 'Must not be empty';
-	if (isEmpty(data.userName)) errors.userName = 'Must not be empty';
-	if (isEmpty(data.course)) errors.course = 'Must not be empty';
+	if (isEmpty(data.userLogin.trim())) errors.userLogin = 'Must not be empty';
+	if (isEmpty(data.userName.trim())) errors.userName = 'Must not be empty';
+	if (isEmpty(data.course.trim())) errors.course = 'Must not be empty';
 
 
 	return {
@@ -32,8 +32,8 @@ exports.validateSignupData = (data) => {
 
 exports.validateLogin = (data) => {
 	let errorsLogin = {};
-	if (isEmpty(data.email)) errorsLogin.email = 'Must not be empty';
-	if (isEmpty(data.password)) errorsLogin.password = 'Must not be empty';
+	if (isEmpty(data.email.trim())) errorsLogin.email = 'Must not be empty';
+	if (isEmpty(data.password.trim())) errorsLogin.password = 'Must not be empty';
 
 	return {
 		errorsLogin,
@@ -43,9 +43,9 @@ exports.validateLogin = (data) => {
 
 exports.validateTheme = (data) => {
 	let errorsTheme = {};
-	if (isEmpty(data.theme)) errorsTheme.theme = 'Must not be empty';
-	if (isEmpty(data.course)) errorsTheme.course = 'Must not be empty';
-	if (isEmpty(data.members[0])) errorsTheme.members = 'Must not be empty';
+	if (isEmpty(data.theme.trim())) errorsTheme.theme = 'Must not be empty';
+	if (isEmpty(data.course.trim())) errorsTheme.course = 'Must not be empty';
+	if (isEmpty(data.members[0].trim())) errorsTheme.members = 'Must not be empty';
 
 	return {
 		errorsTheme,
@@ -55,10 +55,11 @@ exports.validateTheme = (data) => {
 
 exports.validateForm = (data) => {
 	let errosForm = {};
-	if (isEmpty(data.course)) errosForm.course = 'Must not be empty';
-	if (isEmpty(data.questions[0])) errosForm.questions = 'Must not be empty';
-	if (isEmpty(data.comments)) errosForm.comments = 'Must not be empty';
-	if (isEmpty(data.teachers[0])) errosForm.teachers = 'Must not be empty';
+	if (isEmpty(data.course.trim())) errosForm.course = 'Must not be empty';
+	if (isEmpty(data.questions[0].trim())) errosForm.questions = 'Must not be empty';
+	if (isEmpty(data.comments.trim())) errosForm.comments = 'Must not be empty';
+	if (isEmpty(data.teachers[0].trim())) errosForm.teachers = 'Must not be empty';
+	if (isEmpty(data.theme.trim())) errosForm.theme = 'Must not be empty';
 
 	return {
 		errosForm,

@@ -8,7 +8,8 @@ exports.createForm = (req, res) => {
 		course: req.body.course,
 		questions: req.body.questions,
 		comments: req.body.comments,
-		teachers: req.body.teachers
+		teachers: req.body.teachers,
+		theme: req.body.theme
 	};
 
 	const { valid, errosForm } = validateForm(newForm);
@@ -28,6 +29,7 @@ exports.createForm = (req, res) => {
 					questions: newForm.questions,
 					comments: newForm.comments,
 					teachers: newForm.teachers,
+					theme: newForm.theme,
 					formId
 				}
 				return db.doc(`/forms/${formId}`).set(addForm);
