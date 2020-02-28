@@ -1,4 +1,4 @@
-const { db } = require('../util/admin');
+const { db, admin } = require('../util/admin');
 const firebase = require('firebase');
 const { validateTheme } = require('../util/validators');
 
@@ -35,3 +35,18 @@ exports.createTheme = (req, res) => {
 			})
 	}
 }
+
+exports.getThemes = (req, res) => {
+	admin
+		.firestore()
+		.collection('themes')
+		.get()
+		.then((data) => {
+			let themes = [];
+			data.forEach((doc) => {
+				themes.push(doc.data());
+			});
+			return res.json(themes);
+		})
+		.catch((err) => console.error(err));
+};
