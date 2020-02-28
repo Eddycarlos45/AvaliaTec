@@ -54,7 +54,7 @@ class file extends Component {
 		}
 	}
 	componentDidMount() {
-		axios.get('/form')
+		axios.get('/theme')
 			.then(res => {
 				console.log(res.data)
 				this.setState({
@@ -63,18 +63,6 @@ class file extends Component {
 			})
 			.catch(err => console.log(err));
 	}
-
-	handleChangCourse = (event) => {
-		this.state.setAge(event.target.value);
-	};
-
-	handleClose = () => {
-		this.state.setOpen(false);
-	};
-
-	handleOpen = () => {
-		this.state.setOpen(true);
-	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
