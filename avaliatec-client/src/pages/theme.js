@@ -46,7 +46,6 @@ class theme extends Component {
 			member2: '',
 			member3: '',
 			members: [],
-			index: 0,
 			loading: false,
 			errors: {}
 		}
@@ -119,7 +118,6 @@ class theme extends Component {
 							error={errors.theme ? true : false}
 							value={this.state.theme}
 							onChange={this.handleChange}
-							onClick={this.state.index = 0}
 							fullWidth />
 						<TextField
 							id="course"
