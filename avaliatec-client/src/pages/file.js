@@ -102,16 +102,6 @@ class file extends Component {
 		});
 	}
 
-	renderSelect() {
-		const { classes } = this.props;
-		let listThemes = this.state.themes
-		return (
-			<div>
-
-			</div>
-		)
-	}
-
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;

@@ -94,7 +94,6 @@ class theme extends Component {
 		this.setState({
 			[event.target.name]: event.target.value
 		})
-		console.log(this.state.member, this.state.member1, this.state.member2, this.state.member3)
 	}
 	render() {
 		const { classes } = this.props;
