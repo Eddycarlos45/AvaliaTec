@@ -41,6 +41,10 @@ class theme extends Component {
 		this.state = {
 			theme: '',
 			course: '',
+			member: '',
+			member1: '',
+			member2: '',
+			member3: '',
 			members: [],
 			loading: false,
 			errors: {}
@@ -52,6 +56,18 @@ class theme extends Component {
 		this.setState({
 			loading: true
 		});
+		if (this.state.member == '') {
+			this.state.members[0] = '';
+		} else {
+			this.state.members.unshift(
+				this.state.member,
+				this.state.member1,
+				this.state.member2,
+				this.state.member3)
+			if (this.state.members[4] == '') {
+				this.state.members.pop();
+			}
+		}
 		const newTheme = {
 			theme: this.state.theme,
 			course: this.state.course,
@@ -63,6 +79,7 @@ class theme extends Component {
 				this.setState({
 					loading: false
 				});
+				console.log(newTheme)
 				this.props.history.push('/');
 			})
 			.catch(err => {
@@ -76,9 +93,9 @@ class theme extends Component {
 	handleChange = (event) => {
 		this.setState({
 			[event.target.name]: event.target.value
-		});
+		})
+		console.log(this.state.member, this.state.member1, this.state.member2, this.state.member3)
 	}
-
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
@@ -120,42 +137,42 @@ class theme extends Component {
 							type="text"
 							label="Primeiro membro"
 							className={classes.textField}
+							helperText={errors.members}
+							error={errors.members ? true : false}
+							value={this.state.member}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							id="member1"
+							name="member1"
+							type="text"
+							label="Segundo membro"
+							className={classes.textField}
 							helperText={errors.member}
 							error={errors.member ? true : false}
-							value={this.state.members[0]}
+							value={this.state.member1}
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
 							id="member2"
 							name="member2"
 							type="text"
-							label="Segundo membro"
-							className={classes.textField}
-							helperText={errors.member}
-							error={errors.member ? true : false}
-							value={this.state.members[1]}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							id="member"
-							name="member"
-							type="text"
 							label="Terceiro membro"
 							className={classes.textField}
 							helperText={errors.member}
 							error={errors.member ? true : false}
-							value={this.state.members[2]}
+							value={this.state.member2}
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
-							id="member"
-							name="member"
+							id="member3"
+							name="member3"
 							type="text"
 							label="Quarto membro"
 							className={classes.textField}
 							helperText={errors.member}
 							error={errors.member ? true : false}
-							value={this.state.members[3]}
+							value={this.state.member3}
 							onChange={this.handleChange}
 							fullWidth />
 						{errors.general && (

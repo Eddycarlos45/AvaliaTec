@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Select from '../components/Select'
 
 //MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -33,6 +32,11 @@ const styles = {
 	progress: {
 		position: 'absolute'
 	},
+	select: {
+		width: "300px",
+		height: "30px",
+		marginTop: "10px"
+	}
 };
 
 
@@ -50,11 +54,11 @@ class file extends Component {
 			setAge: '',
 			open: false,
 			setOpen: false,
-			themes: null
+			themes: ['']
 		}
 	}
 	componentDidMount() {
-		axios.get('/form')
+		axios.get('/theme')
 			.then(res => {
 				console.log(res.data)
 				this.setState({
@@ -63,18 +67,6 @@ class file extends Component {
 			})
 			.catch(err => console.log(err));
 	}
-
-	handleChangCourse = (event) => {
-		this.state.setAge(event.target.value);
-	};
-
-	handleClose = () => {
-		this.state.setOpen(false);
-	};
-
-	handleOpen = () => {
-		this.state.setOpen(true);
-	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
@@ -110,12 +102,20 @@ class file extends Component {
 		});
 	}
 
+	renderSelect() {
+		const { classes } = this.props;
+		let listThemes = this.state.themes
+		return (
+			<div>
+
+			</div>
+		)
+	}
+
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
-		let listThemes = this.state.themes ? (
-			this.state.themes.map((file) => <p>{file.theme}</p>)
-		) : (<p>Loading...</p>)
+		let listThemes = this.state.themes
 
 		return (
 			<Grid container className={classes.form}>
@@ -124,9 +124,10 @@ class file extends Component {
 					<Typography variant="h2" className={classes.pageTitle}>
 						Formulário
 					</Typography>
-					<Select
-						theme={listThemes}
-					></Select>
+					<small className={classes.small}>SELECIONE O TEMA</small>
+					<select className={classes.select}>
+						{listThemes.map((item) => <option value={item.theme}>{item.theme}</option>)}
+					</select>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<TextField
 							id="course"
