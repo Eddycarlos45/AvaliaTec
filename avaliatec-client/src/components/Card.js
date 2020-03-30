@@ -35,7 +35,7 @@ export default function SimpleCard(props) {
 		<Card className={classes.root}>
 			<small className={classes.small}>{props.title}</small>
 			<CardActions className={classes.card}>
-				<Button className={classes.button}>NOVO</Button>
+				<Button onClick={props.click} className={classes.button}>NOVO</Button>
 			</CardActions>
 		</Card>
 	);

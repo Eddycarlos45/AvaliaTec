@@ -56,7 +56,7 @@ class theme extends Component {
 		this.setState({
 			loading: true
 		});
-		if (this.state.member == '') {
+		if (this.state.member === '') {
 			this.state.members[0] = '';
 		} else {
 			this.state.members.unshift(
@@ -64,7 +64,7 @@ class theme extends Component {
 				this.state.member1,
 				this.state.member2,
 				this.state.member3)
-			if (this.state.members[4] == '') {
+			if (this.state.members[4] === '') {
 				this.state.members.pop();
 			}
 		}
