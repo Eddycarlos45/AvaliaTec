@@ -7,7 +7,6 @@ exports.createForm = (req, res) => {
 	const newForm = {
 		course: req.body.course,
 		questions: req.body.questions,
-		comments: req.body.comments,
 		teachers: req.body.teachers,
 		theme: req.body.theme
 	};
@@ -27,7 +26,6 @@ exports.createForm = (req, res) => {
 				const addForm = {
 					course: newForm.course,
 					questions: newForm.questions,
-					comments: newForm.comments,
 					teachers: newForm.teachers,
 					theme: newForm.theme,
 					formId
