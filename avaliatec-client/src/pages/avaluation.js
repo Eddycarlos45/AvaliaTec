@@ -17,7 +17,7 @@ export default class avaluation extends Component {
     }
     render() {
         let recentAvaluations = this.state.avaluation ? (
-            this.state.avaluation.map((file) => <p>{file.course}{file.comments}</p>)
+            this.state.avaluation.map((file) => <p>{file.course}{file.theme}</p>)
         ) : (<p>Loading...</p>)
         return (
             <div>

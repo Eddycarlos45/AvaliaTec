@@ -32,8 +32,6 @@ export class home extends Component {
 	pageFragment = (page) => {
 		this.setState({ newFragment: page })
 		this.renderNew(page)
-		console.log(page)
-		console.log(this.state.newFragment)
 	}
 
 	renderNew = (page) => {

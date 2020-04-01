@@ -13,7 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
 	form: {
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	pageTitle: {
 		margin: '20px auto 20px auto'
