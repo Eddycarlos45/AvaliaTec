@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Slider from '@material-ui/core/Slider';
 
+import MyTextField from '../components/MyTextField'
+
 const styles = {
 	form: {
 		textAlign: 'center'
@@ -43,7 +45,7 @@ const styles = {
 	}
 };
 
-
+let sliderValue = 0
 class file extends Component {
 	constructor() {
 		super();
@@ -61,8 +63,8 @@ class file extends Component {
 			setAge: '',
 			open: false,
 			setOpen: false,
-			nova: false,
-			value: 0,
+			question: true,
+			value: null,
 			themes: ['']
 		}
 	}
@@ -127,20 +129,49 @@ class file extends Component {
 		});
 	}
 
-	newQuestion = () => {
-		console.log(this.state.value)
-		return (
-			<TextField
-				id="questions"
-				name="questions"
-				type="text"
-				label="Questões"
-				fullWidth />
-		)
+	newQuestion = (sliderValue) => {
+		if (sliderValue === 1) {
+			return (<MyTextField />)
+		} if (sliderValue === 2) {
+			return (
+				<div>
+					<MyTextField />
+					<MyTextField />
+				</div>
+			)
+		} if (sliderValue === 3) {
+			return (
+				<div>
+					<MyTextField />
+					<MyTextField />
+					<MyTextField />
+				</div>
+			)
+		} if (sliderValue === 4) {
+			return (
+				<div>
+					<MyTextField />
+					<MyTextField />
+					<MyTextField />
+					<MyTextField />
+				</div>
+			)
+		} if (sliderValue === 5) {
+			return (
+				<div>
+					<MyTextField />
+					<MyTextField />
+					<MyTextField />
+					<MyTextField />
+					<MyTextField />
+				</div>
+			)
+		}
 	}
 
-	valuetext(value) {
-		return `${value}`;
+	valuetext = (value) => {
+		sliderValue = value
+		return value;
 	}
 
 	render() {
@@ -195,12 +226,13 @@ class file extends Component {
 							getAriaValueText={this.valuetext}
 							aria-labelledby="discrete-slider"
 							valueLabelDisplay="auto"
+							onChange={(e) => this.setState({ question: true })}
 							step={1}
 							marks
 							min={1}
 							max={5}
 						/>
-						{this.state.nova ? this.newQuestion() : null}
+						{this.state.question ? this.newQuestion(sliderValue) : null}
 						<h2>Avaliadores</h2>
 						<select
 							className={classes.select}
