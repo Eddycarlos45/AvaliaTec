@@ -59,14 +59,11 @@ class theme extends Component {
 		if (this.state.member === '') {
 			this.state.members[0] = '';
 		} else {
-			this.state.members.unshift(
+			this.state.members.splice(0,4,
 				this.state.member,
 				this.state.member1,
 				this.state.member2,
 				this.state.member3)
-			if (this.state.members[4] === '') {
-				this.state.members.pop();
-			}
 		}
 		const newTheme = {
 			theme: this.state.theme,
