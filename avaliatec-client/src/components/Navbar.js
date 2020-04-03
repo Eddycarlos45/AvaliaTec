@@ -30,7 +30,7 @@ export default function DenseAppBar() {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" color="inherit">
-						<Link to="/home">Início</Link>
+					INÍCIO
 					</Typography>
 				</Toolbar>
 			</AppBar>

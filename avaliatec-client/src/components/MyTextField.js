@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
 
-export default class MyTextField extends Component {
-    render() {
-        return (
-               <TextField
-					id="questions"
-					name="questions"
-					type="text"
-					label="Questões"
-					fullWidth /> 
-        )
-    }
+export default function MyTextField(props) {
+	return (
+		<TextField
+			id={props.id}
+			name={props.name}
+			type="text"
+			label="Questões"
+			className={props.className}
+			helperText={props.erros}
+			error={props.error ? true : false}
+			value={props.value}
+			onChange={props.onchange}
+			fullWidth />
+	)
 }

@@ -65,8 +65,6 @@ class file extends Component {
 			theme: '',
 			errors: {},
 			classes: {},
-			age: '',
-			setAge: '',
 			open: false,
 			setOpen: false,
 			question: true,
@@ -104,7 +102,16 @@ class file extends Component {
 				this.state.teacher2,
 				this.state.teacher3)
 		}
-
+		if (this.state.question1 === '') {
+			this.state.questions[0] = '';
+		} else {
+			this.state.questions.splice(0, 5,
+				this.state.question1,
+				this.state.question2,
+				this.state.question3,
+				this.state.question4,
+				this.state.question5)
+		}
 		const newFile = {
 			course: this.state.course,
 			questions: this.state.questions,
@@ -142,40 +149,125 @@ class file extends Component {
 				errors={this.state.errors}
 				error={this.state.errors.questios}
 				value={this.state.question1}
-				onchange={(e) => this.handleChange}
+				onchange={this.handleChange}
 			/>)
 		} if (sliderValue === 2) {
 			return (
 				<div>
-					<MyTextField />
-					<MyTextField />
+					<MyTextField
+						id='question1'
+						name='question1'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question1}
+						onchange={this.handleChange}
+					/>
+					<MyTextField
+						id='question2'
+						name='question2'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question2}
+						onchange={this.handleChange} />
 				</div>
 			)
 		} if (sliderValue === 3) {
 			return (
 				<div>
-					<MyTextField />
-					<MyTextField />
-					<MyTextField />
+					<MyTextField
+						id='question1'
+						name='question1'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question1}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question2'
+						name='question2'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question2}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question3'
+						name='question3'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question3}
+						onchange={this.handleChange} />
 				</div>
 			)
 		} if (sliderValue === 4) {
 			return (
 				<div>
-					<MyTextField />
-					<MyTextField />
-					<MyTextField />
-					<MyTextField />
+					<MyTextField
+						id='question1'
+						name='question1'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question1}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question2'
+						name='question2'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question2}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question3'
+						name='question3'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question3}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question4'
+						name='question4'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question4}
+						onchange={this.handleChange} />
 				</div>
 			)
 		} if (sliderValue === 5) {
 			return (
 				<div>
-					<MyTextField />
-					<MyTextField />
-					<MyTextField />
-					<MyTextField />
-					<MyTextField />
+					<MyTextField
+						id='question1'
+						name='question1'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question1}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question2'
+						name='question2'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question2}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question3'
+						name='question3'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question3}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question4'
+						name='question4'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question4}
+						onchange={this.handleChange} />
+					<MyTextField
+						id='question5'
+						name='question5'
+						errors={this.state.errors}
+						error={this.state.errors.questios}
+						value={this.state.question5}
+						onchange={this.handleChange} />
 				</div>
 			)
 		}
