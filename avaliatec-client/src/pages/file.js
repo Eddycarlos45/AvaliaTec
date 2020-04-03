@@ -52,6 +52,11 @@ class file extends Component {
 		this.state = {
 			course: '',
 			questions: [''],
+			question1: '',
+			question2: '',
+			question3: '',
+			question4: '',
+			question5: '',
 			teachers: [''],
 			listTeachers: [''],
 			teacher1: '',
@@ -59,6 +64,7 @@ class file extends Component {
 			teacher3: '',
 			theme: '',
 			errors: {},
+			classes: {},
 			age: '',
 			setAge: '',
 			open: false,
@@ -93,20 +99,19 @@ class file extends Component {
 		if (this.state.teacher1 === '') {
 			this.state.teachers[0] = '';
 		} else {
-			this.state.teachers.unshift(
+			this.state.teachers.splice(0, 3,
 				this.state.teacher1,
 				this.state.teacher2,
 				this.state.teacher3)
-			if (this.state.members[3] === '') {
-				this.state.members.pop();
-			}
 		}
+
 		const newFile = {
 			course: this.state.course,
 			questions: this.state.questions,
 			teachers: this.state.teachers,
 			theme: this.state.theme
 		}
+
 		axios.post('/form', newFile)
 			.then(res => {
 				console.log(res.data);
@@ -131,7 +136,14 @@ class file extends Component {
 
 	newQuestion = (sliderValue) => {
 		if (sliderValue === 1) {
-			return (<MyTextField />)
+			return (<MyTextField
+				id='question1'
+				name='question1'
+				errors={this.state.errors}
+				error={this.state.errors.questios}
+				value={this.state.question1}
+				onchange={(e) => this.handleChange}
+			/>)
 		} if (sliderValue === 2) {
 			return (
 				<div>
@@ -206,17 +218,6 @@ class file extends Component {
 							value={this.state.course}
 							onChange={this.handleChange}
 							fullWidth />
-						{/* 						<TextField
-							id="questions"
-							name="questions"
-							type="text"
-							label="Questões"
-							className={classes.textField}
-							helperText={errors.questions}
-							error={errors.questions ? true : false}
-							value={this.state.questions}
-							onChange={this.handleChange}
-							fullWidth /> */}
 						<small>
 							SELECIONE A QUANTIDADE DE QUESTÕES
       					</small>
@@ -237,19 +238,19 @@ class file extends Component {
 						<select
 							className={classes.select}
 							onChange={e => this.setState({ teacher1: e.target.value })}>
-							<option value='selecione'>Novo Professor</option>
+							<option value=''>Novo Professor</option>
 							{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
 						</select>
 						<select
 							className={classes.select}
 							onChange={e => this.setState({ teacher2: e.target.value })}>
-							<option value='selecione'>Novo Professor</option>
+							<option value=''>Novo Professor</option>
 							{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
 						</select>
 						<select
 							className={classes.select}
 							onChange={e => this.setState({ teacher3: e.target.value })}>
-							<option value='selecione'>Novo Professor</option>
+							<option value=''>Novo Professor</option>
 							{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
 						</select>
 						{errors.general && (
