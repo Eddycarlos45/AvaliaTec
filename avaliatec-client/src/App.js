@@ -6,9 +6,6 @@ import './App.css';
 import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
-import theme from './pages/theme';
-import file from './pages/file';
-
 
 class App extends Component {
   render() {
@@ -19,6 +16,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={login} />
               <Route exact path="/home" component={home} />
+              <Route exact path="/signup" component={signup}/>
             </Switch>
           </div>
         </Router>

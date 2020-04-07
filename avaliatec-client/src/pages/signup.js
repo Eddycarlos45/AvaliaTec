@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Card } from '@material-ui/core';
 
 const styles = {
 	form: {
@@ -92,101 +93,101 @@ class signup extends Component {
 		const { errors, loading } = this.state;
 
 		return (
-			<Grid container className={classes.form}>
-				<Grid item sm />
-				<Grid item sm>
-					<Typography variant="h2" className={classes.pageTitle}>
-						Sign Up
-					</Typography>
-					<form noValidate onSubmit={this.handleSubmit}>
-						<TextField
-							id="email"
-							name="email"
-							type="email"
-							label="Email"
-							className={classes.textField}
-							helperText={errors.email}
-							error={errors.email ? true : false}
-							value={this.state.email}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							id="password"
-							name="password"
-							type="password"
-							label="Password"
-							className={classes.textField}
-							helperText={errors.password}
-							error={errors.password ? true : false}
-							value={this.state.password}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							id="confirmPassword"
-							name="confirmPassword"
-							type="password"
-							label="Confirm Password"
-							className={classes.textField}
-							helperText={errors.ConfirmPassword}
-							error={errors.ConfirmPassword ? true : false}
-							value={this.state.ConfirmPassword}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							id="userLogin"
-							name="userLogin"
-							type="text"
-							label="User Login"
-							className={classes.textField}
-							helperText={errors.userLogin}
-							error={errors.userLogin ? true : false}
-							value={this.state.userLogin}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							id="userName"
-							name="userName"
-							type="text"
-							label="Name"
-							className={classes.textField}
-							helperText={errors.userName}
-							error={errors.userName ? true : false}
-							value={this.state.userName}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							id="course"
-							name="course"
-							type="text"
-							label="Course"
-							className={classes.textField}
-							helperText={errors.course}
-							error={errors.course ? true : false}
-							value={this.state.course}
-							onChange={this.handleChange}
-							fullWidth />
-						{errors.general && (
-							<Typography variant="body2" className={classes.customError}>
-								{errors.general}
-							</Typography>
-						)}
-						<Button
-							type="submit"
-							variant="contained"
-							color="primary"
-							className={classes.button}
-							disabled={loading}>
+				<Grid container className={classes.form}>
+					<Grid item sm />
+					<Grid item sm>
+						<Typography variant="h2" className={classes.pageTitle}>
 							Sign Up
-							{loading && (
-								<CircularProgress size={30} className={classes.progress} />
+					</Typography>
+						<form noValidate onSubmit={this.handleSubmit}>
+							<TextField
+								id="email"
+								name="email"
+								type="email"
+								label="Email"
+								className={classes.textField}
+								helperText={errors.email}
+								error={errors.email ? true : false}
+								value={this.state.email}
+								onChange={this.handleChange}
+								fullWidth />
+							<TextField
+								id="password"
+								name="password"
+								type="password"
+								label="Password"
+								className={classes.textField}
+								helperText={errors.password}
+								error={errors.password ? true : false}
+								value={this.state.password}
+								onChange={this.handleChange}
+								fullWidth />
+							<TextField
+								id="confirmPassword"
+								name="confirmPassword"
+								type="password"
+								label="Confirm Password"
+								className={classes.textField}
+								helperText={errors.ConfirmPassword}
+								error={errors.ConfirmPassword ? true : false}
+								value={this.state.ConfirmPassword}
+								onChange={this.handleChange}
+								fullWidth />
+							<TextField
+								id="userLogin"
+								name="userLogin"
+								type="text"
+								label="User Login"
+								className={classes.textField}
+								helperText={errors.userLogin}
+								error={errors.userLogin ? true : false}
+								value={this.state.userLogin}
+								onChange={this.handleChange}
+								fullWidth />
+							<TextField
+								id="userName"
+								name="userName"
+								type="text"
+								label="Name"
+								className={classes.textField}
+								helperText={errors.userName}
+								error={errors.userName ? true : false}
+								value={this.state.userName}
+								onChange={this.handleChange}
+								fullWidth />
+							<TextField
+								id="course"
+								name="course"
+								type="text"
+								label="Course"
+								className={classes.textField}
+								helperText={errors.course}
+								error={errors.course ? true : false}
+								value={this.state.course}
+								onChange={this.handleChange}
+								fullWidth />
+							{errors.general && (
+								<Typography variant="body2" className={classes.customError}>
+									{errors.general}
+								</Typography>
 							)}
-						</Button>
-						<br />
-						<small className={classes.small}>already have an account ? login <Link to="/">here</Link></small>
-					</form>
+							<Button
+								type="submit"
+								variant="contained"
+								color="primary"
+								className={classes.button}
+								disabled={loading}>
+								Sign Up
+							{loading && (
+									<CircularProgress size={30} className={classes.progress} />
+								)}
+							</Button>
+							<br />
+							<small className={classes.small}>already have an account ? login <Link to="/">here</Link></small>
+						</form>
+					</Grid>
+					<Grid item sm />
 				</Grid>
-				<Grid item sm />
-			</Grid>
 		);
 	}
 }

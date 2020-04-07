@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import axios from 'axios';
 
 //MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +13,7 @@ import Card from '../components/Card'
 import Theme from '../pages/theme';
 import Avaluation from '../pages/avaluation';
 import File from '../pages/file';
+import OverView from '../pages/overview';
 
 const styles = {
 	form: {
@@ -26,6 +28,8 @@ export class home extends Component {
 		super();
 		this.state = {
 			newFragment: '',
+			listAvaluations: [''],
+			listThemes: ['']
 		}
 	}
 
@@ -34,6 +38,22 @@ export class home extends Component {
 		this.renderNew(page)
 	}
 
+	componentDidMount() {
+		axios.get('/form')
+			.then(res => {
+				this.setState({
+					listAvaluations: res.data
+				})
+			})
+			.catch(err => console.log(err))
+			.then(axios.get('/theme')
+				.then(res => {
+					this.setState({
+						listThemes: res.data
+					})
+				}))
+			.catch(err => console.log(err));
+	}
 	renderNew = (page) => {
 		if (page === 'theme') {
 			return (
@@ -49,12 +69,17 @@ export class home extends Component {
 			)
 		} else {
 			return (
-				<h1> Sem fichas</h1>
+				<div>
+					<OverView 
+					title={this.state.listAvaluations.map((file) => {return file.theme})}
+					theme={this.state.listThemes.map((file) => {return file.theme })}>	
+					</OverView>
+				</div>
 			)
 		}
 	}
-	render() {
 
+	render() {
 		const { classes } = this.props;
 
 		return (
