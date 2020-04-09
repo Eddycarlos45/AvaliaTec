@@ -3,7 +3,7 @@ const app = require('express')();
 
 const { signup, login, getUsers } = require('./user/userActivity');
 const { createTheme, getThemes, deleteTheme, updateTheme } = require('./theme/themes');
-const { createForm, getForms, deleteForm } = require('./form/forms');
+const { createForm, getForms, deleteForm, updateForm } = require('./form/forms');
 
 //Users route
 app.post('/signup', signup);
@@ -15,6 +15,7 @@ app.put('/theme', updateTheme);
 app.post('/form', createForm);
 app.get('/form', getForms);
 app.delete('/form', deleteForm);
+app.put('/form', updateForm);
 app.get('/users', getUsers);
 
 

@@ -66,4 +66,25 @@ exports.deleteForm = (req, res) => {
 			console.error(err);
 			return res.status(500).json({ error: err.code });
 		})
-} 
+}
+
+exports.updateForm = (req, res) => {
+
+	const updateForm = {
+		course: req.body.course,
+		questions: req.body.questions,
+		teachers: req.body.teachers,
+		theme: req.body.theme,
+		formId: req.body.formId
+	}
+	return db.collection('forms').doc(updateForm.formId).update({
+		course: updateForm.course,
+		questions: updateForm.questions,
+		teachers: updateForm.teachers,
+		theme: updateForm.theme
+	}).then(() => { return res.status(200).json({ res: 'Atualizado com Sucesso' }) })
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+}
