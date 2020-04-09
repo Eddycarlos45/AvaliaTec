@@ -53,3 +53,17 @@ exports.getForms = (req, res) => {
 		})
 		.catch((err) => console.error(err));
 };
+
+exports.deleteForm = (req, res) => {
+
+	const id = {
+		formId: req.body.formId
+	}
+	return db.collection('forms').doc(id.formId).delete()
+		.then(() => { return res.status(200).json({ res: 'Deletado com Sucesso' }) }
+		)
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+} 
