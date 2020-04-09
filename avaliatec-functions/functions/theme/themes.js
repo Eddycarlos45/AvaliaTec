@@ -36,7 +36,7 @@ exports.createTheme = (req, res) => {
 	}
 }
 
-exports.getThemes = (req, res) => {
+exports.getThemes = (res) => {
 	admin
 		.firestore()
 		.collection('themes')
@@ -50,3 +50,17 @@ exports.getThemes = (req, res) => {
 		})
 		.catch((err) => console.error(err));
 };
+
+exports.deleteTheme = (req, res) => {
+
+	const id = {
+		groupId: req.body.groupId
+	}
+	return db.collection('themes').doc(id.groupId).delete()
+	.then(() => { return res.status(200).json({res: 'Deletado com Sucesso'})}
+	)
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+} 
