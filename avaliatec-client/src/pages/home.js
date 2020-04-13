@@ -72,7 +72,7 @@ export class home extends Component {
 				<div>
 					<OverView 
 					title={this.state.listAvaluations.map((file) => {return file.theme})}
-					theme={this.state.listThemes.map((file) => {return file.theme })}>	
+					theme={this.state.listThemes.map((file) => {return file.theme })}>
 					</OverView>
 				</div>
 			)
