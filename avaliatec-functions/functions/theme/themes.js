@@ -36,7 +36,7 @@ exports.createTheme = (req, res) => {
 	}
 }
 
-exports.getThemes = (res) => {
+exports.getThemes = (req, res) => {
 	admin
 		.firestore()
 		.collection('themes')
