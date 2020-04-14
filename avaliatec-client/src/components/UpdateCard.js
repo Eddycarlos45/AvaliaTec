@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 //MUI Stuff
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,90 +17,104 @@ import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
-    root: {
-        width: '387px',
-        marginLeft: '5px',
-        marginTop: '30px',
-        display: 'flex',
-        justifyContent: 'space-between'
-    },
-    small: {
-        fontSize: '20px',
-        padding: '13px',
+	root: {
+		width: '387px',
+		marginLeft: '5px',
+		marginTop: '30px',
+		display: 'flex',
+		justifyContent: 'space-between'
+	},
+	small: {
+		fontSize: '20px',
+		padding: '13px',
 
-    },
-    button: {
-        fontSize: '17px',
-        backgroundColor: 'blue',
-        color: 'white',
-        '&:hover': {
-            color: 'black',
-            backgroundColor: '#4caf50'
-        }
-    },
-    buttonNo: {
-        color: 'white',
-        backgroundColor: 'red',
-        '&:hover': {
-            color: 'black',
-            backgroundColor: 'red',
-        }
-    },
-    buttonYes: {
-        color: 'white',
-        backgroundColor: 'green',
-        '&:hover': {
-            color: 'black',
-            backgroundColor: 'green'
-        }
-    }
+	},
+	button: {
+		fontSize: '17px',
+		backgroundColor: 'blue',
+		color: 'white',
+		'&:hover': {
+			color: 'black',
+			backgroundColor: '#4caf50'
+		}
+	},
+	buttonNo: {
+		color: 'white',
+		backgroundColor: 'red',
+		'&:hover': {
+			color: 'black',
+			backgroundColor: 'red',
+		}
+	},
+	buttonYes: {
+		color: 'white',
+		backgroundColor: 'green',
+		'&:hover': {
+			color: 'black',
+			backgroundColor: 'green'
+		}
+	}
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+	return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function SimpleCard(props) {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-    return (
-        <Card className={classes.root}>
-            <small className={classes.small}>{props.title}{props.theme}</small>
-            <CardActions className={classes.card}>
-                <IconButton aria-label="edit">
-                    <EditIcon />
-                </IconButton>
-                <IconButton aria-label="delete" onClick={handleClickOpen}>
-                    <DeleteIcon />
-                </IconButton>
-            </CardActions>
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description">
-                <DialogTitle id="alert-dialog-slide-title">{"Tem certeza que deseja excluir?"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        {props.title}{props.theme}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} className={classes.buttonNo}>Não</Button>
-                    <Button onClick={handleClose} className={classes.buttonYes}>Sim</Button>
-                </DialogActions>
-            </Dialog>
-        </Card>
-    );
+	const handleDelete = (id, member) => {
+		if (member === undefined) {
+			axios.delete('/form', { data: { formId: id } })
+				.catch(err => {
+					console.log(err.response.data)
+				})
+		} else {
+			axios.delete('/theme', { data: { groupId: id } })
+				.catch(err => {
+					console.log(err.response.data)
+				})
+		}
+	}
+
+	return (
+		<Card className={classes.root}>
+			<small className={classes.small}>{props.title}{props.theme}</small>
+			<CardActions className={classes.card}>
+				<IconButton aria-label="edit">
+					<EditIcon />
+				</IconButton>
+				<IconButton aria-label="delete" onClick={handleClickOpen}>
+					<DeleteIcon />
+				</IconButton>
+			</CardActions>
+			<Dialog
+				open={open}
+				TransitionComponent={Transition}
+				keepMounted
+				onClose={handleClose}
+				aria-labelledby="alert-dialog-slide-title"
+				aria-describedby="alert-dialog-slide-description">
+				<DialogTitle id="alert-dialog-slide-title">{"Tem certeza que deseja excluir?"}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-slide-description">
+						{props.title}{props.theme}
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose} className={classes.buttonNo}>Não</Button>
+					<Button onClick={(e) => handleDelete(props.id, props.members)} className={classes.buttonYes}>Sim</Button>
+				</DialogActions>
+			</Dialog>
+		</Card>
+	);
 }
