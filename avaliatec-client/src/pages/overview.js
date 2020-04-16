@@ -10,7 +10,7 @@ export default function overview(props) {
 			<Grid item sm>{props.title.map((form) => 
 			<UpdateCard title={form.theme} id={form.formId}></UpdateCard>)}</Grid>
 			<Grid item sm>{props.theme.map((theme) => 
-			<UpdateCard theme={theme.theme} id={theme.groupId} members={theme.members}></UpdateCard>)}</Grid>
+			<UpdateCard theme={theme.theme} id={theme.groupId} members={theme.members} course={theme.course}></UpdateCard>)}</Grid>
 			<Grid item sm></Grid>
 		</Grid>
 	)
