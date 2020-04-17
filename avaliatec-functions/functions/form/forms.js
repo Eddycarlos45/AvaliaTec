@@ -7,7 +7,6 @@ exports.createForm = (req, res) => {
 	const newForm = {
 		course: req.body.course,
 		questions: req.body.questions,
-		comments: req.body.comments,
 		teachers: req.body.teachers,
 		theme: req.body.theme
 	};
@@ -27,7 +26,6 @@ exports.createForm = (req, res) => {
 				const addForm = {
 					course: newForm.course,
 					questions: newForm.questions,
-					comments: newForm.comments,
 					teachers: newForm.teachers,
 					theme: newForm.theme,
 					formId
@@ -55,3 +53,38 @@ exports.getForms = (req, res) => {
 		})
 		.catch((err) => console.error(err));
 };
+
+exports.deleteForm = (req, res) => {
+
+	const id = {
+		formId: req.body.formId
+	}
+	return db.collection('forms').doc(id.formId).delete()
+		.then(() => { return res.status(200).json({ res: 'Deletado com Sucesso' }) }
+		)
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+}
+
+exports.updateForm = (req, res) => {
+
+	const updateForm = {
+		course: req.body.course,
+		questions: req.body.questions,
+		teachers: req.body.teachers,
+		theme: req.body.theme,
+		formId: req.body.formId
+	}
+	return db.collection('forms').doc(updateForm.formId).update({
+		course: updateForm.course,
+		questions: updateForm.questions,
+		teachers: updateForm.teachers,
+		theme: updateForm.theme
+	}).then(() => { return res.status(200).json({ res: 'Atualizado com Sucesso' }) })
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+}

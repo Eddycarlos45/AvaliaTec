@@ -1,4 +1,4 @@
-const { db } = require('../util/admin');
+const { db, admin } = require('../util/admin');
 const config = require('../util/config')
 const firebase = require('firebase');
 firebase.initializeApp(config)
@@ -78,3 +78,18 @@ exports.login = (req, res) => {
 			return res.status(500).json({ error: err.code });
 		})
 }
+
+exports.getUsers = (req, res) => {
+	admin
+		.firestore()
+		.collection('users')
+		.get()
+		.then((data) => {
+			let users = [];
+			data.forEach((doc) => {
+				users.push(doc.data());
+			});
+			return res.json(users);
+		})
+		.catch((err) => console.error(err));
+};

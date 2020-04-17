@@ -56,17 +56,14 @@ class theme extends Component {
 		this.setState({
 			loading: true
 		});
-		if (this.state.member == '') {
+		if (this.state.member === '') {
 			this.state.members[0] = '';
 		} else {
-			this.state.members.unshift(
+			this.state.members.splice(0,4,
 				this.state.member,
 				this.state.member1,
 				this.state.member2,
 				this.state.member3)
-			if (this.state.members[4] == '') {
-				this.state.members.pop();
-			}
 		}
 		const newTheme = {
 			theme: this.state.theme,
@@ -94,7 +91,6 @@ class theme extends Component {
 		this.setState({
 			[event.target.name]: event.target.value
 		})
-		console.log(this.state.member, this.state.member1, this.state.member2, this.state.member3)
 	}
 	render() {
 		const { classes } = this.props;
