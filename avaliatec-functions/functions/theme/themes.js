@@ -27,7 +27,7 @@ exports.createTheme = (req, res) => {
 					members: newTheme.members,
 					groupId
 				}
-				return db.doc(`/themes/${groupId}`).set(addTheme);
+				return db.doc(`/themes/${groupId}`).set(addTheme), res.status(200).json({ Sucess: 'Theme criado com sucesso' });
 			})
 			.catch((err) => {
 				console.error(err);

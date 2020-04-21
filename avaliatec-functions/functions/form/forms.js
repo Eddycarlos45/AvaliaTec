@@ -30,7 +30,7 @@ exports.createForm = (req, res) => {
 					theme: newForm.theme,
 					formId
 				}
-				return db.doc(`/forms/${formId}`).set(addForm);
+				return db.doc(`/forms/${formId}`).set(addForm), res.status(200).json({ Sucess: 'Formulário criado com sucesso' });
 			})
 			.catch((err) => {
 				console.error(err);
