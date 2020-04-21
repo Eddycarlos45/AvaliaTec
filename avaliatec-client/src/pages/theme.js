@@ -72,12 +72,11 @@ class theme extends Component {
 		}
 		axios.post('/theme', newTheme)
 			.then(res => {
-				console.log(res.data);
 				this.setState({
 					loading: false
 				});
-				console.log(newTheme)
-				this.props.history.push('/');
+				alert('Tema criado com sucesso')
+				this.componentWillUpdate(window.location.reload())
 			})
 			.catch(err => {
 				this.setState({
