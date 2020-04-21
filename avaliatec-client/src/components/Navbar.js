@@ -8,17 +8,22 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1,
-	},
 	menuButton: {
 		marginRight: theme.spacing(2),
 	},
+	keyReturn: {
+		marginLeft: 'auto',
+		color: 'white'
+	}
 }));
 
+const handleReturn = () => {
+	window.location.reload()
+}
 export default function DenseAppBar() {
 	const classes = useStyles();
 
@@ -30,8 +35,11 @@ export default function DenseAppBar() {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" color="inherit">
-					INÍCIO
+						INÍCIO
 					</Typography>
+					<IconButton className={classes.keyReturn} onClick={handleReturn}>
+						<KeyboardReturnIcon/>
+					</IconButton>
 				</Toolbar>
 			</AppBar>
 		</div>
