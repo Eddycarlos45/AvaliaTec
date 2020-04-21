@@ -1,9 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import ApiKeys from './constants/ApiKeys'
 import * as firebase from 'firebase'
 
-import TestScreen from './screens/TestScreen.js'
+import LoginScreen from './screens/LoginScreen'
+import HomeScreen from './screens/HomeScreen'
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#6200EE',
+    accent: '#6265ff',
+  },
+};
 
 export default class App extends React.Component {
 
@@ -19,7 +30,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <TestScreen />
+      <PaperProvider theme={theme}>
+        <HomeScreen />
+      </PaperProvider>
     )
   }
 }
