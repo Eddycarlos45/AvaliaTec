@@ -99,18 +99,23 @@ export default function SimpleCard(props) {
 
 	const handleDelete = (id, member) => {
 		if (member === undefined) {
-			axios.delete('/form', { data: { formId: id } })
+			axios.delete('/form', { data: { formId: id } }).then(res => {
+				alert('Formulário excluído com sucesso')
+				window.location.reload()
+			})
 				.catch(err => {
 					console.log(err.response.data)
 				})
 		} else {
-			axios.delete('/theme', { data: { groupId: id } })
+			axios.delete('/theme', { data: { groupId: id } }).then(res => {
+				alert('Tema excluído com sucesso')
+				window.location.reload()
+			})
 				.catch(err => {
 					console.log(err.response.data)
 				})
 		}
 		handleClose()
-		alert('Excluído com sucesso')
 	}
 	const handleUpdate = (id, member) => {
 		if (member === undefined) {
