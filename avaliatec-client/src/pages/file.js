@@ -125,7 +125,8 @@ class file extends Component {
 				this.setState({
 					loading: false
 				});
-				this.props.history.push('/');
+				alert('Formulário criado com sucesso')
+				window.location.reload()
 			})
 			.catch(err => {
 				this.setState({

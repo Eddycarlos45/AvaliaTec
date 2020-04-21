@@ -76,7 +76,7 @@ class theme extends Component {
 					loading: false
 				});
 				alert('Tema criado com sucesso')
-				this.componentWillUpdate(window.location.reload())
+				window.location.reload()
 			})
 			.catch(err => {
 				this.setState({
