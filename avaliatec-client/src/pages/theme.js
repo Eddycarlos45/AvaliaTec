@@ -59,7 +59,7 @@ class theme extends Component {
 		if (this.state.member === '') {
 			this.state.members[0] = '';
 		} else {
-			this.state.members.splice(0,4,
+			this.state.members.splice(0, 4,
 				this.state.member,
 				this.state.member1,
 				this.state.member2,
@@ -91,6 +91,7 @@ class theme extends Component {
 			[event.target.name]: event.target.value
 		})
 	}
+
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
