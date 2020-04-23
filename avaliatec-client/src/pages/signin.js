@@ -46,6 +46,11 @@ const styles = {
 	submit: {
 		margin: '5% 0',
 	},
+	customError: {
+		color: 'red',
+		fontSize: '0.8rem',
+		marginTop: 10
+	}
 }
 
 class signIn extends Component {
