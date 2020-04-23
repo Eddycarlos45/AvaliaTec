@@ -20,7 +20,7 @@ function Copyright() {
 		<Typography variant="body2" color="textSecondary" align="center">
 			{'Copyright © '}
 			<LinkM color="inherit" href="https://material-ui.com/">
-				Your Website
+				Fatec Mogi Mirim
       </LinkM>{' '}
 			{new Date().getFullYear()}
 			{'.'}
@@ -37,7 +37,7 @@ const styles = {
 	},
 	avatar: {
 		margin: '5px',
-		backgroundColor: 'red',
+		backgroundColor: '#dc004e',
 	},
 	form: {
 		width: '100%',
@@ -103,7 +103,7 @@ class signIn extends Component {
 					</Avatar>
 					<Typography component="h1" variant="h5">
 						Sign in
-        </Typography>
+        			</Typography>
 					<form className={classes.form} noValidate onSubmit={this.handleSubmit}>
 						<TextField
 							variant="outlined"

@@ -10,21 +10,21 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Card } from '@material-ui/core';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = {
 	form: {
-		textAlign: 'center'
-	},
-	pageTitle: {
-		margin: '0 auto 10px auto'
+		textAlign: 'center',
+		marginTop: '5%'
 	},
 	textField: {
 		margin: '10px auto 10px auto'
 	},
 	button: {
 		marginTop: 20,
-		position: 'relative'
+		position: 'relative',
+		marginBottom: 10
 	},
 	customError: {
 		color: 'red',
@@ -33,6 +33,11 @@ const styles = {
 	},
 	progress: {
 		position: 'absolute'
+	},
+	avatar: {
+		margin: '5px',
+		backgroundColor: '#4caf50',
+		display: 'inline-flex'
 	}
 };
 
@@ -93,101 +98,122 @@ class signup extends Component {
 		const { errors, loading } = this.state;
 
 		return (
-				<Grid container className={classes.form}>
-					<Grid item sm />
-					<Grid item sm>
-						<Typography variant="h2" className={classes.pageTitle}>
-							Sign Up
+			<Grid container className={classes.form}>
+				<Grid item sm />
+				<Grid item sm>
+					<Avatar className={classes.avatar}>
+						<LockOpenIcon />
+					</Avatar>
+					<Typography component="h1" variant="h5">
+						Sign Up
 					</Typography>
-						<form noValidate onSubmit={this.handleSubmit}>
-							<TextField
-								id="email"
-								name="email"
-								type="email"
-								label="Email"
-								className={classes.textField}
-								helperText={errors.email}
-								error={errors.email ? true : false}
-								value={this.state.email}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								id="password"
-								name="password"
-								type="password"
-								label="Password"
-								className={classes.textField}
-								helperText={errors.password}
-								error={errors.password ? true : false}
-								value={this.state.password}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								id="confirmPassword"
-								name="confirmPassword"
-								type="password"
-								label="Confirm Password"
-								className={classes.textField}
-								helperText={errors.ConfirmPassword}
-								error={errors.ConfirmPassword ? true : false}
-								value={this.state.ConfirmPassword}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								id="userLogin"
-								name="userLogin"
-								type="text"
-								label="User Login"
-								className={classes.textField}
-								helperText={errors.userLogin}
-								error={errors.userLogin ? true : false}
-								value={this.state.userLogin}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								id="userName"
-								name="userName"
-								type="text"
-								label="Name"
-								className={classes.textField}
-								helperText={errors.userName}
-								error={errors.userName ? true : false}
-								value={this.state.userName}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								id="course"
-								name="course"
-								type="text"
-								label="Course"
-								className={classes.textField}
-								helperText={errors.course}
-								error={errors.course ? true : false}
-								value={this.state.course}
-								onChange={this.handleChange}
-								fullWidth />
-							{errors.general && (
-								<Typography variant="body2" className={classes.customError}>
-									{errors.general}
-								</Typography>
-							)}
-							<Button
-								type="submit"
-								variant="contained"
-								color="primary"
-								className={classes.button}
-								disabled={loading}>
-								Sign Up
+					<form noValidate onSubmit={this.handleSubmit}>
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							id="email"
+							name="email"
+							type="email"
+							label="Email"
+							className={classes.textField}
+							helperText={errors.email}
+							error={errors.email ? true : false}
+							value={this.state.email}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							id="password"
+							name="password"
+							type="password"
+							label="Password"
+							className={classes.textField}
+							helperText={errors.password}
+							error={errors.password ? true : false}
+							value={this.state.password}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							id="confirmPassword"
+							name="confirmPassword"
+							type="password"
+							label="Confirm Password"
+							className={classes.textField}
+							helperText={errors.ConfirmPassword}
+							error={errors.ConfirmPassword ? true : false}
+							value={this.state.ConfirmPassword}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							id="userLogin"
+							name="userLogin"
+							type="text"
+							label="User Login"
+							className={classes.textField}
+							helperText={errors.userLogin}
+							error={errors.userLogin ? true : false}
+							value={this.state.userLogin}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							id="userName"
+							name="userName"
+							type="text"
+							label="Name"
+							className={classes.textField}
+							helperText={errors.userName}
+							error={errors.userName ? true : false}
+							value={this.state.userName}
+							onChange={this.handleChange}
+							fullWidth />
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							id="course"
+							name="course"
+							type="text"
+							label="Course"
+							className={classes.textField}
+							helperText={errors.course}
+							error={errors.course ? true : false}
+							value={this.state.course}
+							onChange={this.handleChange}
+							fullWidth />
+						{errors.general && (
+							<Typography variant="body2" className={classes.customError}>
+								{errors.general}
+							</Typography>
+						)}
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+							className={classes.button}
+							disabled={loading}>
+							Sign Up
 							{loading && (
-									<CircularProgress size={30} className={classes.progress} />
-								)}
-							</Button>
-							<br />
-							<small className={classes.small}>already have an account ? login <Link to="/">here</Link></small>
-						</form>
-					</Grid>
-					<Grid item sm />
+								<CircularProgress size={30} className={classes.progress} />
+							)}
+						</Button>
+						<br />
+						<small className={classes.small}>Already have an account ? Login <Link to="/">here</Link></small>
+					</form>
 				</Grid>
+				<Grid item sm />
+			</Grid>
 		);
 	}
 }
