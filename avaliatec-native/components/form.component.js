@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Avatar, Button, Card, Title, Paragraph, Divider, List, ToggleButton, TextInput } from 'react-native-paper';
-import { View, Text } from 'react-native';
+import { Appbar, Avatar, Button, Card, Title, Paragraph, Divider, List, ToggleButton, TextInput } from 'react-native-paper';
+import { View, ScrollView, Text } from 'react-native';
 import styles from '../assets/stylesheet/General'
 import axios from 'axios';
 
@@ -12,7 +12,9 @@ const StringFilled = 'Preenchido'
 const proxy = 'https://us-central1-avaliatec-80c1a.cloudfunctions.net/api'
 
 
-export default class AssessmentFormScreen extends React.Component {
+
+export const FormScreen = ({ navigation }) => {
+    
     state = {
         item1: '',
         item2: '',
@@ -24,30 +26,40 @@ export default class AssessmentFormScreen extends React.Component {
 
     };
 
+    const navigateBack = () => {
+        navigation.goBack();
+      };
 
-    componentDidMount() {
-        axios.get(proxy + '/theme')
-            .then(res => {
-                this.setState({
-                    themes: res.data
-                })
-                console.log(this.state.themes)
-            })
-            .catch(err => console.log(err))
-            .then(axios.get(proxy + '/users')
-                .then(res => {
-                    this.setState({
-                        listTeachers: res.data
-                    })
-                }))
-            .catch(err => console.log(err));
-    }
+    // componentDidMount() {
+    //     axios.get(proxy + '/theme')
+    //         .then(res => {
+    //             this.setState({
+    //                 themes: res.data
+    //             })
+    //             console.log(this.state.themes)
+    //         })
+    //         .catch(err => console.log(err))
+    //         .then(axios.get(proxy + '/users')
+    //             .then(res => {
+    //                 this.setState({
+    //                     listTeachers: res.data
+    //                 })
+    //             }))
+    //         .catch(err => console.log(err));
+    // }
 
-    
+    return (
+        <View style={{ flex: 1 }}>
+            <Appbar.Header style={styles.appBar}>
+                <Appbar.BackAction
+                    onPress={() => navigateBack()}
+                />
+                <Appbar.Content
+                    title="Avaliatec"
+                />
+            </Appbar.Header>
+            <ScrollView style={styles.container} contentContainerStyle={styles.screen}>
 
-    render() {
-        return (
-            <View>
                 <Card style={[styles.card, styles.spacer]}>
                     <Card.Title title="Avaliação" subtitle="14/04/2014" left={Header} />
                 </Card>
@@ -142,8 +154,8 @@ export default class AssessmentFormScreen extends React.Component {
                         />
                     </Card.Content>
                 </Card>
-                
-            </View>
-        );
-    }
-}
+
+            </ScrollView>
+        </View>
+    );
+};

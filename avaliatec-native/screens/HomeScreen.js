@@ -11,14 +11,14 @@ export default class HomeScreen extends React.Component {
 
     _handleMore = () => console.log('More');
 
+    state = {
+
+    }
+
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <Appbar.Header style={styles.appBar}>
-                    <Appbar.Action
-                        icon="menu"
-                        onPress={this._handleNavigationDrawer}
-                    />
                     <Appbar.Content
                         title="Avaliatec"
                     />

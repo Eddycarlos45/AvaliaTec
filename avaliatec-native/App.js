@@ -1,11 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import ApiKeys from './constants/ApiKeys'
-import * as firebase from 'firebase'
-
-import LoginScreen from './screens/LoginScreen'
-import HomeScreen from './screens/HomeScreen'
+import { AppNavigator } from './components/navigation.component';
 
 const theme = {
   ...DefaultTheme,
@@ -16,22 +11,13 @@ const theme = {
   },
 };
 
-export default class App extends React.Component {
+type Props = {};
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoadingComplete: false,
-    }
-
-    // Initialize Firebase
-    if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig) }
-  }
-
+export default class App extends Component<Props> {
   render() {
     return (
       <PaperProvider theme={theme}>
-        <HomeScreen />
+        <AppNavigator />
       </PaperProvider>
     )
   }
