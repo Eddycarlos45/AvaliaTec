@@ -9,13 +9,17 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = {
 	form: {
 		textAlign: 'center'
 	},
 	pageTitle: {
-		margin: '0 auto 10px auto'
+		margin: '0 auto 10px auto',
+		display: 'flex',
+		justifyContent: 'center'
 	},
 	textField: {
 		margin: '10px auto 10px auto'
@@ -31,6 +35,10 @@ const styles = {
 	},
 	progress: {
 		position: 'absolute'
+	},
+	avatar: {
+		marginRight: '15px',
+		backgroundColor: '#388e3c'
 	}
 };
 
@@ -59,7 +67,7 @@ class theme extends Component {
 		if (this.state.member === '') {
 			this.state.members[0] = '';
 		} else {
-			this.state.members.splice(0,4,
+			this.state.members.splice(0, 4,
 				this.state.member,
 				this.state.member1,
 				this.state.member2,
@@ -72,12 +80,11 @@ class theme extends Component {
 		}
 		axios.post('/theme', newTheme)
 			.then(res => {
-				console.log(res.data);
 				this.setState({
 					loading: false
 				});
-				console.log(newTheme)
-				this.props.history.push('/');
+				alert('Tema criado com sucesso')
+				window.location.reload()
 			})
 			.catch(err => {
 				this.setState({
@@ -92,6 +99,7 @@ class theme extends Component {
 			[event.target.name]: event.target.value
 		})
 	}
+
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
@@ -100,11 +108,17 @@ class theme extends Component {
 			<Grid container className={classes.form}>
 				<Grid item sm />
 				<Grid item sm>
-					<Typography variant="h2" className={classes.pageTitle}>
-						Novo Tema
+					<Typography variant="h4" className={classes.pageTitle}>
+						<Avatar className={classes.avatar}>
+							<AddCircleOutlineIcon />
+						</Avatar>
+						Tema
 					</Typography>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="theme"
 							name="theme"
 							type="text"
@@ -116,6 +130,9 @@ class theme extends Component {
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="course"
 							name="course"
 							type="text"
@@ -128,6 +145,9 @@ class theme extends Component {
 							fullWidth />
 						<small>MEMBROS</small>
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="member"
 							name="member"
 							type="text"
@@ -139,6 +159,9 @@ class theme extends Component {
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="member1"
 							name="member1"
 							type="text"
@@ -150,6 +173,9 @@ class theme extends Component {
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="member2"
 							name="member2"
 							type="text"
@@ -161,6 +187,9 @@ class theme extends Component {
 							onChange={this.handleChange}
 							fullWidth />
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="member3"
 							name="member3"
 							type="text"

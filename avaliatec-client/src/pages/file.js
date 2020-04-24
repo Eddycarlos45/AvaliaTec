@@ -10,6 +10,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Slider from '@material-ui/core/Slider';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Avatar from '@material-ui/core/Avatar';
 
 import MyTextField from '../components/MyTextField'
 
@@ -18,7 +20,9 @@ const styles = {
 		textAlign: 'center'
 	},
 	pageTitle: {
-		margin: '0 auto 10px auto'
+		margin: '0 auto 10px auto',
+		display: 'flex',
+		justifyContent: 'center'
 	},
 	textField: {
 		margin: '10px auto 20px auto'
@@ -42,6 +46,10 @@ const styles = {
 	},
 	slider: {
 		marginTop: '20px'
+	},
+	avatar: {
+		marginRight: '15px',
+		backgroundColor: '#388e3c'
 	}
 };
 
@@ -125,7 +133,8 @@ class file extends Component {
 				this.setState({
 					loading: false
 				});
-				this.props.history.push('/');
+				alert('Formulário criado com sucesso')
+				window.location.reload()
 			})
 			.catch(err => {
 				this.setState({
@@ -288,7 +297,10 @@ class file extends Component {
 			<Grid container className={classes.form}>
 				<Grid item sm />
 				<Grid item sm>
-					<Typography variant="h2" className={classes.pageTitle}>
+					<Typography variant="h4" className={classes.pageTitle}>
+						<Avatar className={classes.avatar}>
+							<AddCircleOutlineIcon />
+						</Avatar>
 						Formulário
 					</Typography>
 					<small className={classes.small}>SELECIONE O TEMA</small>
@@ -300,6 +312,9 @@ class file extends Component {
 					</select>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<TextField
+							variant="outlined"
+							margin="normal"
+							required
 							id="course"
 							name="course"
 							type="text"
