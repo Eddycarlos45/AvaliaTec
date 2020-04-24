@@ -21,7 +21,8 @@ const styles = {
 	},
 	pageTitle: {
 		margin: '0 auto 10px auto',
-		display: 'flex'
+		display: 'flex',
+		justifyContent: 'center'
 	},
 	textField: {
 		margin: '10px auto 20px auto'

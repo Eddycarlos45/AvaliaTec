@@ -29,6 +29,9 @@ const useStyles = makeStyles({
 		padding: '13px',
 
 	},
+	smallForm: {
+		color: 'blue'
+	},
 	button: {
 		fontSize: '17px',
 		backgroundColor: 'blue',
@@ -67,11 +70,22 @@ export default function SimpleCard(props) {
 	let [theme, setTheme] = React.useState('');
 	let [title, setTitle] = React.useState('');
 	let [course, setCourse] = React.useState('');
-	let [members, setMembers] = React.useState(['']);
+	let [members] = React.useState(['']);
 	let [member0, setMember0] = React.useState('');
 	let [member1, setMember1] = React.useState('');
 	let [member2, setMember2] = React.useState('');
 	let [member3, setMember3] = React.useState('');
+	let [questions] = React.useState(['']);
+	let [question, setQuestion] = React.useState('');
+	let [question1, setQuestion1] = React.useState('');
+	let [question2, setQuestion2] = React.useState('');
+	let [question3, setQuestion3] = React.useState('');
+	let [question4, setQuestion4] = React.useState('');
+	let [teachers] = React.useState(['']);
+	let [teacher, setTeacher] = React.useState('');
+	let [teacher1, setTeacher1] = React.useState('');
+	let [teacher2, setTeacher2] = React.useState('');
+
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -81,12 +95,23 @@ export default function SimpleCard(props) {
 		setUpdate(true);
 		setTheme(props.theme)
 		setCourse(props.course)
-		setMembers(props.members)
-		setMember0(members[0])
-		setMember1(members[1])
-		setMember2(members[2])
-		setMember3(members[3])
 		setTitle(props.title)
+		if (props.members !== undefined) {
+			setMember0(props.members[0])
+			setMember1(props.members[1])
+			setMember2(props.members[2])
+			setMember3(props.members[3])
+		} else {
+			setQuestion(props.questions[0])
+			setQuestion1(props.questions[1])
+			setQuestion2(props.questions[2])
+			setQuestion3(props.questions[3])
+			setQuestion4(props.questions[4])
+			setTeacher(props.teachers[0])
+			setTeacher1(props.teachers[1])
+			setTeacher2(props.teachers[2])
+		}
+
 	};
 
 	const handleClose = () => {
@@ -119,18 +144,24 @@ export default function SimpleCard(props) {
 	}
 	const handleUpdate = (id, member) => {
 		if (member === undefined) {
+			questions.splice(0, 5, question, question1, question2, question3, question4)
+			teachers.splice(0, 3, teacher, teacher1, teacher2)
 			const updateFile = {
-				theme: this.state.theme,
-				course: this.state.course,
-				members: this.state.members,
+				theme: title,
+				course: course,
+				questions: questions,
+				teachers: teachers,
+				formId: id
 			}
 			axios.put('/form', updateFile)
 				.then(res => {
 					console.log(res.data);
+					window.location.reload()
 				})
 				.catch(err => {
 					console.log(err.response.data)
 				})
+
 		} else {
 			members.splice(0, 4, member0, member1, member2, member3)
 			const updateTheme = {
@@ -143,12 +174,13 @@ export default function SimpleCard(props) {
 			axios.put('/theme', updateTheme)
 				.then(res => {
 					console.log(res.data);
+					window.location.reload()
 				})
 				.catch(err => {
 					console.log(err.response.data)
 				})
 		}
-		handleClose()
+		handleCloseUpdate()
 		alert('Atualizado com sucesso')
 	}
 
@@ -165,6 +197,24 @@ export default function SimpleCard(props) {
 			setMember2(event.target.value)
 		} if (event.target.name === "member3") {
 			setMember3(event.target.value)
+		} if (event.target.name === "question") {
+			setQuestion(event.target.value)
+		} if (event.target.name === "question1") {
+			setQuestion1(event.target.value)
+		} if (event.target.name === "question2") {
+			setQuestion2(event.target.value)
+		} if (event.target.name === "question3") {
+			setQuestion3(event.target.value)
+		} if (event.target.name === "question4") {
+			setQuestion4(event.target.value)
+		} if (event.target.name === "teacher") {
+			setTeacher(event.target.value)
+		} if (event.target.name === "teacher1") {
+			setTeacher1(event.target.value)
+		} if (event.target.name === "teacher2") {
+			setTeacher2(event.target.value)
+		} if (event.target.name === "title") {
+			setTitle(event.target.value)
 		}
 	}
 	const renderUpdate = () => {
@@ -172,6 +222,7 @@ export default function SimpleCard(props) {
 			return (
 				<DialogContent>
 					<DialogContentText id="alert-dialog-slide-description">
+						<small className={classes.smallForm}>Tema</small>
 						<TextField
 							id="theme"
 							name="theme"
@@ -180,6 +231,7 @@ export default function SimpleCard(props) {
 							value={theme}
 							onChange={handleChange}
 							fullWidth />
+						<small className={classes.smallForm}>Curso</small>
 						<TextField
 							id="course"
 							name="course"
@@ -188,6 +240,7 @@ export default function SimpleCard(props) {
 							value={course}
 							onChange={handleChange}
 							fullWidth />
+						<small className={classes.smallForm}>Membros</small>
 						<TextField
 							id="member"
 							name="member"
@@ -227,12 +280,88 @@ export default function SimpleCard(props) {
 			return (
 				<DialogContent>
 					<DialogContentText id="alert-dialog-slide-description">
+						<small className={classes.smallForm}>Título</small>
 						<TextField
-							id="theme"
-							name="theme"
+							id="title"
+							name="title"
 							type="text"
 							className={classes.textField}
 							value={title}
+							onChange={handleChange}
+							fullWidth />
+						<small className={classes.smallForm}>Curso</small>
+						<TextField
+							id="course"
+							name="course"
+							type="text"
+							className={classes.textField}
+							value={course}
+							onChange={handleChange}
+							fullWidth />
+						<small className={classes.smallForm}>Questions</small>
+						<TextField
+							id="question"
+							name="question"
+							type="text"
+							className={classes.textField}
+							value={question}
+							onChange={handleChange}
+							fullWidth />
+						<TextField
+							id="question1"
+							name="question1"
+							type="text"
+							className={classes.textField}
+							value={question1}
+							onChange={handleChange}
+							fullWidth />
+						<TextField
+							id="question2"
+							name="question2"
+							type="text"
+							className={classes.textField}
+							value={question2}
+							onChange={handleChange}
+							fullWidth />
+						<TextField
+							id="question3"
+							name="question3"
+							type="text"
+							className={classes.textField}
+							value={question3}
+							onChange={handleChange}
+							fullWidth />
+						<TextField
+							id="question4"
+							name="question4"
+							type="text"
+							className={classes.textField}
+							value={question4}
+							onChange={handleChange}
+							fullWidth />
+						<small className={classes.smallForm}>Professores</small>
+						<TextField
+							id="teacher"
+							name="teacher"
+							type="text"
+							className={classes.textField}
+							value={teacher}
+							onChange={handleChange}
+							fullWidth />
+						<TextField
+							id="teacher1"
+							name="teacher1"
+							type="text"
+							className={classes.textField}
+							value={teacher1}
+							onChange={handleChange}
+							fullWidth />
+						<TextField
+							id="teacher2"
+							name="teacher2"
+							type="text"
+							className={classes.textField}
+							value={teacher2}
 							onChange={handleChange}
 							fullWidth />
 					</DialogContentText>
