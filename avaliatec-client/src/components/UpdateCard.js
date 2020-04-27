@@ -22,7 +22,12 @@ const useStyles = makeStyles({
 		marginLeft: '5px',
 		marginTop: '30px',
 		display: 'flex',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
+		boxShadow: '0 5px 20px rgba(0,0,0,.25)',
+		transition: 'transform 300ms',
+		'&:hover': {
+			transform: 'scale(1.1)'
+		}
 	},
 	small: {
 		fontSize: '20px',

@@ -56,7 +56,6 @@ exports.validateTheme = (data) => {
 exports.validateForm = (data) => {
 	let errosForm = {};
 	if (isEmpty(data.course.trim())) errosForm.course = 'Must not be empty';
-	if (isEmpty(data.questions[0].trim())) errosForm.questions = 'Must not be empty';
 	if (isEmpty(data.teachers[0].trim())) errosForm.teachers = 'Must not be empty';
 	if (isEmpty(data.theme.trim())) errosForm.theme = 'Must not be empty';
 
