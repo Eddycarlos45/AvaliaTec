@@ -50,6 +50,9 @@ const styles = {
 	avatar: {
 		marginRight: '15px',
 		backgroundColor: '#388e3c'
+	},
+	container: {
+		display: 'flex'
 	}
 };
 
@@ -59,12 +62,17 @@ class file extends Component {
 		super();
 		this.state = {
 			course: '',
-			questions: [''],
-			question1: '',
-			question2: '',
-			question3: '',
-			question4: '',
-			question5: '',
+			criterions: [],
+			criterion1: '', weight1: 0,
+			criterion2: '', weight2: 0,
+			criterion3: '', weight3: 0,
+			criterion4: '', weight4: 0,
+			criterion5: '', weight5: 0,
+			criterion6: '', weight6: 0,
+			criterion7: '', weight7: 0,
+			criterion8: '', weight8: 0,
+			criterion9: '', weight9: 0,
+			criterion10: '', weight10: 0,
 			teachers: [''],
 			listTeachers: [''],
 			teacher1: '',
@@ -75,7 +83,7 @@ class file extends Component {
 			classes: {},
 			open: false,
 			setOpen: false,
-			question: true,
+			criterion: true,
 			value: null,
 			themes: ['']
 		}
@@ -110,38 +118,81 @@ class file extends Component {
 				this.state.teacher2,
 				this.state.teacher3)
 		}
-		if (this.state.question1 === '') {
-			this.state.questions[0] = '';
+		let total = parseInt(this.state.weight1) + parseInt(this.state.weight2) + parseInt(this.state.weight3)
+			+ parseInt(this.state.weight4) + parseInt(this.state.weight5) + parseInt(this.state.weight6)
+			+ parseInt(this.state.weight7) + parseInt(this.state.weight8) + parseInt(this.state.weight9)
+			+ parseInt(this.state.weight10)
+
+		if (total === 10) {
+			this.state.criterions.splice(0, 10,
+				{
+					type: this.state.criterion1,
+					weight: this.state.weight1
+				},
+				{
+					type: this.state.criterion2,
+					weight: this.state.weight2
+				},
+				{
+					type: this.state.criterion3,
+					weight: this.state.weight3
+				},
+				{
+					type: this.state.criterion4,
+					weight: this.state.weight4
+				},
+				{
+					type: this.state.criterion5,
+					weight: this.state.weight5
+				},
+				{
+					type: this.state.criterion6,
+					weight: this.state.weight6
+				},
+				{
+					type: this.state.criterion7,
+					weight: this.state.weight7
+				},
+				{
+					type: this.state.criterion8,
+					weight: this.state.weight8
+				},
+				{
+					type: this.state.criterion9,
+					weight: this.state.weight9
+				},
+				{
+					type: this.state.criterion10,
+					weight: this.state.weight10
+				})
+
+			const newFile = {
+				course: this.state.course,
+				criterions: this.state.criterions,
+				teachers: this.state.teachers,
+				theme: this.state.theme
+			}
+
+			axios.post('/form', newFile)
+				.then(res => {
+					console.log(res.data);
+					this.setState({
+						loading: false
+					});
+					alert('Formulário criado com sucesso')
+					window.location.reload()
+				})
+				.catch(err => {
+					this.setState({
+						errors: err.response.data,
+						loading: false
+					})
+				})
 		} else {
-			this.state.questions.splice(0, 5,
-				this.state.question1,
-				this.state.question2,
-				this.state.question3,
-				this.state.question4,
-				this.state.question5)
-		}
-		const newFile = {
-			course: this.state.course,
-			questions: this.state.questions,
-			teachers: this.state.teachers,
-			theme: this.state.theme
+			alert('A soma dos pesos tem que ser igual a 10')
+			window.location.reload()
 		}
 
-		axios.post('/form', newFile)
-			.then(res => {
-				console.log(res.data);
-				this.setState({
-					loading: false
-				});
-				alert('Formulário criado com sucesso')
-				window.location.reload()
-			})
-			.catch(err => {
-				this.setState({
-					errors: err.response.data,
-					loading: false
-				})
-			})
 	};
 
 	handleChange = (event) => {
@@ -150,133 +201,306 @@ class file extends Component {
 		});
 	}
 
-	newQuestion = (sliderValue) => {
-		if (sliderValue === 1) {
-			return (<MyTextField
-				id='question1'
-				name='question1'
-				errors={this.state.errors}
-				error={this.state.errors.questios}
-				value={this.state.question1}
-				onchange={this.handleChange}
-			/>)
-		} if (sliderValue === 2) {
+	minimumCriterion = () => {
+		return (
+			<div>
+				<MyTextField
+					id='criterion1'
+					name='criterion1'
+					errors={this.state.errors}
+					error={this.state.errors.questions}
+					value={this.state.criterion1}
+					onchange={this.handleChange}
+					click={e => this.setState({ weight1: e.target.value })} />
+				<MyTextField
+					id='criterion2'
+					name='criterion2'
+					errors={this.state.errors}
+					error={this.state.errors.criterions}
+					value={this.state.criterion2}
+					onchange={this.handleChange}
+					click={e => this.setState({ weight2: e.target.value })} />
+				<MyTextField
+					id='criterion3'
+					name='criterion3'
+					errors={this.state.errors}
+					error={this.state.errors.criterions}
+					value={this.state.criterion3}
+					onchange={this.handleChange}
+					click={e => this.setState({ weight3: e.target.value })} />
+			</div>
+		)
+	}
+	newCriterion = (sliderValue) => {
+
+		if (sliderValue === 3) {
 			return (
-				<div>
-					<MyTextField
-						id='question1'
-						name='question1'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question1}
-						onchange={this.handleChange}
-					/>
-					<MyTextField
-						id='question2'
-						name='question2'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question2}
-						onchange={this.handleChange} />
-				</div>
-			)
-		} if (sliderValue === 3) {
-			return (
-				<div>
-					<MyTextField
-						id='question1'
-						name='question1'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question1}
-						onchange={this.handleChange} />
-					<MyTextField
-						id='question2'
-						name='question2'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question2}
-						onchange={this.handleChange} />
-					<MyTextField
-						id='question3'
-						name='question3'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question3}
-						onchange={this.handleChange} />
-				</div>
+				<div>{this.minimumCriterion()}</div>
 			)
 		} if (sliderValue === 4) {
 			return (
 				<div>
+					{this.minimumCriterion()}
 					<MyTextField
-						id='question1'
-						name='question1'
+						id='criterion4'
+						name='criterion4'
 						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question1}
-						onchange={this.handleChange} />
-					<MyTextField
-						id='question2'
-						name='question2'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question2}
-						onchange={this.handleChange} />
-					<MyTextField
-						id='question3'
-						name='question3'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question3}
-						onchange={this.handleChange} />
-					<MyTextField
-						id='question4'
-						name='question4'
-						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question4}
-						onchange={this.handleChange} />
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
 				</div>
 			)
 		} if (sliderValue === 5) {
 			return (
 				<div>
+					{this.minimumCriterion()}
 					<MyTextField
-						id='question1'
-						name='question1'
+						id='criterion4'
+						name='criterion4'
 						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question1}
-						onchange={this.handleChange} />
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
 					<MyTextField
-						id='question2'
-						name='question2'
+						id='criterion5'
+						name='criterion5'
 						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question2}
-						onchange={this.handleChange} />
+						error={this.state.errors.criterions}
+						value={this.state.criterion5}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight5: e.target.value })} />
+				</div>
+			)
+		} if (sliderValue === 6) {
+			return (
+				<div>
+					{this.minimumCriterion()}
 					<MyTextField
-						id='question3'
-						name='question3'
+						id='criterion4'
+						name='criterion4'
 						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question3}
-						onchange={this.handleChange} />
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
 					<MyTextField
-						id='question4'
-						name='question4'
+						id='criterion5'
+						name='criterion5'
 						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question4}
-						onchange={this.handleChange} />
+						error={this.state.errors.criterions}
+						value={this.state.criterion5}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight5: e.target.value })} />
 					<MyTextField
-						id='question5'
-						name='question5'
+						id='criterion6'
+						name='criterion6'
 						errors={this.state.errors}
-						error={this.state.errors.questios}
-						value={this.state.question5}
-						onchange={this.handleChange} />
+						error={this.state.errors.criterions}
+						value={this.state.criterion6}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight6: e.target.value })} />
+				</div>
+			)
+		} if (sliderValue === 7) {
+			return (
+				<div>
+					{this.minimumCriterion()}
+					<MyTextField
+						id='criterion4'
+						name='criterion4'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
+					<MyTextField
+						id='criterion5'
+						name='criterion5'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion5}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight5: e.target.value })} />
+					<MyTextField
+						id='criterion6'
+						name='criterion6'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion6}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight6: e.target.value })} />
+					<MyTextField
+						id='criterion7'
+						name='criterion7'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion7}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight7: e.target.value })} />
+				</div>
+			)
+		} if (sliderValue === 8) {
+			return (
+				<div>
+					{this.minimumCriterion()}
+					<MyTextField
+						id='criterion4'
+						name='criterion4'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
+					<MyTextField
+						id='criterion5'
+						name='criterion5'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion5}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight5: e.target.value })} />
+					<MyTextField
+						id='criterion6'
+						name='criterion6'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion6}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight6: e.target.value })} />
+					<MyTextField
+						id='criterion7'
+						name='criterion7'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion7}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight7: e.target.value })} />
+					<MyTextField
+						id='criterion8'
+						name='criterion8'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion8}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight8: e.target.value })} />
+				</div>
+			)
+		} if (sliderValue === 9) {
+			return (
+				<div>
+					{this.minimumCriterion()}
+					<MyTextField
+						id='criterion4'
+						name='criterion4'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
+					<MyTextField
+						id='criterion5'
+						name='criterion5'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion5}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight5: e.target.value })} />
+					<MyTextField
+						id='criterion6'
+						name='criterion6'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion6}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight6: e.target.value })} />
+					<MyTextField
+						id='criterion7'
+						name='criterion7'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion7}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight7: e.target.value })} />
+					<MyTextField
+						id='criterion8'
+						name='criterion8'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion8}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight8: e.target.value })} />
+					<MyTextField
+						id='criterion9'
+						name='criterion9'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion9}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight9: e.target.value })} />
+				</div>
+			)
+		} if (sliderValue === 10) {
+			return (
+				<div>
+					{this.minimumCriterion()}
+					<MyTextField
+						id='criterion4'
+						name='criterion4'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion4}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight4: e.target.value })} />
+					<MyTextField
+						id='criterion5'
+						name='criterion5'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion5}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight5: e.target.value })} />
+					<MyTextField
+						id='criterion6'
+						name='criterion6'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion6}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight6: e.target.value })} />
+					<MyTextField
+						id='criterion7'
+						name='criterion7'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion7}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight7: e.target.value })} />
+					<MyTextField
+						id='criterion8'
+						name='criterion8'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion8}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight8: e.target.value })} />
+					<MyTextField
+						id='criterion9'
+						name='criterion9'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion9}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight9: e.target.value })} />
+					<MyTextField
+						id='criterion10'
+						name='criterion10'
+						errors={this.state.errors}
+						error={this.state.errors.criterions}
+						value={this.state.criterion10}
+						onchange={this.handleChange}
+						click={e => this.setState({ weight10: e.target.value })} />
 				</div>
 			)
 		}
@@ -326,7 +550,7 @@ class file extends Component {
 							onChange={this.handleChange}
 							fullWidth />
 						<small>
-							SELECIONE A QUANTIDADE DE QUESTÕES
+							SELECIONE A QUANTIDADE DE CRITÉRIOS
       					</small>
 						<Slider
 							className={classes.slider}
@@ -334,13 +558,13 @@ class file extends Component {
 							getAriaValueText={this.valuetext}
 							aria-labelledby="discrete-slider"
 							valueLabelDisplay="auto"
-							onChange={(e) => this.setState({ question: true })}
+							onChange={(e) => this.setState({ criterion: true })}
 							step={1}
 							marks
-							min={1}
-							max={5}
+							min={3}
+							max={10}
 						/>
-						{this.state.question ? this.newQuestion(sliderValue) : null}
+						{this.state.criterion ? this.newCriterion(sliderValue) : null}
 						<h2>Avaliadores</h2>
 						<select
 							className={classes.select}
