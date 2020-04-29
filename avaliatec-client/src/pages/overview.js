@@ -12,7 +12,7 @@ export default function overview(props) {
 					title={form.theme}
 					id={form.formId}
 					members={form.members}
-					questions={form.questions}
+					criterions={form.criterions}
 					teachers={form.teachers}
 					course={form.course}>
 				</UpdateCard>)}

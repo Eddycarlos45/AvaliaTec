@@ -87,7 +87,7 @@ export class home extends Component {
 				<Navbar />
 				<Grid container className={classes.form}>
 					<Grid item sm>
-						<Card title='FICHAS' click={(e) => this.pageFragment('file')}></Card>
+						<Card title='FICHA' click={(e) => this.pageFragment('file')}></Card>
 					</Grid>
 					<Grid item sm>
 						<Card title='	TEMA' click={(e) => this.pageFragment('theme')}></Card>
