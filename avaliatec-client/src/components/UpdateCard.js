@@ -240,7 +240,7 @@ export default function SimpleCard(props) {
 					.catch(err => {
 						console.log(err.response.data)
 					})
-
+					alert('Atualizado com sucesso')
 			} else {
 				alert('A soma dos pesos tem que ser igual a 10')
 				window.location.reload()
@@ -262,9 +262,9 @@ export default function SimpleCard(props) {
 				.catch(err => {
 					console.log(err.response.data)
 				})
+			alert('Atualizado com sucesso')
 		}
 		handleCloseUpdate()
-		alert('Atualizado com sucesso')
 	}
 
 	const handleChange = (event) => {
