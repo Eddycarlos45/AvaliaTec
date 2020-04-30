@@ -72,8 +72,42 @@ export default function SimpleCard(props) {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [update, setUpdate] = React.useState(false);
-	let [theme, setTheme] = React.useState('');
-	let [title, setTitle] = React.useState('');
+	let [values, setValues] = React.useState({
+		title: '',
+		theme: '',
+		course: '',
+		members: [],
+		member: '',
+		member1: '',
+		member2: '',
+		member3: '',
+		criteria: [],
+		criteria1: '',
+		criteria2: '',
+		criteria3: '',
+		criteria4: '',
+		criteria5: '',
+		criteria6: '',
+		criteria7: '',
+		criteria8: '',
+		criteria9: '',
+		criteria10: '',
+		weight1: '',
+		weight2: '',
+		weight3: '',
+		weight4: '',
+		weight5: '',
+		weight6: '',
+		weight7: '',
+		weight8: '',
+		weight9: '',
+		weight10: '',
+		teachers: [],
+		teacher: '',
+		teache1: '',
+		teacher2: ''
+	});
+	/*let [title, setTitle] = React.useState('');
 	let [course, setCourse] = React.useState('');
 	let [members] = React.useState(['']);
 	let [member0, setMember0] = React.useState('');
@@ -104,7 +138,7 @@ export default function SimpleCard(props) {
 	let [teachers] = React.useState(['']);
 	let [teacher, setTeacher] = React.useState('');
 	let [teacher1, setTeacher1] = React.useState('');
-	let [teacher2, setTeacher2] = React.useState('');
+	let [teacher2, setTeacher2] = React.useState('');*/
 
 
 	const handleClickOpen = () => {
@@ -113,38 +147,38 @@ export default function SimpleCard(props) {
 
 	const handleClickOpenUpdate = () => {
 		setUpdate(true);
-		setTheme(props.theme)
-		setCourse(props.course)
-		setTitle(props.title)
+		setValues({ ...values, theme: props.theme })
+		setValues({ ...values, course: props.course })
+		setValues({ ...values, title: props.title })
 		if (props.members !== undefined) {
-			setMember0(props.members[0])
-			setMember1(props.members[1])
-			setMember2(props.members[2])
-			setMember3(props.members[3])
+			setValues({ ...values, member: props.members[0] })
+			setValues({ ...values, member1: props.members[1] })
+			setValues({ ...values, member2: props.members[2] })
+			setValues({ ...values, member3: props.members[3] })
 		} else {
-			setCriterion1(props.criterions[0].type)
-			setCriterion2(props.criterions[1].type)
-			setCriterion3(props.criterions[2].type)
-			setCriterion4(props.criterions[3].type)
-			setCriterion5(props.criterions[4].type)
-			setCriterion6(props.criterions[5].type)
-			setCriterion7(props.criterions[6].type)
-			setCriterion8(props.criterions[7].type)
-			setCriterion9(props.criterions[8].type)
-			setCriterion10(props.criterions[9].type)
-			setWeight1(props.criterions[0].weight)
-			setWeight2(props.criterions[1].weight)
-			setWeight3(props.criterions[2].weight)
-			setWeight4(props.criterions[3].weight)
-			setWeight5(props.criterions[4].weight)
-			setWeight6(props.criterions[5].weight)
-			setWeight7(props.criterions[6].weight)
-			setWeight8(props.criterions[7].weight)
-			setWeight9(props.criterions[8].weight)
-			setWeight10(props.criterions[9].weight)
-			setTeacher(props.teachers[0])
-			setTeacher1(props.teachers[1])
-			setTeacher2(props.teachers[2])
+			setValues({ ...values, criteria1: props.criteria[0].type })
+			setValues({ ...values, criteria2: props.criteria[1].type })
+			setValues({ ...values, criteria3: props.criteria[2].type })
+			setValues({ ...values, criteria4: props.criteria[3].type })
+			setValues({ ...values, criteria5: props.criteria[4].type })
+			setValues({ ...values, criteria6: props.criteria[5].type })
+			setValues({ ...values, criteria7: props.criteria[6].type })
+			setValues({ ...values, criteria8: props.criteria[7].type })
+			setValues({ ...values, criteria9: props.criteria[8].type })
+			setValues({ ...values, criteria10: props.criteria[9].type })
+			setValues({ ...values, weight1: props.criteria[0].weight })
+			setValues({ ...values, weight2: props.criteria[1].weight })
+			setValues({ ...values, weight3: props.criteria[2].weight })
+			setValues({ ...values, weight4: props.criteria[3].weight })
+			setValues({ ...values, weight5: props.criteria[4].weight })
+			setValues({ ...values, weight6: props.criteria[5].weight })
+			setValues({ ...values, weight7: props.criteria[6].weight })
+			setValues({ ...values, weight8: props.criteria[7].weight })
+			setValues({ ...values, weight9: props.criteria[8].weight })
+			setValues({ ...values, weight10: props.criteria[9].weight })
+			setValues({ ...values, teacher: props.teachers[0] })
+			setValues({ ...values, teacher1: props.teachers[1] })
+			setValues({ ...values, teacher2: props.teachers[2] })
 		}
 
 	};
@@ -178,79 +212,72 @@ export default function SimpleCard(props) {
 		handleClose()
 	}
 	const handleUpdate = (id, member) => {
-		let note = parseInt(weight1) + parseInt(weight2) + parseInt(weight3) + parseInt(weight4) + parseInt(weight5)
-			+ parseInt(weight6) + parseInt(weight7) + parseInt(weight8) + parseInt(weight9) + parseInt(weight10)
 		if (member === undefined) {
-			if (note === 10) {
-				criterions.splice(0, 10,
-					{
-						type: criterion1,
-						weight: weight1
-					},
-					{
-						type: criterion2,
-						weight: weight2
-					},
-					{
-						type: criterion3,
-						weight: weight3
-					},
-					{
-						type: criterion4,
-						weight: weight4
-					},
-					{
-						type: criterion5,
-						weight: weight5
-					},
-					{
-						type: criterion6,
-						weight: weight6
-					},
-					{
-						type: criterion7,
-						weight: weight7
-					},
-					{
-						type: criterion8,
-						weight: weight8
-					},
-					{
-						type: criterion9,
-						weight: weight9
-					},
-					{
-						type: criterion10,
-						weight: weight10
-					}
-				)
-				teachers.splice(0, 3, teacher, teacher1, teacher2)
-				const updateFile = {
-					theme: title,
-					course: course,
-					criterions: criterions,
-					teachers: teachers,
-					formId: id
+			values.criterions.splice(0, 10,
+				{
+					type: values.criteria1,
+					weight: values.weight1
+				},
+				{
+					type: values.criteria2,
+					weight: values.weight2
+				},
+				{
+					type: values.criteria3,
+					weight: values.weight3
+				},
+				{
+					type: values.criteria4,
+					weight: values.weight4
+				},
+				{
+					type: values.criteria5,
+					weight: values.weight5
+				},
+				{
+					type: values.criteria6,
+					weight: values.weight6
+				},
+				{
+					type: values.criteria7,
+					weight: values.weight7
+				},
+				{
+					type: values.criteria8,
+					weight: values.weight8
+				},
+				{
+					type: values.criteria9,
+					weight: values.weight9
+				},
+				{
+					type: values.criteria10,
+					weight: values.weight10
 				}
-				axios.put('/form', updateFile)
-					.then(res => {
-						console.log(res.data);
-						window.location.reload()
-					})
-					.catch(err => {
-						console.log(err.response.data)
-					})
-					alert('Atualizado com sucesso')
-			} else {
-				alert('A soma dos pesos tem que ser igual a 10')
-				window.location.reload()
+			)
+			values.teachers.splice(0, 3, values.teacher, values.teacher1, values.teacher2)
+			const updateFile = {
+				theme: values.title,
+				course: values.course,
+				criterions: values.criterions,
+				teachers: values.teachers,
+				formId: id
 			}
+			axios.put('/form', updateFile)
+				.then(res => {
+					console.log(res.data);
+					window.location.reload()
+				})
+				.catch(err => {
+					console.log(err.response.data)
+				})
+			alert('Atualizado com sucesso')
 		} else {
-			members.splice(0, 4, member0, member1, member2, member3)
+			values.members.splice(0, 4, values.member, values.member1, values.member2, values.member3)
 			const updateTheme = {
-				theme: theme,
-				course: course,
-				members: members,
+				theme: values.theme,
+				course: values.course,
+				members: values.members,
 				groupId: id
 			}
 			console.log(updateTheme)
@@ -267,69 +294,8 @@ export default function SimpleCard(props) {
 		handleCloseUpdate()
 	}
 
-	const handleChange = (event) => {
-		console.log(theme)
-		if (event.target.name === "theme") {
-			setTheme(event.target.value)
-		} if (event.target.name === "course") {
-			setCourse(event.target.value)
-		} if (event.target.name === "member") {
-			setMember0(event.target.value)
-		} if (event.target.name === "member1") {
-			setMember1(event.target.value)
-		} if (event.target.name === "member2") {
-			setMember2(event.target.value)
-		} if (event.target.name === "member3") {
-			setMember3(event.target.value)
-		} if (event.target.name === "criterion1") {
-			setCriterion1(event.target.value)
-		} if (event.target.name === "criterion2") {
-			setCriterion2(event.target.value)
-		} if (event.target.name === "criterion3") {
-			setCriterion3(event.target.value)
-		} if (event.target.name === "criterion4") {
-			setCriterion4(event.target.value)
-		} if (event.target.name === "criterion5") {
-			setCriterion5(event.target.value)
-		} if (event.target.name === "criterion6") {
-			setCriterion6(event.target.value)
-		} if (event.target.name === "criterion7") {
-			setCriterion7(event.target.value)
-		} if (event.target.name === "criterion8") {
-			setCriterion8(event.target.value)
-		} if (event.target.name === "criterion9") {
-			setCriterion9(event.target.value)
-		} if (event.target.name === "criterion10") {
-			setCriterion10(event.target.value)
-		} if (event.target.name === "weight1") {
-			setWeight1(event.target.value)
-		} if (event.target.name === "weight2") {
-			setWeight2(event.target.value)
-		} if (event.target.name === "weight3") {
-			setWeight3(event.target.value)
-		} if (event.target.name === "weight4") {
-			setWeight4(event.target.value)
-		} if (event.target.name === "weight5") {
-			setWeight5(event.target.value)
-		} if (event.target.name === "weight6") {
-			setWeight6(event.target.value)
-		} if (event.target.name === "weight7") {
-			setWeight7(event.target.value)
-		} if (event.target.name === "weight8") {
-			setWeight8(event.target.value)
-		} if (event.target.name === "weight9") {
-			setWeight9(event.target.value)
-		} if (event.target.name === "weight10") {
-			setWeight10(event.target.value)
-		} if (event.target.name === "teacher") {
-			setTeacher(event.target.value)
-		} if (event.target.name === "teacher1") {
-			setTeacher1(event.target.value)
-		} if (event.target.name === "teacher2") {
-			setTeacher2(event.target.value)
-		} if (event.target.name === "title") {
-			setTitle(event.target.value)
-		}
+	const handleChange = (prop) => (event) => {
+		setValues({...values,[prop]: event.target.value})
 	}
 	const renderUpdate = () => {
 		if (props.members !== undefined) {
@@ -342,8 +308,8 @@ export default function SimpleCard(props) {
 							name="theme"
 							type="text"
 							className={classes.textField}
-							value={theme}
-							onChange={handleChange}
+							value={values.theme}
+							onChange={handleChange('theme')}
 							fullWidth />
 						<small className={classes.smallForm}>Curso</small>
 						<TextField
@@ -351,8 +317,8 @@ export default function SimpleCard(props) {
 							name="course"
 							type="text"
 							className={classes.textField}
-							value={course}
-							onChange={handleChange}
+							value={values.course}
+							onChange={handleChange('course')}
 							fullWidth />
 						<small className={classes.smallForm}>Membros</small>
 						<TextField
@@ -360,32 +326,32 @@ export default function SimpleCard(props) {
 							name="member"
 							type="text"
 							className={classes.textField}
-							value={member0}
-							onChange={handleChange}
+							value={values.member}
+							onChange={handleChange('member')}
 							fullWidth />
 						<TextField
 							id="member1"
 							name="member1"
 							type="text"
 							className={classes.textField}
-							value={member1}
-							onChange={handleChange}
+							value={values.member1}
+							onChange={handleChange('members1')}
 							fullWidth />
 						<TextField
 							id="member2"
 							name="member2"
 							type="text"
 							className={classes.textField}
-							value={member2}
-							onChange={handleChange}
+							value={values.member2}
+							onChange={handleChange('members2')}
 							fullWidth />
 						<TextField
 							id="member3"
 							name="member3"
 							type="text"
 							className={classes.textField}
-							value={member3}
-							onChange={handleChange}
+							value={values.member3}
+							onChange={handleChange('members3')}
 							fullWidth />
 					</DialogContentText>
 				</DialogContent>
@@ -400,8 +366,8 @@ export default function SimpleCard(props) {
 							name="title"
 							type="text"
 							className={classes.textField}
-							value={title}
-							onChange={handleChange}
+							value={values.title}
+							onChange={handleChange('title')}
 							fullWidth />
 						<small className={classes.smallForm}>Curso</small>
 						<TextField
@@ -409,179 +375,159 @@ export default function SimpleCard(props) {
 							name="course"
 							type="text"
 							className={classes.textField}
-							value={course}
-							onChange={handleChange}
+							value={values.course}
+							onChange={handleChange('course')}
 							fullWidth />
 						<small className={classes.smallForm}>Questions</small>
 						<TextField
-							id="criterion1"
-							name="criterion1"
+							id="criteria1"
+							name="criteria1"
 							type="text"
 							className={classes.textField}
-							value={criterion1}
-							onChange={handleChange}
+							value={values.criteria1}
+							onChange={handleChange('criteria1')}
 							fullWidth />
-						<small>Peso atual: {weight1} </small>
+						<small>Peso atual: {values.weight1} </small>
 						<small>Novo peso: </small>
-						<select name="weight1" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight1" onChange={handleChange('weight1')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion2"
-							name="criterion2"
+							id="criteria2"
+							name="criteria2"
 							type="text"
 							className={classes.textField}
-							value={criterion2}
-							onChange={handleChange}
+							value={values.criteria2}
+							onChange={handleChange('criteria2')}
 							fullWidth />
-						<small>Peso atual: {weight2} </small>
+						<small>Peso atual: {values.weight2} </small>
 						<small>Novo peso: </small>
-						<select name="weight2" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight2" onChange={handleChange('weight2')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion3"
-							name="criterion3"
+							id="criteria3"
+							name="criteria3"
 							type="text"
 							className={classes.textField}
-							value={criterion3}
-							onChange={handleChange}
+							value={values.criteria3}
+							onChange={handleChange('criteria3')}
 							fullWidth />
-						<small>Peso atual: {weight3} </small>
+						<small>Peso atual: {values.weight3} </small>
 						<small>Novo peso: </small>
-						<select name="weight3" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight3" onChange={handleChange('weight3')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion4"
-							name="criterion4"
+							id="criteria4"
+							name="criteria4"
 							type="text"
 							className={classes.textField}
-							value={criterion4}
-							onChange={handleChange}
+							value={values.criteria4}
+							onChange={handleChange('criteria4')}
 							fullWidth />
-						<small>Peso atual: {weight4} </small>
+						<small>Peso atual: {values.weight4} </small>
 						<small>Novo peso: </small>
-						<select name="weight4" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight4" onChange={handleChange('weight4')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion5"
-							name="criterion5"
+							id="criteria5"
+							name="criteria5"
 							type="text"
 							className={classes.textField}
-							value={criterion5}
-							onChange={handleChange}
+							value={values.criteria5}
+							onChange={handleChange('criteria5')}
 							fullWidth />
-						<small>Peso atual: {weight5} </small>
+						<small>Peso atual: {values.weight5} </small>
 						<small>Novo peso: </small>
-						<select name="weight5" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight5" onChange={handleChange('weight5')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion6"
-							name="criterion6"
+							id="criteria6"
+							name="criteria6"
 							type="text"
 							className={classes.textField}
-							value={criterion6}
-							onChange={handleChange}
+							value={values.criteria6}
+							onChange={handleChange('criteria6')}
 							fullWidth />
-						<small>Peso atual: {weight6} </small>
+						<small>Peso atual: {values.weight6} </small>
 						<small>Novo peso: </small>
-						<select name="weight6" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight6" onChange={handleChange('weight6')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion7"
-							name="criterion7"
+							id="criteria7"
+							name="criteria7"
 							type="text"
 							className={classes.textField}
-							value={criterion7}
-							onChange={handleChange}
+							value={values.criteria7}
+							onChange={handleChange('criteria7')}
 							fullWidth />
-						<small>Peso atual: {weight7} </small>
+						<small>Peso atual: {values.weight7} </small>
 						<small>Novo peso: </small>
-						<select name="weight7" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight7" onChange={handleChange('weight7')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion8"
-							name="criterion8"
+							id="criteria8"
+							name="criteria8"
 							type="text"
 							className={classes.textField}
-							value={criterion8}
-							onChange={handleChange}
+							value={values.criteria8}
+							onChange={handleChange('criteria8')}
 							fullWidth />
-						<small>Peso atual: {weight8} </small>
+						<small>Peso atual: {values.weight8} </small>
 						<small>Novo peso: </small>
-						<select name="weight8" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight8" onChange={handleChange('weight8')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion9"
-							name="criterion9"
+							id="criteria9"
+							name="criteria9"
 							type="text"
 							className={classes.textField}
-							value={criterion9}
-							onChange={handleChange}
+							value={values.criteria9}
+							onChange={handleChange('criteria9')}
 							fullWidth />
-						<small>Peso atual: {weight9} </small>
+						<small>Peso atual: {values.weight9} </small>
 						<small>Novo peso: </small>
-						<select name="weight9" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight9" onChange={handleChange('weight9')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<TextField
-							id="criterion10"
-							name="criterion10"
+							id="criteria10"
+							name="criteria10"
 							type="text"
 							className={classes.textField}
-							value={criterion10}
-							onChange={handleChange}
+							value={values.criteria10}
+							onChange={handleChange('criteria10')}
 							fullWidth />
-						<small>Peso atual: {weight10} </small>
+						<small>Peso atual: {values.weight10} </small>
 						<small>Novo peso: </small>
-						<select name="weight10" onChange={handleChange}>
-							<option value={0}>0</option>
+						<select name="weight10" onChange={handleChange('weight10')}>
 							<option value={1}>1</option>
 							<option value={2}>2</option>
 							<option value={3}>3</option>
-							<option value={4}>4</option>
 						</select>
 						<br></br>
 						<small className={classes.smallForm}>Professores</small>
@@ -590,24 +536,24 @@ export default function SimpleCard(props) {
 							name="teacher"
 							type="text"
 							className={classes.textField}
-							value={teacher}
-							onChange={handleChange}
+							value={values.teacher}
+							onChange={handleChange('teacher')}
 							fullWidth />
 						<TextField
 							id="teacher1"
 							name="teacher1"
 							type="text"
 							className={classes.textField}
-							value={teacher1}
-							onChange={handleChange}
+							value={values.teacher1}
+							onChange={handleChange('teacher1')}
 							fullWidth />
 						<TextField
 							id="teacher2"
 							name="teacher2"
 							type="text"
 							className={classes.textField}
-							value={teacher2}
-							onChange={handleChange}
+							value={values.teacher2}
+							onChange={handleChange('teacher2')}
 							fullWidth />
 					</DialogContentText>
 				</DialogContent>
