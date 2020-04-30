@@ -14,6 +14,13 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import LinkM from '@material-ui/core/Link';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 function Copyright() {
 	return (
@@ -50,6 +57,9 @@ const styles = {
 		color: 'red',
 		fontSize: '0.8rem',
 		marginTop: 10
+	},
+	textField: {
+		width: '397px'
 	}
 }
 
@@ -61,7 +71,8 @@ class signIn extends Component {
 			email: '',
 			password: '',
 			loading: false,
-			errors: {}
+			errors: {},
+			showPassword: false
 		}
 	}
 
@@ -95,6 +106,14 @@ class signIn extends Component {
 			[event.target.name]: event.target.value
 		});
 	}
+
+	handleClickShowPassword = () => {
+		this.setState({ showPassword: !this.state.showPassword });
+	};
+
+	handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
@@ -125,21 +144,29 @@ class signIn extends Component {
 							onChange={this.handleChange}
 							autoFocus
 						/>
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							helperText={errors.password}
-							error={errors.password ? true : false}
-							value={this.state.password}
-							onChange={this.handleChange}
-							autoComplete="current-password"
-						/>
+						<FormControl className={classes.textField} variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+							<OutlinedInput
+								id="outlined-adornment-password"
+								type={this.state.showPassword ? 'text' : 'password'}
+								value={this.state.password}
+								name="password"
+								onChange={this.handleChange}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={this.handleClickShowPassword}
+											onMouseDown={this.handleMouseDownPassword}
+											edge="end"
+										>
+											{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+										</IconButton>
+									</InputAdornment>
+								}
+								labelWidth={70}
+							/>
+						</FormControl>
 						{errors.general && (
 							<Typography variant="body2" className={classes.customError}>
 								{errors.general}
