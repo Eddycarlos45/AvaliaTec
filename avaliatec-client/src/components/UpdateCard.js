@@ -72,16 +72,16 @@ export default function SimpleCard(props) {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
 	const [update, setUpdate] = React.useState(false);
-	let [values, setValues] = React.useState({
+	const [values, setValues] = React.useState({
 		title: '',
 		theme: '',
 		course: '',
-		members: [],
+		members: [''],
 		member: '',
 		member1: '',
 		member2: '',
 		member3: '',
-		criteria: [],
+		criteria: [''],
 		criteria1: '',
 		criteria2: '',
 		criteria3: '',
@@ -107,39 +107,6 @@ export default function SimpleCard(props) {
 		teache1: '',
 		teacher2: ''
 	});
-	/*let [title, setTitle] = React.useState('');
-	let [course, setCourse] = React.useState('');
-	let [members] = React.useState(['']);
-	let [member0, setMember0] = React.useState('');
-	let [member1, setMember1] = React.useState('');
-	let [member2, setMember2] = React.useState('');
-	let [member3, setMember3] = React.useState('');
-	let [criterions] = React.useState(['']);
-	let [criterion1, setCriterion1] = React.useState('');
-	let [criterion2, setCriterion2] = React.useState('');
-	let [criterion3, setCriterion3] = React.useState('');
-	let [criterion4, setCriterion4] = React.useState('');
-	let [criterion5, setCriterion5] = React.useState('');
-	let [criterion6, setCriterion6] = React.useState('');
-	let [criterion7, setCriterion7] = React.useState('');
-	let [criterion8, setCriterion8] = React.useState('');
-	let [criterion9, setCriterion9] = React.useState('');
-	let [criterion10, setCriterion10] = React.useState('');
-	let [weight1, setWeight1] = React.useState('');
-	let [weight2, setWeight2] = React.useState('');
-	let [weight3, setWeight3] = React.useState('');
-	let [weight4, setWeight4] = React.useState('');
-	let [weight5, setWeight5] = React.useState('');
-	let [weight6, setWeight6] = React.useState('');
-	let [weight7, setWeight7] = React.useState('');
-	let [weight8, setWeight8] = React.useState('');
-	let [weight9, setWeight9] = React.useState('');
-	let [weight10, setWeight10] = React.useState('');
-	let [teachers] = React.useState(['']);
-	let [teacher, setTeacher] = React.useState('');
-	let [teacher1, setTeacher1] = React.useState('');
-	let [teacher2, setTeacher2] = React.useState('');*/
-
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -147,40 +114,44 @@ export default function SimpleCard(props) {
 
 	const handleClickOpenUpdate = () => {
 		setUpdate(true);
-		setValues({ ...values, theme: props.theme })
-		setValues({ ...values, course: props.course })
-		setValues({ ...values, title: props.title })
 		if (props.members !== undefined) {
-			setValues({ ...values, member: props.members[0] })
-			setValues({ ...values, member1: props.members[1] })
-			setValues({ ...values, member2: props.members[2] })
-			setValues({ ...values, member3: props.members[3] })
+			setValues({
+				...values, member: props.members[0],
+				member1: props.members[1],
+				member2: props.members[2],
+				member3: props.members[3],
+				theme: props.theme,
+				course: props.course
+			})
 		} else {
-			setValues({ ...values, criteria1: props.criteria[0].type })
-			setValues({ ...values, criteria2: props.criteria[1].type })
-			setValues({ ...values, criteria3: props.criteria[2].type })
-			setValues({ ...values, criteria4: props.criteria[3].type })
-			setValues({ ...values, criteria5: props.criteria[4].type })
-			setValues({ ...values, criteria6: props.criteria[5].type })
-			setValues({ ...values, criteria7: props.criteria[6].type })
-			setValues({ ...values, criteria8: props.criteria[7].type })
-			setValues({ ...values, criteria9: props.criteria[8].type })
-			setValues({ ...values, criteria10: props.criteria[9].type })
-			setValues({ ...values, weight1: props.criteria[0].weight })
-			setValues({ ...values, weight2: props.criteria[1].weight })
-			setValues({ ...values, weight3: props.criteria[2].weight })
-			setValues({ ...values, weight4: props.criteria[3].weight })
-			setValues({ ...values, weight5: props.criteria[4].weight })
-			setValues({ ...values, weight6: props.criteria[5].weight })
-			setValues({ ...values, weight7: props.criteria[6].weight })
-			setValues({ ...values, weight8: props.criteria[7].weight })
-			setValues({ ...values, weight9: props.criteria[8].weight })
-			setValues({ ...values, weight10: props.criteria[9].weight })
-			setValues({ ...values, teacher: props.teachers[0] })
-			setValues({ ...values, teacher1: props.teachers[1] })
-			setValues({ ...values, teacher2: props.teachers[2] })
+			setValues({
+				...values, course: props.course,
+				title: props.title,
+				criteria1: props.criteria[0].type,
+				criteria2: props.criteria[1].type,
+				criteria3: props.criteria[2].type,
+				criteria4: props.criteria[3].type,
+				criteria5: props.criteria[4].type,
+				criteria6: props.criteria[5].type,
+				criteria7: props.criteria[6].type,
+				criteria8: props.criteria[7].type,
+				criteria9: props.criteria[8].type,
+				criteria10: props.criteria[9].type,
+				weight1: props.criteria[0].weight,
+				weight2: props.criteria[1].weight,
+				weight3: props.criteria[2].weight,
+				weight4: props.criteria[3].weight,
+				weight5: props.criteria[4].weight,
+				weight6: props.criteria[5].weight,
+				weight7: props.criteria[6].weight,
+				weight8: props.criteria[7].weight,
+				weight9: props.criteria[8].weight,
+				weight10: props.criteria[9].weight,
+				teacher: props.teachers[0],
+				teacher1: props.teachers[1],
+				teacher2: props.teachers[2]
+			})
 		}
-
 	};
 
 	const handleClose = () => {
@@ -213,7 +184,7 @@ export default function SimpleCard(props) {
 	}
 	const handleUpdate = (id, member) => {
 		if (member === undefined) {
-			values.criterions.splice(0, 10,
+			values.criteria.splice(0, 10,
 				{
 					type: values.criteria1,
 					weight: values.weight1
@@ -259,7 +230,7 @@ export default function SimpleCard(props) {
 			const updateFile = {
 				theme: values.title,
 				course: values.course,
-				criterions: values.criterions,
+				criteria: values.criteria,
 				teachers: values.teachers,
 				formId: id
 			}
@@ -295,7 +266,7 @@ export default function SimpleCard(props) {
 	}
 
 	const handleChange = (prop) => (event) => {
-		setValues({...values,[prop]: event.target.value})
+		setValues({ ...values, [prop]: event.target.value })
 	}
 	const renderUpdate = () => {
 		if (props.members !== undefined) {
@@ -335,7 +306,7 @@ export default function SimpleCard(props) {
 							type="text"
 							className={classes.textField}
 							value={values.member1}
-							onChange={handleChange('members1')}
+							onChange={handleChange('member1')}
 							fullWidth />
 						<TextField
 							id="member2"
@@ -343,7 +314,7 @@ export default function SimpleCard(props) {
 							type="text"
 							className={classes.textField}
 							value={values.member2}
-							onChange={handleChange('members2')}
+							onChange={handleChange('member2')}
 							fullWidth />
 						<TextField
 							id="member3"
@@ -351,7 +322,7 @@ export default function SimpleCard(props) {
 							type="text"
 							className={classes.textField}
 							value={values.member3}
-							onChange={handleChange('members3')}
+							onChange={handleChange('member3')}
 							fullWidth />
 					</DialogContentText>
 				</DialogContent>
@@ -378,7 +349,7 @@ export default function SimpleCard(props) {
 							value={values.course}
 							onChange={handleChange('course')}
 							fullWidth />
-						<small className={classes.smallForm}>Questions</small>
+						<small className={classes.smallForm}>Critérios</small>
 						<TextField
 							id="criteria1"
 							name="criteria1"
