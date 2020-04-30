@@ -6,7 +6,7 @@ exports.createForm = (req, res) => {
 
 	const newForm = {
 		course: req.body.course,
-		criterions: req.body.criterions,
+		criteria: req.body.criteria,
 		teachers: req.body.teachers,
 		theme: req.body.theme
 	};
@@ -25,7 +25,7 @@ exports.createForm = (req, res) => {
 			.then(() => {
 				const addForm = {
 					course: newForm.course,
-					criterions: newForm.criterions,
+					criteria: newForm.criteria,
 					teachers: newForm.teachers,
 					theme: newForm.theme,
 					formId
@@ -72,14 +72,14 @@ exports.updateForm = (req, res) => {
 
 	const updateForm = {
 		course: req.body.course,
-		criterions: req.body.criterions,
+		criteria: req.body.criteria,
 		teachers: req.body.teachers,
 		theme: req.body.theme,
 		formId: req.body.formId
 	}
 	return db.collection('forms').doc(updateForm.formId).update({
 		course: updateForm.course,
-		criterions: updateForm.criterions,
+		criteria: updateForm.criteria,
 		teachers: updateForm.teachers,
 		theme: updateForm.theme
 	}).then(() => { return res.status(200).json({ res: 'Atualizado com Sucesso' }) })
