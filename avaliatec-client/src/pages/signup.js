@@ -12,6 +12,13 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Avatar from '@material-ui/core/Avatar';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const styles = {
 	form: {
@@ -19,7 +26,8 @@ const styles = {
 		marginTop: '5%'
 	},
 	textField: {
-		margin: '10px auto 10px auto'
+		margin: '10px auto 10px auto',
+		width: '395px'
 	},
 	button: {
 		marginTop: 20,
@@ -76,8 +84,8 @@ class signup extends Component {
 				localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
 				this.setState({
 					loading: false
-				});
-				this.props.history.push('/');
+				})
+				this.props.history.push('/home');
 			})
 			.catch(err => {
 				this.setState({
@@ -92,6 +100,14 @@ class signup extends Component {
 			[event.target.name]: event.target.value
 		});
 	}
+
+	handleClickShowPassword = () => {
+		this.setState({ showPassword: !this.state.showPassword });
+	};
+
+	handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
 
 	render() {
 		const { classes } = this.props;
@@ -122,34 +138,54 @@ class signup extends Component {
 							value={this.state.email}
 							onChange={this.handleChange}
 							fullWidth />
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							id="password"
-							name="password"
-							type="password"
-							label="Password"
-							className={classes.textField}
-							helperText={errors.password}
-							error={errors.password ? true : false}
-							value={this.state.password}
-							onChange={this.handleChange}
-							fullWidth />
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							id="confirmPassword"
-							name="confirmPassword"
-							type="password"
-							label="Confirm Password"
-							className={classes.textField}
-							helperText={errors.ConfirmPassword}
-							error={errors.ConfirmPassword ? true : false}
-							value={this.state.ConfirmPassword}
-							onChange={this.handleChange}
-							fullWidth />
+						<FormControl className={classes.textField} variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+							<OutlinedInput
+								id="outlined-adornment-password"
+								type={this.state.showPassword ? 'text' : 'password'}
+								value={this.state.password}
+								name="password"
+								onChange={this.handleChange}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={this.handleClickShowPassword}
+											onMouseDown={this.handleMouseDownPassword}
+											edge="end"
+										>
+											{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+										</IconButton>
+									</InputAdornment>
+								}
+								labelWidth={70}
+							/>
+						</FormControl>
+						<FormControl className={classes.textField} variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-password"> Confirm Password</InputLabel>
+							<OutlinedInput
+								id="outlined-adornment-password"
+								type={this.state.showPassword ? 'text' : 'password'}
+								value={this.state.confirmPassword}
+								name="confirmPassword"
+								onChange={this.handleChange}
+								helperText={errors.confirmPassword}
+								error={errors.confirmPassword ? true : false}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={this.handleClickShowPassword}
+											onMouseDown={this.handleMouseDownPassword}
+											edge="end"
+										>
+											{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+										</IconButton>
+									</InputAdornment>
+								}
+								labelWidth={70}
+							/>
+						</FormControl>
 						<TextField
 							variant="outlined"
 							margin="normal"
