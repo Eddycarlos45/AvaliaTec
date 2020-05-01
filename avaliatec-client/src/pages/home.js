@@ -29,7 +29,8 @@ export class home extends Component {
 		this.state = {
 			newFragment: '',
 			listAvaluations: [''],
-			listThemes: ['']
+			listThemes: [''],
+			listFilled: ['']
 		}
 	}
 
@@ -51,7 +52,12 @@ export class home extends Component {
 					this.setState({
 						listThemes: res.data
 					})
-				}))
+				})).then(axios.get('/filled')
+					.then(res => {
+						this.setState({
+							listFilled: res.data
+						})
+					}))
 			.catch(err => console.log(err));
 	}
 	renderNew = (page) => {
@@ -70,9 +76,10 @@ export class home extends Component {
 		} else {
 			return (
 				<div>
-					<OverView 
-					title={this.state.listAvaluations}
-					theme={this.state.listThemes}>
+					<OverView
+						title={this.state.listAvaluations}
+						theme={this.state.listThemes}
+						filled={this.state.listFilled}>
 					</OverView>
 				</div>
 			)

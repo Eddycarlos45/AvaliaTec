@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 		justifyContent: 'space-between',
 		boxShadow: '0 5px 20px rgba(0,0,0,.25)',
 		transition: 'transform 300ms',
-		backgroundColor: '#ffb74d',
+		backgroundColor: '#64b5f6',
 		'&:hover': {
 			transform: 'scale(1.1)'
 		}

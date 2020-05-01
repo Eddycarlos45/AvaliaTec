@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core'
 
 //Components
 import UpdateCard from '../components/UpdateCard'
+import FilledCard from '../components/FilledCard'
 
 export default function overview(props) {
 	return (
@@ -25,7 +26,11 @@ export default function overview(props) {
 					course={theme.course}>
 				</UpdateCard>)}
 			</Grid>
-			<Grid item sm></Grid>
+			<Grid item sm>{props.filled.map((filled) =>
+				<FilledCard
+					filled={filled.teacher}>
+				</FilledCard>)}
 		</Grid>
+		</Grid >
 	)
 }
