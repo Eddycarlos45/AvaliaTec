@@ -88,3 +88,21 @@ exports.updateForm = (req, res) => {
 			return res.status(500).json({ error: err.code });
 		})
 }
+
+exports.getFormsUnfilled = (req, res) => {
+    const find = {
+        teacher: req.body.teacher
+    }
+    admin
+        .firestore()
+        .collection('forms').where('teachers', 'array-contains', find.teacher)
+        .get()
+        .then((data) => {
+            let forms = [];
+            data.forEach((doc) => {
+                forms.push(doc.data());
+            });
+            return res.json(forms);
+        })
+        .catch((err) => console.error(err));
+};
