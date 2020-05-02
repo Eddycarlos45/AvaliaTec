@@ -547,7 +547,7 @@ class file extends Component {
 							getAriaValueText={this.valuetext}
 							aria-labelledby="discrete-slider"
 							valueLabelDisplay="auto"
-							onChange={(e) => this.setState({ criteria: true })}
+							onChange={(e) => this.setState({ isCriteria: true })}
 							step={1}
 							marks
 							min={3}

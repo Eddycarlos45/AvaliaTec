@@ -22,7 +22,7 @@ const useStyles = makeStyles({
         }
     },
     small: {
-        fontSize: '20px',
+        fontSize: '15px',
         padding: '18px',
 
     },
@@ -46,7 +46,7 @@ export default function SimpleCard(props) {
 
     return (
         <Card className={classes.root}>
-            <small className={classes.small}>{props.filled}</small>
+            <small className={classes.small}>Sistema de Gerenciamento SmartGym</small>
             <CardActions>
                 <BarChartIcon/>
                 <IconButton aria-label="edit">

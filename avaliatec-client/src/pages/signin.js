@@ -37,7 +37,7 @@ function Copyright() {
 
 const styles = {
 	paper: {
-		marginTop: '35%',
+		marginTop: '25%',
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -122,6 +122,7 @@ class signIn extends Component {
 			<Container component="main" maxWidth="xs" >
 				<CssBaseline />
 				<div className={classes.paper}>
+					<h1>Welcome to Avaliatec</h1>
 					<Avatar className={classes.avatar}>
 						<LockOutlinedIcon />
 					</Avatar>
