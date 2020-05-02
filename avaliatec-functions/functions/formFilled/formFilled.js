@@ -29,9 +29,12 @@ exports.formFilled = (req, res) => {
 }
 
 exports.getFormsFilled = (req, res) => {
+    const find = {
+        teacher: req.body.teacher
+    }
     admin
         .firestore()
-        .collection('formsFilled')
+        .collection('formsFilled').where('teacher', '==', find.teacher)
         .get()
         .then((data) => {
             let forms = [];

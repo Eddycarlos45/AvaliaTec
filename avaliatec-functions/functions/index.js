@@ -19,7 +19,6 @@ app.delete('/form', deleteForm);
 app.put('/form', updateForm);
 app.get('/users', getUsers);
 app.post('/filled', formFilled);
-app.get('/filled', getFormsFilled);
-
+app.post('/user/filled', getFormsFilled);
 
 exports.api = functions.https.onRequest(app); 
