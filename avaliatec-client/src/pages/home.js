@@ -29,7 +29,8 @@ export class home extends Component {
 		this.state = {
 			newFragment: '',
 			listAvaluations: [''],
-			listThemes: ['']
+			listThemes: [''],
+			listFilled: ['']
 		}
 	}
 
@@ -51,7 +52,12 @@ export class home extends Component {
 					this.setState({
 						listThemes: res.data
 					})
-				}))
+				})).then(axios.get('/filled')
+					.then(res => {
+						this.setState({
+							listFilled: res.data
+						})
+					}))
 			.catch(err => console.log(err));
 	}
 	renderNew = (page) => {
@@ -70,9 +76,10 @@ export class home extends Component {
 		} else {
 			return (
 				<div>
-					<OverView 
-					title={this.state.listAvaluations}
-					theme={this.state.listThemes}>
+					<OverView
+						title={this.state.listAvaluations}
+						theme={this.state.listThemes}
+						filled={this.state.listFilled}>
 					</OverView>
 				</div>
 			)
@@ -87,7 +94,7 @@ export class home extends Component {
 				<Navbar />
 				<Grid container className={classes.form}>
 					<Grid item sm>
-						<Card title='FICHAS' click={(e) => this.pageFragment('file')}></Card>
+						<Card title='FICHA' click={(e) => this.pageFragment('file')}></Card>
 					</Grid>
 					<Grid item sm>
 						<Card title='	TEMA' click={(e) => this.pageFragment('theme')}></Card>

@@ -43,7 +43,8 @@ exports.signup = (req, res) => {
 				userName: newUser.userName,
 				course: newUser.course
 			};
-			return db.doc(`/users/${newUser.userLogin}`).set(userCredentials);
+			 db.doc(`/users/${newUser.userLogin}`).set(userCredentials);
+			 return res.status(200).json('Registration completed')
 		})
 		.then(() => {
 			return req.status(201).json({ token });
