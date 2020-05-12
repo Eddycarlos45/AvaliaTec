@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Appbar, Avatar, Button, Card, Title, Paragraph, Divider, List, ToggleButton, TextInput } from 'react-native-paper';
 import { View, ScrollView, Text } from 'react-native';
 import styles from '../assets/stylesheet/General'
@@ -14,21 +14,12 @@ const proxy = 'https://us-central1-avaliatec-80c1a.cloudfunctions.net/api'
 
 
 export const FormScreen = ({ navigation }) => {
-    
-    state = {
-        item1: '',
-        item2: '',
-        item3: '',
-        item4: '',
-        item5: '',
-        comment: '',
-        themes: [''],
 
-    };
+    const [item1, setItem1] = useState('')
 
     const navigateBack = () => {
         navigation.goBack();
-      };
+    };
 
     // componentDidMount() {
     //     axios.get(proxy + '/theme')
@@ -72,8 +63,8 @@ export const FormScreen = ({ navigation }) => {
                         <View style={styles.spacer}>
                             <Text style={styles.spacer}>Pergunta 1</Text>
                             <ToggleButton.Row
-                                onValueChange={item1 => this.setState({ item1 })}
-                                value={this.state.item1}
+                                onValueChange={value => setItem1(value)}
+                                value={item1}
                             >
                                 <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
                                 <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
@@ -81,9 +72,10 @@ export const FormScreen = ({ navigation }) => {
                                 <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
                                 <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
                             </ToggleButton.Row>
+                            <Text>{item1}</Text>
                         </View>
 
-                        <View style={styles.spacer}>
+                        {/* <View style={styles.spacer}>
                             <Text style={styles.spacer}>Pergunta 2</Text>
                             <ToggleButton.Row
                                 onValueChange={item2 => this.setState({ item2 })}
@@ -137,11 +129,11 @@ export const FormScreen = ({ navigation }) => {
                                 <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
                                 <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
                             </ToggleButton.Row>
-                        </View>
+                        </View> */}
                     </Card.Content>
                 </Card>
 
-                <Card style={[styles.card, styles.spacer]}>
+                {/* <Card style={[styles.card, styles.spacer]}>
                     <Card.Title title="Comentário" left={Comment} />
                     <Divider />
                     <Card.Content style={[styles.defaultPaddingHorizontal, styles.defaultPaddingVertical]}>
@@ -153,7 +145,7 @@ export const FormScreen = ({ navigation }) => {
                             multiline={true}
                         />
                     </Card.Content>
-                </Card>
+                </Card> */}
 
             </ScrollView>
         </View>
