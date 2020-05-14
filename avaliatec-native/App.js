@@ -6,6 +6,7 @@ import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from 
 import { AsyncStorage } from 'react-native';
 import { HomeScreen } from './components/home.component';
 import { FormScreen } from './components/form.component';
+import { LoginScreen } from './components/login.component';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -99,13 +100,21 @@ export default function App({ navigation }) {
     <AuthContext.Provider value={authContext}>
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <Navigator>
+          <Navigator
+            headerMode='none'
+            screenOptions={{
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+            }}
+          >
             {state.userToken == null ? (
               <>
-                <Screen name="Home" component={HomeScreen} />
+                <Screen name="Login" component={LoginScreen} />
               </>
             ) : (
-                <Screen name="Form" component={FormScreen} />
+                <>
+                  <Screen name="Home" component={HomeScreen} />
+                  <Screen name="Form" component={FormScreen} />
+                </>
               )}
           </Navigator>
         </NavigationContainer>
