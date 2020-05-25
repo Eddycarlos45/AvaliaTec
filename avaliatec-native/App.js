@@ -1,11 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import ApiKeys from './constants/ApiKeys'
-import * as firebase from 'firebase'
+import { AppNavigator } from './components/navigation.component';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
+import { AsyncStorage } from 'react-native';
+import { HomeScreen } from './components/home.component';
+import { FormScreen } from './components/form.component';
+import { LoginScreen } from './components/login.component';
 
-import LoginScreen from './screens/LoginScreen'
-import HomeScreen from './screens/HomeScreen'
+const { Navigator, Screen } = createStackNavigator();
 
 const theme = {
   ...DefaultTheme,
@@ -16,23 +19,106 @@ const theme = {
   },
 };
 
-export default class App extends React.Component {
+const AuthContext = React.createContext();
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoadingComplete: false,
+export default function App({ navigation }) {
+  const [state, dispatch] = React.useReducer(
+    (prevState, action) => {
+      switch (action.type) {
+        case 'RESTORE_TOKEN':
+          return {
+            ...prevState,
+            userToken: action.token,
+            isLoading: false,
+          };
+        case 'SIGN_IN':
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+          };
+        case 'SIGN_OUT':
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+          };
+      }
+    },
+    {
+      isLoading: true,
+      isSignout: false,
+      userToken: null,
     }
+  );
 
-    // Initialize Firebase
-    if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig) }
-  }
+  React.useEffect(() => {
+    // Fetch the token from storage then navigate to our appropriate place
+    const bootstrapAsync = async () => {
+      let userToken;
 
-  render() {
-    return (
+      try {
+        userToken = await AsyncStorage.getItem('userToken');
+      } catch (e) {
+        // Restoring token failed
+      }
+
+      // After restoring token, we may need to validate it in production apps
+
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+    };
+
+    bootstrapAsync();
+  }, []);
+
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async data => {
+        // In a production app, we need to send some data (usually username, password) to server and get a token
+        // We will also need to handle errors if sign in failed
+        // After getting token, we need to persist the token using `AsyncStorage`
+        // In the example, we'll use a dummy token
+
+        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+      },
+      signOut: () => dispatch({ type: 'SIGN_OUT' }),
+      signUp: async data => {
+        // In a production app, we need to send user data to server and get a token
+        // We will also need to handle errors if sign up failed
+        // After getting token, we need to persist the token using `AsyncStorage`
+        // In the example, we'll use a dummy token
+
+        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+      },
+    }),
+    []
+  );
+
+  return (
+    <AuthContext.Provider value={authContext}>
       <PaperProvider theme={theme}>
-        <HomeScreen />
+        <NavigationContainer>
+          <Navigator
+            headerMode='none'
+            screenOptions={{
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+            }}
+          >
+            {state.userToken == null ? (
+              <>
+                <Screen name="Login" component={LoginScreen} />
+              </>
+            ) : (
+                <>
+                  <Screen name="Home" component={HomeScreen} />
+                  <Screen name="Form" component={FormScreen} />
+                </>
+              )}
+          </Navigator>
+        </NavigationContainer>
       </PaperProvider>
-    )
-  }
+    </AuthContext.Provider>
+  )
 }
