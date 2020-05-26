@@ -49,9 +49,6 @@ export default function SimpleCard(props) {
             <small className={classes.small}>Sistema de Gerenciamento SmartGym</small>
             <CardActions>
                 <BarChartIcon/>
-                <IconButton aria-label="edit">
-                    <EditIcon />
-                </IconButton>
                 <IconButton aria-label="delete" >
                     <DeleteIcon />
                 </IconButton>

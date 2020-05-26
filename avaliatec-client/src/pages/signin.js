@@ -188,13 +188,10 @@ class signIn extends Component {
 						<Grid container>
 							<Grid item xs>
 							</Grid>
-							<Grid item>
-								<Link to='/signup' variant="body2">{"Don't have an account? Sign Up"}</Link>
-							</Grid>
 						</Grid>
 					</form>
 				</div>
-				<Box mt={8}>
+				<Box mt={1}>
 					<Copyright />
 				</Box>
 			</Container>
