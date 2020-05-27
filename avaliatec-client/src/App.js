@@ -4,7 +4,7 @@ import './App.css';
 
 //Pages
 import home from './pages/home';
-import signup from './pages/signup';
+import users from './pages/users';
 import signin from './pages/signin'
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={signin} />
               <Route exact path="/home" component={home} />
-              <Route exact path="/signup" component={signup}/>
+              <Route exact path="/users" component={users}/>
             </Switch>
           </div>
         </Router>

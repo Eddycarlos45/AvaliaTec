@@ -67,7 +67,7 @@ export default function DenseAppBar() {
 				keepMounted
 				open={Boolean(anchorEl)}
 				onClose={handleClose}>
-				<Link className={classes.link} to="/signup"><MenuItem><AddCircleIcon className={classes.menuIcon} color='primary' /> Cadastrar Avaliador</MenuItem></Link>
+				<Link className={classes.link} to="/users"><MenuItem><AddCircleIcon className={classes.menuIcon} color='primary' /> Cadastrar Avaliador</MenuItem></Link>
 				<Link className={classes.link} to="/"><MenuItem><ExitToAppIcon className={classes.menuIcon} color='primary' />Logout</MenuItem></Link>
 			</Menu>
 		</div>

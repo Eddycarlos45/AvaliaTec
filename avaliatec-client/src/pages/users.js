@@ -52,7 +52,7 @@ const styles = {
 };
 
 
-class signup extends Component {
+class users extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -257,7 +257,7 @@ class signup extends Component {
 	}
 }
 
-signup.propTypes = {
+users.propTypes = {
 	classes: PropTypes.object.isRequired
 }
-export default withStyles(styles)(signup);
+export default withStyles(styles)(users);
