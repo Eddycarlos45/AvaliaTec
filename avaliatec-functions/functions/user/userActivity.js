@@ -13,7 +13,8 @@ exports.signup = (req, res) => {
 		confirmPassword: req.body.confirmPassword,
 		userLogin: req.body.userLogin,
 		userName: req.body.userName,
-		course: req.body.course
+		course: req.body.course,
+		isAdmin: req.body.isAdmin
 	};
 	const { valid, errors } = validateSignupData(newUser);
 
@@ -41,10 +42,11 @@ exports.signup = (req, res) => {
 				email: newUser.email,
 				userId,
 				userName: newUser.userName,
-				course: newUser.course
+				course: newUser.course,
+				isAdmin: newUser.isAdmin
 			};
-			 db.doc(`/users/${newUser.userLogin}`).set(userCredentials);
-			 return res.status(200).json('Registration completed')
+			db.doc(`/users/${newUser.userLogin}`).set(userCredentials);
+			return res.status(200).json('Registration completed')
 		})
 		.then(() => {
 			return req.status(201).json({ token });
@@ -58,7 +60,7 @@ exports.signup = (req, res) => {
 exports.login = (req, res) => {
 	const user = {
 		email: req.body.email,
-		password: req.body.password
+		password: req.body.password,
 	};
 	const { valid, errorsLogin } = validateLogin(user);
 
