@@ -11,25 +11,19 @@ exports.signup = (req, res) => {
 		email: req.body.email,
 		password: req.body.password,
 		confirmPassword: req.body.confirmPassword,
-		userLogin: req.body.userLogin,
 		userName: req.body.userName,
 		course: req.body.course,
 		isAdmin: req.body.isAdmin
 	};
 	const { valid, errors } = validateSignupData(newUser);
-
 	if (!valid) return res.status(400).json(errors);
 	let token, userId;
-	db.doc(`/users/${newUser.userLogin}`)
+	db.doc(`/users/${newUser.userName}`)
 		.get()
-		.then((doc) => {
-			if (doc.exists) {
-				return res.status(400).json({ userLogin: 'this userLogin is already taken' })
-			} else {
-				return firebase
-					.auth()
-					.createUserWithEmailAndPassword(newUser.email, newUser.password);
-			}
+		.then(() => {
+			return firebase
+				.auth()
+				.createUserWithEmailAndPassword(newUser.email, newUser.password);
 		})
 		.then((data) => {
 			userId = data.user.uid;
@@ -38,14 +32,13 @@ exports.signup = (req, res) => {
 		.then((idToken) => {
 			token = idToken;
 			const userCredentials = {
-				userLogin: newUser.userLogin,
 				email: newUser.email,
 				userId,
 				userName: newUser.userName,
 				course: newUser.course,
 				isAdmin: newUser.isAdmin
 			};
-			db.doc(`/users/${newUser.userLogin}`).set(userCredentials);
+			db.doc(`/users/${userId}`).set(userCredentials);
 			return res.status(200).json('Registration completed')
 		})
 		.then(() => {
@@ -96,3 +89,34 @@ exports.getUsers = (req, res) => {
 		})
 		.catch((err) => console.error(err));
 };
+
+exports.deleteUser = (req, res) => {
+
+	const id = {
+		userId: req.body.userId
+	}
+	return db.collection('users').doc(id.userId).delete()
+		.then(() => { return res.status(200).json({ res: 'Deletado com Sucesso' }) }
+		)
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+}
+
+exports.updateUser = (req, res) => {
+
+	const updateUser = {
+		course: req.body.course,
+		userName: req.body.userName,
+		userId: req.body.userId
+	}
+	return db.collection('users').doc(updateUser.userId).update({
+		course: updateUser.course,
+		userName: updateUser.userName
+	}).then(() => { return res.status(200).json({ res: 'Atualizado com Sucesso' }) })
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).json({ error: err.code });
+		})
+}

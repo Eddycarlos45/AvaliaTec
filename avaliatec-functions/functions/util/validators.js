@@ -19,10 +19,8 @@ exports.validateSignupData = (data) => {
 
 	if (isEmpty(data.password.trim())) errors.password = 'Must not be empty'
 	if (data.password !== data.confirmPassword) errors.confirmPassword = 'Passwords must match';
-	if (isEmpty(data.userLogin.trim())) errors.userLogin = 'Must not be empty';
 	if (isEmpty(data.userName.trim())) errors.userName = 'Must not be empty';
 	if (isEmpty(data.course.trim())) errors.course = 'Must not be empty';
-
 
 	return {
 		errors,
