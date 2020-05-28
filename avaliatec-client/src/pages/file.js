@@ -42,7 +42,8 @@ const styles = {
 	select: {
 		width: '300px',
 		height: '30px',
-		marginTop: '10px'
+		marginTop: '10px',
+		marginBottom: '15px'
 	},
 	slider: {
 		marginTop: '20px'
@@ -159,9 +160,10 @@ class file extends Component {
 				type: this.state.criteria10,
 				weight: this.state.weight10
 			})
-
+		
+		const findCourse = this.state.themes.find(item => item.theme === this.state.theme)
 		const newFile = {
-			course: this.state.course,
+			course: findCourse.course,
 			criteria: this.state.criteria,
 			teachers: this.state.teachers,
 			theme: this.state.theme
@@ -516,28 +518,14 @@ class file extends Component {
 						</Avatar>
 						Formulário
 					</Typography>
-					<small className={classes.small}>SELECIONE O TEMA</small>
+					<small className={classes.small}>SELECIONE O TRABALHO</small>
 					<select
 						className={classes.select}
-						onChange={e => this.setState({ theme: e.target.value })}>
-						<option value='selecione'>Novo Tema</option>
-						{listThemes.map((item) => <option value={item.theme}>{item.theme}</option>)}
+						onChange={e => this.setState({ theme: e.target.value})}>
+						<option value='selecione'>Trabalhos</option>
+						{listThemes.map((item) =><option value={item.theme}>{item.theme}</option>)}
 					</select>
 					<form noValidate onSubmit={this.handleSubmit}>
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							id="course"
-							name="course"
-							type="text"
-							label="Nome do Curso"
-							className={classes.textField}
-							helperText={errors.course}
-							error={errors.course ? true : false}
-							value={this.state.course}
-							onChange={this.handleChange}
-							fullWidth />
 						<small>
 							SELECIONE A QUANTIDADE DE CRITÉRIOS
       					</small>

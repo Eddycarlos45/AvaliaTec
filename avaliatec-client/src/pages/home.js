@@ -10,7 +10,7 @@ import Navbar from '../components/Navbar';
 import Card from '../components/Card'
 
 //Pages
-import Theme from '../pages/theme';
+import Work from './work';
 import Avaluation from '../pages/avaluation';
 import File from '../pages/file';
 import OverView from '../pages/overview';
@@ -61,9 +61,9 @@ export class home extends Component {
 			.catch(err => console.log(err));
 	}
 	renderNew = (page) => {
-		if (page === 'theme') {
+		if (page === 'work') {
 			return (
-				<Theme></Theme>
+				<Work></Work>
 			)
 		} if (page === 'avaluation') {
 			return (
@@ -94,10 +94,10 @@ export class home extends Component {
 				<Navbar />
 				<Grid container className={classes.form}>
 					<Grid item sm>
-						<Card title='FICHA' click={(e) => this.pageFragment('file')}></Card>
+						<Card title='TRABALHOS' click={(e) => this.pageFragment('work')}></Card>
 					</Grid>
 					<Grid item sm>
-						<Card title='	TEMA' click={(e) => this.pageFragment('theme')}></Card>
+						<Card title='	FICHA' click={(e) => this.pageFragment('file')}></Card>
 					</Grid>
 					<Grid item sm>
 						{<Card title='AVALIAÇÃO' click={(e) => this.pageFragment('avaluation')}></Card>}

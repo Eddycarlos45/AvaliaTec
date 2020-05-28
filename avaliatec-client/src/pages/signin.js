@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -72,10 +71,20 @@ class signIn extends Component {
 			password: '',
 			loading: false,
 			errors: {},
-			showPassword: false
+			showPassword: false,
+			listTeachers: ['']
 		}
 	}
+	componentDidMount() {
+		axios.get('/users')
+		.then(res => {
+			this.setState({
+				listTeachers: res.data
+			})
+		})
+		.catch(err => console.log(err));
 
+	}
 	handleSubmit = (event) => {
 		event.preventDefault();
 		this.setState({
@@ -85,13 +94,20 @@ class signIn extends Component {
 			email: this.state.email,
 			password: this.state.password
 		}
+
+		let userAdmin = this.state.listTeachers.find(user => user.email === userData.email)	
+
 		axios.post('/login', userData)
 			.then(res => {
-				console.log(res.data);
 				this.setState({
 					loading: false
 				});
-				this.props.history.push('/home');
+				if(userAdmin.isAdmin === true){
+					this.props.history.push('/home');
+				} else {
+					alert("Você não tem permissão de administrador")
+				}
+				
 			})
 			.catch(err => {
 				this.setState({
@@ -188,13 +204,10 @@ class signIn extends Component {
 						<Grid container>
 							<Grid item xs>
 							</Grid>
-							<Grid item>
-								<Link to='/signup' variant="body2">{"Don't have an account? Sign Up"}</Link>
-							</Grid>
 						</Grid>
 					</form>
 				</div>
-				<Box mt={8}>
+				<Box mt={1}>
 					<Copyright />
 				</Box>
 			</Container>

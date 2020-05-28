@@ -43,7 +43,7 @@ const styles = {
 };
 
 
-class theme extends Component {
+class work extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -73,17 +73,17 @@ class theme extends Component {
 				this.state.member2,
 				this.state.member3)
 		}
-		const newTheme = {
+		const newWork = {
 			theme: this.state.theme,
 			course: this.state.course,
 			members: this.state.members,
 		}
-		axios.post('/theme', newTheme)
+		axios.post('/theme', newWork)
 			.then(res => {
 				this.setState({
 					loading: false
 				});
-				alert('Tema criado com sucesso')
+				alert('Trabalho criado com sucesso')
 				window.location.reload()
 			})
 			.catch(err => {
@@ -112,7 +112,7 @@ class theme extends Component {
 						<Avatar className={classes.avatar}>
 							<AddCircleOutlineIcon />
 						</Avatar>
-						Tema
+						Trabalho
 					</Typography>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<TextField
@@ -224,7 +224,7 @@ class theme extends Component {
 	}
 }
 
-theme.propTypes = {
+work.propTypes = {
 	classes: PropTypes.object.isRequired
 }
-export default withStyles(styles)(theme);
+export default withStyles(styles)(work);
