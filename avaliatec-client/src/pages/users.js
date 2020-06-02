@@ -19,8 +19,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Card from '@material-ui/core/Card';
 
+//My Components
 import Navbar from '../components/Navbar'
+import UpdateCardUsers from '../components/UpdateCardUsers'
 
 const styles = {
 	form: {
@@ -59,14 +62,23 @@ class users extends Component {
 			email: '',
 			password: '',
 			confirmPassword: '',
-			userLogin: '',
 			userName: '',
 			course: '',
+			listUsers: [],
 			loading: false,
 			errors: {}
 		}
 	}
 
+	componentDidMount() {
+		axios.get('/users')
+			.then(res => {
+				this.setState({
+					listUsers: res.data
+				})
+			})
+			.catch(err => console.log(err));
+	}
 	handleSubmit = (event) => {
 		event.preventDefault();
 		this.setState({
@@ -76,9 +88,9 @@ class users extends Component {
 			email: this.state.email,
 			password: this.state.password,
 			confirmPassword: this.state.confirmPassword,
-			userLogin: this.state.userLogin,
 			userName: this.state.userName,
-			course: this.state.course
+			course: this.state.course,
+			isAdmin: false
 		}
 		axios.post('/signup', newUserData)
 			.then(res => {
@@ -87,7 +99,7 @@ class users extends Component {
 				this.setState({
 					loading: false
 				})
-				this.props.history.push('/home');
+				window.location.reload()
 			})
 			.catch(err => {
 				this.setState({
@@ -119,8 +131,10 @@ class users extends Component {
 			<div>
 				<Navbar></Navbar>
 				<Grid container className={classes.form}>
-					<Grid item sm />
 					<Grid item sm>
+						<UpdateCardUsers users={this.state.listUsers}></UpdateCardUsers>
+					</Grid>
+					<Grid item sm={5}>
 						<Avatar className={classes.avatar}>
 							<LockOpenIcon />
 						</Avatar>
@@ -194,20 +208,6 @@ class users extends Component {
 								variant="outlined"
 								margin="normal"
 								required
-								id="userLogin"
-								name="userLogin"
-								type="text"
-								label="User Login"
-								className={classes.textField}
-								helperText={errors.userLogin}
-								error={errors.userLogin ? true : false}
-								value={this.state.userLogin}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								variant="outlined"
-								margin="normal"
-								required
 								id="userName"
 								name="userName"
 								type="text"
@@ -247,10 +247,9 @@ class users extends Component {
 							{loading && (
 									<CircularProgress size={30} className={classes.progress} />
 								)}
-							</Button>	
+							</Button>
 						</form>
 					</Grid>
-					<Grid item sm />
 				</Grid>
 			</div>
 		);
