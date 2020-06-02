@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Appbar, Avatar, Button, Card, Title, Paragraph, Divider, List, ToggleButton, TextInput } from 'react-native-paper';
+import { Appbar, Avatar, Button, Card, Title, Paragraph, Divider, List, ToggleButton, TextInput, Portal, Dialog } from 'react-native-paper';
 import { View, ScrollView, Text } from 'react-native';
 import styles from '../assets/stylesheet/General'
 import axios from 'axios';
@@ -11,11 +11,45 @@ const StringFill = 'Preencher'
 const StringFilled = 'Preenchido'
 const proxy = 'https://us-central1-avaliatec-80c1a.cloudfunctions.net/api'
 
-
+var data = {
+    content: {
+        name: "Test",
+        age: 24
+    },
+    dialog: {
+        title: [
+            {
+                send: "Send title",
+                return: "Return title"
+            }
+        ],
+        content: [
+            {
+                send: "Send content",
+                return: "Return content"
+            }
+        ]
+    },
+};
 
 export const FormScreen = ({ navigation }) => {
 
+    const [title, setTitle] = useState('Avaliação 1')
+    const [date, setDate] = useState('01/02/2020')
     const [item1, setItem1] = useState('')
+    const [item2, setItem2] = useState('')
+    const [item3, setItem3] = useState('')
+    const [comment, setComment] = useState('')
+
+    const [dialogVisibility, setDialogVisibility] = useState(false)
+
+    _showDialog = () => {
+        setDialogVisibility(true)
+    }
+
+    _hideDialog = () => {
+        setDialogVisibility(false)
+    }
 
     const navigateBack = () => {
         navigation.goBack();
@@ -48,20 +82,35 @@ export const FormScreen = ({ navigation }) => {
                 <Appbar.Content
                     title="Avaliatec"
                 />
+                <Appbar.Action icon="send" onPress={() => _showDialog()} />
+                <Portal>
+                    <Dialog
+                        visible={dialogVisibility}
+                        onDismiss={() => _hideDialog()}>
+                        <Dialog.Title></Dialog.Title>
+                        <Dialog.Content>
+                            <Paragraph>This is simple dialog</Paragraph>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button mode='text' onPress={() => _hideDialog()} style={styles.defaultMarginHorizontal}>Voltar</Button>
+                            <Button mode='text' onPress={() => _hideDialog()}>Enviar</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
             </Appbar.Header>
             <ScrollView style={styles.container} contentContainerStyle={styles.screen}>
 
                 <Card style={[styles.card, styles.spacer]}>
-                    <Card.Title title="Avaliação" subtitle="14/04/2014" left={Header} />
+                    <Card.Title title={title} subtitle={date} left={Header} />
                 </Card>
 
                 <Card style={[styles.card, styles.spacer]}>
-                    <Card.Title title="Itens" left={Items} />
+                    <Card.Title title="Critérios" left={Items} />
                     <Divider />
                     <Card.Content style={[styles.defaultPaddingHorizontal, { paddingBottom: 0, paddingTop: 12 }]}>
 
                         <View style={styles.spacer}>
-                            <Text style={styles.spacer}>Pergunta 1</Text>
+                            <Text style={styles.spacer}>Critério 1</Text>
                             <ToggleButton.Row
                                 onValueChange={value => setItem1(value)}
                                 value={item1}
@@ -72,14 +121,13 @@ export const FormScreen = ({ navigation }) => {
                                 <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
                                 <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
                             </ToggleButton.Row>
-                            <Text>{item1}</Text>
                         </View>
 
-                        {/* <View style={styles.spacer}>
-                            <Text style={styles.spacer}>Pergunta 2</Text>
+                        <View style={styles.spacer}>
+                            <Text style={styles.spacer}>Critério 2</Text>
                             <ToggleButton.Row
-                                onValueChange={item2 => this.setState({ item2 })}
-                                value={this.state.item2}
+                                onValueChange={value => setItem2(value)}
+                                value={item2}
                             >
                                 <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
                                 <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
@@ -90,10 +138,10 @@ export const FormScreen = ({ navigation }) => {
                         </View>
 
                         <View style={styles.spacer}>
-                            <Text style={styles.spacer}>Pergunta 3</Text>
+                            <Text style={styles.spacer}>Critério 3</Text>
                             <ToggleButton.Row
-                                onValueChange={item3 => this.setState({ item3 })}
-                                value={this.state.item3}
+                                onValueChange={value => setItem3(value)}
+                                value={item3}
                             >
                                 <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
                                 <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
@@ -102,50 +150,22 @@ export const FormScreen = ({ navigation }) => {
                                 <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
                             </ToggleButton.Row>
                         </View>
-
-                        <View style={styles.spacer}>
-                            <Text style={styles.spacer}>Pergunta 4</Text>
-                            <ToggleButton.Row
-                                onValueChange={item4 => this.setState({ item4 })}
-                                value={this.state.item4}
-                            >
-                                <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-3" value="three" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
-                            </ToggleButton.Row>
-                        </View>
-
-                        <View style={styles.spacer}>
-                            <Text style={styles.spacer}>Pergunta 5</Text>
-                            <ToggleButton.Row
-                                onValueChange={item5 => this.setState({ item5 })}
-                                value={this.state.item5}
-                            >
-                                <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-3" value="three" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
-                                <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
-                            </ToggleButton.Row>
-                        </View> */}
                     </Card.Content>
                 </Card>
 
-                {/* <Card style={[styles.card, styles.spacer]}>
+                <Card style={[styles.card, styles.spacer]}>
                     <Card.Title title="Comentário" left={Comment} />
                     <Divider />
                     <Card.Content style={[styles.defaultPaddingHorizontal, styles.defaultPaddingVertical]}>
                         <TextInput
                             label='Comentários'
-                            value={this.state.comment}
-                            onChangeText={comment => this.setState({ comment })}
+                            value={comment}
+                            onChangeText={value => setComment(value)}
                             mode='outlined'
                             multiline={true}
                         />
                     </Card.Content>
-                </Card> */}
+                </Card>
 
             </ScrollView>
         </View>
