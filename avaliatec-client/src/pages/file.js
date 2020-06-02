@@ -79,6 +79,8 @@ class file extends Component {
 			teacher1: '',
 			teacher2: '',
 			teacher3: '',
+			teacher4: '',
+			teacher5: '',
 			theme: '',
 			errors: {},
 			classes: {},
@@ -114,10 +116,12 @@ class file extends Component {
 		if (this.state.teacher1 === '') {
 			this.state.teachers[0] = '';
 		} else {
-			this.state.teachers.splice(0, 3,
+			this.state.teachers.splice(0, 5,
 				this.state.teacher1,
 				this.state.teacher2,
-				this.state.teacher3)
+				this.state.teacher3,
+				this.state.teacher4,
+				this.state.teacher5)
 		}
 		this.state.criteria.splice(0, 10,
 			{
@@ -160,7 +164,7 @@ class file extends Component {
 				type: this.state.criteria10,
 				weight: this.state.weight10
 			})
-		
+
 		const findCourse = this.state.themes.find(item => item.theme === this.state.theme)
 		const newFile = {
 			course: findCourse.course,
@@ -501,7 +505,6 @@ class file extends Component {
 		sliderValue = value
 		return value;
 	}
-
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
@@ -521,9 +524,9 @@ class file extends Component {
 					<small className={classes.small}>SELECIONE O TRABALHO</small>
 					<select
 						className={classes.select}
-						onChange={e => this.setState({ theme: e.target.value})}>
+						onChange={e => this.setState({ theme: e.target.value })}>
 						<option value='selecione'>Trabalhos</option>
-						{listThemes.map((item) =><option value={item.theme}>{item.theme}</option>)}
+						{listThemes.map((item) => <option value={item.theme}>{item.theme}</option>)}
 					</select>
 					<form noValidate onSubmit={this.handleSubmit}>
 						<small>
@@ -534,7 +537,7 @@ class file extends Component {
 							defaultValue={1}
 							getAriaValueText={this.valuetext}
 							aria-labelledby="discrete-slider"
-							valueLabelDisplay="auto"
+							valueLabelDisplay="on"
 							onChange={(e) => this.setState({ isCriteria: true })}
 							step={1}
 							marks
@@ -542,25 +545,6 @@ class file extends Component {
 							max={10}
 						/>
 						{this.state.isCriteria ? this.newCriteria(sliderValue) : null}
-						<h2>Avaliadores</h2>
-						<select
-							className={classes.select}
-							onChange={e => this.setState({ teacher1: e.target.value })}>
-							<option value=''>Novo Professor</option>
-							{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
-						</select>
-						<select
-							className={classes.select}
-							onChange={e => this.setState({ teacher2: e.target.value })}>
-							<option value=''>Novo Professor</option>
-							{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
-						</select>
-						<select
-							className={classes.select}
-							onChange={e => this.setState({ teacher3: e.target.value })}>
-							<option value=''>Novo Professor</option>
-							{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
-						</select>
 						{errors.general && (
 							<Typography variant="body2" className={classes.customError}>
 								{errors.general}
@@ -579,7 +563,39 @@ class file extends Component {
 						</Button>
 					</form>
 				</Grid>
-				<Grid item sm />
+				<Grid item sm >
+					<h2>Avaliadores</h2>
+					<select
+						className={classes.select}
+						onChange={e => this.setState({ teacher1: e.target.value })}>
+						<option value=''>Novo Professor</option>
+						{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
+					</select>
+					<select
+						className={classes.select}
+						onChange={e => this.setState({ teacher2: e.target.value })}>
+						<option value=''>Novo Professor</option>
+						{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
+					</select>
+					<select
+						className={classes.select}
+						onChange={e => this.setState({ teacher3: e.target.value })}>
+						<option value=''>Novo Professor</option>
+						{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
+					</select>
+					<select
+						className={classes.select}
+						onChange={e => this.setState({ teacher4: e.target.value })}>
+						<option value=''>Novo Professor</option>
+						{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
+					</select>
+					<select
+						className={classes.select}
+						onChange={e => this.setState({ teacher5: e.target.value })}>
+						<option value=''>Novo Professor</option>
+						{listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
+					</select>
+				</Grid>
 			</Grid >
 		);
 	}

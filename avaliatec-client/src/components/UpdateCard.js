@@ -105,7 +105,9 @@ export default function SimpleCard(props) {
 		teachers: [],
 		teacher: '',
 		teache1: '',
-		teacher2: ''
+		teacher2: '',
+		teacher3: '',
+		teacher4: '',
 	});
 
 	const handleClickOpen = () => {
@@ -149,7 +151,9 @@ export default function SimpleCard(props) {
 				weight10: props.criteria[9].weight,
 				teacher: props.teachers[0],
 				teacher1: props.teachers[1],
-				teacher2: props.teachers[2]
+				teacher2: props.teachers[2],
+				teacher3: props.teachers[3],
+				teacher4: props.teachers[4],
 			})
 		}
 	};
@@ -226,7 +230,7 @@ export default function SimpleCard(props) {
 					weight: values.weight10
 				}
 			)
-			values.teachers.splice(0, 3, values.teacher, values.teacher1, values.teacher2)
+			values.teachers.splice(0, 5, values.teacher, values.teacher1, values.teacher2, values.teacher3, values.teacher4)
 			const updateFile = {
 				theme: values.title,
 				course: values.course,
@@ -525,6 +529,22 @@ export default function SimpleCard(props) {
 							className={classes.textField}
 							value={values.teacher2}
 							onChange={handleChange('teacher2')}
+							fullWidth />
+						<TextField
+							id="teacher3"
+							name="teacher3"
+							type="text"
+							className={classes.textField}
+							value={values.teacher3}
+							onChange={handleChange('teacher3')}
+							fullWidth />
+						<TextField
+							id="teacher4"
+							name="teacher4"
+							type="text"
+							className={classes.textField}
+							value={values.teacher4}
+							onChange={handleChange('teacher4')}
 							fullWidth />
 					</DialogContentText>
 				</DialogContent>
