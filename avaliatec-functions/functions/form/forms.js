@@ -91,11 +91,12 @@ exports.updateForm = (req, res) => {
 
 exports.getFormsUnfilled = (req, res) => {
     const find = {
-        teacher: req.body.teacher
+		filled: false,
+        name: req.body.teacher
     }
     admin
         .firestore()
-        .collection('forms').where('teachers', 'array-contains', find.teacher)
+        .collection('forms').where('teachers', 'array-contains', find)
         .get()
         .then((data) => {
             let forms = [];
