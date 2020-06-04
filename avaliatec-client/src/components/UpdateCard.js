@@ -149,11 +149,11 @@ export default function SimpleCard(props) {
 				weight8: props.criteria[7].weight,
 				weight9: props.criteria[8].weight,
 				weight10: props.criteria[9].weight,
-				teacher: props.teachers[0],
-				teacher1: props.teachers[1],
-				teacher2: props.teachers[2],
-				teacher3: props.teachers[3],
-				teacher4: props.teachers[4],
+				teacher: props.teachers[0].name,
+				teacher1: props.teachers[1].name,
+				teacher2: props.teachers[2].name,
+				teacher3: props.teachers[3].name,
+				teacher4: props.teachers[4].name
 			})
 		}
 	};
@@ -230,7 +230,27 @@ export default function SimpleCard(props) {
 					weight: values.weight10
 				}
 			)
-			values.teachers.splice(0, 5, values.teacher, values.teacher1, values.teacher2, values.teacher3, values.teacher4)
+			values.teachers.splice(0, 5,
+				{
+					name: values.teacher,
+					filled: false
+				},
+				{
+					name: values.teacher1,
+					filled: false
+				},
+				{
+					name: values.teacher2,
+					filled: false
+				},
+				{
+					name: values.teacher3,
+					filled: false
+				},
+				{
+					name: values.teacher4,
+					filled: false
+				})
 			const updateFile = {
 				theme: values.title,
 				course: values.course,
