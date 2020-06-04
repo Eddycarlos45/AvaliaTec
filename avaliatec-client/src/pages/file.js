@@ -87,6 +87,7 @@ class file extends Component {
       open: false,
       setOpen: false,
       isCriteria: true,
+      btnStatus: true,
       value: null,
       themes: ['']
     }
@@ -113,31 +114,27 @@ class file extends Component {
     this.setState({
       loading: true
     });
-    if (this.state.teacher1 === '') {
-      this.state.teachers[0] = '';
-    } else {
-      this.state.teachers.splice(0, 5,
-        {
-          name: this.state.teacher1,
-          filled: false
-        },
-        {
-          name: this.state.teacher2,
-          filled: false
-        },
-        {
-          name: this.state.teacher3,
-          filled: false
-        },
-        {
-          name: this.state.teacher4,
-          filled: false
-        },
-        {
-          name: this.state.teacher5,
-          filled: false
-        })
-    }
+    this.state.teachers.splice(0, 5,
+      {
+        name: this.state.teacher1,
+        filled: false
+      },
+      {
+        name: this.state.teacher2,
+        filled: false
+      },
+      {
+        name: this.state.teacher3,
+        filled: false
+      },
+      {
+        name: this.state.teacher4,
+        filled: false
+      },
+      {
+        name: this.state.teacher5,
+        filled: false
+      })
     this.state.criteria.splice(0, 10,
       {
         type: this.state.criteria1,
@@ -539,8 +536,8 @@ class file extends Component {
           <small className={classes.small}>SELECIONE O TRABALHO</small>
           <select
             className={classes.select}
-            onChange={e => this.setState({ theme: e.target.value })}>
-            <option value='selecione'>Trabalhos</option>
+            onChange={e => this.setState({ theme: e.target.value, btnStatus: false })}>
+            <option value='selecione' >Trabalhos</option>
             {listThemes.map((item) => <option value={item.theme}>{item.theme}</option>)}
           </select>
           <form noValidate onSubmit={this.handleSubmit}>
@@ -570,7 +567,7 @@ class file extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
-              disabled={loading}>
+              disabled={this.state.btnStatus}>
               Adicionar
 							{loading && (
                 <CircularProgress size={30} className={classes.progress} />
