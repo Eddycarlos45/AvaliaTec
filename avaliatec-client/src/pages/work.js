@@ -161,7 +161,6 @@ class work extends Component {
 						<TextField
 							variant="outlined"
 							margin="normal"
-							required
 							id="member1"
 							name="member1"
 							type="text"
@@ -175,7 +174,6 @@ class work extends Component {
 						<TextField
 							variant="outlined"
 							margin="normal"
-							required
 							id="member2"
 							name="member2"
 							type="text"
@@ -189,7 +187,6 @@ class work extends Component {
 						<TextField
 							variant="outlined"
 							margin="normal"
-							required
 							id="member3"
 							name="member3"
 							type="text"
