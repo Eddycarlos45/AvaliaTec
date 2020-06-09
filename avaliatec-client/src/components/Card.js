@@ -31,21 +31,40 @@ const useStyles = makeStyles({
 	avatar: {
 		margin: '7px 0 5px 5px',
 		backgroundColor: '#2196f3'
+	},
+	smallAvaluation: {
+		margin: 'auto',
+		fontSize: '20px',
+		padding: '15px'
 	}
 });
 
 export default function SimpleCard(props) {
 	const classes = useStyles();
 
-	return (
-		<Card className={classes.root}>
-			<Avatar className={classes.avatar}>
-				<DescriptionIcon />
-			</Avatar>
-			<small className={classes.small}>{props.title}</small>
-			<CardActions className={classes.card}>
-				<Button onClick={props.click} className={classes.button}>NOVO</Button>
-			</CardActions>
-		</Card>
-	);
+	if (props.title === "AVALIAÇÃO") {
+
+		return (
+			<Card className={classes.root}>
+				<Avatar className={classes.avatar}>
+					<DescriptionIcon />
+				</Avatar>
+				<small className={classes.smallAvaluation}>{props.title}</small>
+			</Card>
+		)
+
+	} else {
+
+		return (
+			<Card className={classes.root}>
+				<Avatar className={classes.avatar}>
+					<DescriptionIcon />
+				</Avatar>
+				<small className={classes.small}>{props.title}</small>
+				<CardActions className={classes.card}>
+					<Button onClick={props.click} className={classes.button}>NOVO</Button>
+				</CardActions>
+			</Card>
+		);
+	}
 }
