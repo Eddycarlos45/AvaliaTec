@@ -48,7 +48,20 @@ export const LoginScreen = ({ navigation }) => {
         }
     }
 
+    // const signIn = async () => {
+    //     try {
+    //         await AsyncStorage.setItem('USER', authEmail);
+    //         handleAuthentication()
+    //     } catch (error) {
+    //         console.log(error.message);
+    //     }
+    // };
+
     handleSubmit = (event) => {
+        // event.preventDefault();
+        // this.setState({
+        //     loading: true
+        // });
         const userData = {
             email: authEmail,
             password: authPassword
@@ -61,9 +74,21 @@ export const LoginScreen = ({ navigation }) => {
                 handleAuthentication()
             })
             .catch(err => {
+                // this.setState({
+                //     errors: err.response.data,
+                //     loading: false
+                // })
                 console.log('LOGIN FAIL')
             })
     }
+
+    // // ON APP START
+    // (async function () {
+    //     if (firstRun == 'true') {
+    //         setFirstRun('false')
+    //         handleAuthentication()
+    //     }
+    // })();
 
     return (
         <View style={styles.middle}>
@@ -73,14 +98,12 @@ export const LoginScreen = ({ navigation }) => {
                         <Title>Acesso</Title>
                         <TextInput
                             style={styles.marginBottom}
-                            secureTextEntry={false}
                             label='E-mail'
                             value={authEmail}
                             onChangeText={value => setAuthEmail(value)}
                         />
                         <TextInput
                             label='Password'
-                            secureTextEntry={true}
                             value={authPassword}
                             onChangeText={value => setAuthPassword(value)}
                         />
