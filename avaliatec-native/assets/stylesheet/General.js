@@ -6,8 +6,21 @@ export default StyleSheet.create({
         paddingRight: 12,
         paddingTop: 12,
     },
+    screenCenter: {
+        justifyContent: 'center',
+        width: '100%'
+    },
     container: {
         backgroundColor: '#ffffff',
+    },
+    containerCenter: {
+        flexDirection: 'row',
+    },
+    title: {
+        fontFamily: 'monospace',
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        textTransform: 'uppercase'
     },
     card: {
         borderColor: '#bdbdbd',
@@ -19,10 +32,16 @@ export default StyleSheet.create({
         marginBottom: 12
     },
     cardActionsRight: {
-        justifyContent: 'flex-end'
+        justifyContent: 'space-between',
     },
     appBar: {
         backgroundColor: '#FFFFFF',
+    },
+    inputText: {
+        backgroundColor: '#ffffff',
+    },
+    errorText: {
+        color: '#ff5252',
     },
     defaultPaddingHorizontal: {
         paddingLeft: 12,
