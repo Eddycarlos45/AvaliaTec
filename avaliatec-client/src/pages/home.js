@@ -19,6 +19,10 @@ const styles = {
 	form: {
 		textAlign: 'center',
 		marginBottom: '30px'
+	},
+	permission: {
+		textAlign: 'center',
+		marginTop: '20%'
 	}
 };
 
@@ -70,6 +74,7 @@ export class home extends Component {
 				<Avaluation></Avaluation>
 			)
 		} if (page === 'file') {
+			console.log(localStorage.getItem('token'))
 			return (
 				<File></File>
 			)
@@ -89,25 +94,31 @@ export class home extends Component {
 	render() {
 		const { classes } = this.props;
 
-		return (
-			<div>
-				<Navbar />
-				<Grid container className={classes.form}>
-					<Grid item sm>
-						<Card title='TRABALHOS' click={(e) => this.pageFragment('work')}></Card>
+		if (localStorage.getItem('token') === null) {
+			return (
+				<h1 className={classes.permission}>Você não tem permissão para acessar essa página</h1>
+			)
+		} else {
+			return (
+				<div>
+					<Navbar />
+					<Grid container className={classes.form}>
+						<Grid item sm>
+							<Card title='TRABALHOS' click={(e) => this.pageFragment('work')}></Card>
+						</Grid>
+						<Grid item sm>
+							<Card title='	FICHA' click={(e) => this.pageFragment('file')}></Card>
+						</Grid>
+						<Grid item sm>
+							{<Card title='AVALIAÇÃO' click={(e) => this.pageFragment('avaluation')}></Card>}
+						</Grid>
 					</Grid>
-					<Grid item sm>
-						<Card title='	FICHA' click={(e) => this.pageFragment('file')}></Card>
-					</Grid>
-					<Grid item sm>
-						{<Card title='AVALIAÇÃO' click={(e) => this.pageFragment('avaluation')}></Card>}
-					</Grid>
-				</Grid>
-				<Fragment>
-					{this.renderNew(this.state.newFragment)}
-				</Fragment>
-			</div>
-		)
+					<Fragment>
+						{this.renderNew(this.state.newFragment)}
+					</Fragment>
+				</div>
+			)
+		}
 	}
 }
 

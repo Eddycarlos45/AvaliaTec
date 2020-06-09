@@ -65,6 +65,7 @@ const styles = {
 class signIn extends Component {
 
 	constructor() {
+		localStorage.clear();
 		super();
 		this.state = {
 			email: '',
@@ -77,12 +78,12 @@ class signIn extends Component {
 	}
 	componentDidMount() {
 		axios.get('/users')
-		.then(res => {
-			this.setState({
-				listTeachers: res.data
+			.then(res => {
+				this.setState({
+					listTeachers: res.data
+				})
 			})
-		})
-		.catch(err => console.log(err));
+			.catch(err => console.log(err));
 
 	}
 	handleSubmit = (event) => {
@@ -95,19 +96,20 @@ class signIn extends Component {
 			password: this.state.password
 		}
 
-		let userAdmin = this.state.listTeachers.find(user => user.email === userData.email)	
+		let userAdmin = this.state.listTeachers.find(user => user.email === userData.email)
 
 		axios.post('/login', userData)
 			.then(res => {
 				this.setState({
 					loading: false
 				});
-				if(userAdmin.isAdmin === true){
+				localStorage.setItem('token', res.data.token)
+				if (userAdmin.isAdmin === true) {
 					this.props.history.push('/home');
 				} else {
 					alert("Você não tem permissão de administrador")
 				}
-				
+
 			})
 			.catch(err => {
 				this.setState({

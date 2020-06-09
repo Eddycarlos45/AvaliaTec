@@ -51,6 +51,10 @@ const styles = {
 		margin: '5px',
 		backgroundColor: '#4caf50',
 		display: 'inline-flex'
+	},
+	permission: {
+		textAlign: 'center',
+		marginTop: '20%'
 	}
 };
 
@@ -127,132 +131,138 @@ class users extends Component {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
 
-		return (
-			<div>
-				<Navbar></Navbar>
-				<Grid container className={classes.form}>
-					<Grid item sm>
-						<UpdateCardUsers users={this.state.listUsers}></UpdateCardUsers>
-					</Grid>
-					<Grid item sm={5}>
-						<Avatar className={classes.avatar}>
-							<LockOpenIcon />
-						</Avatar>
-						<Typography component="h1" variant="h5">
-							Novo Avaliador
+		if (localStorage.getItem('token') === null) {
+			return (
+				<h1 className={classes.permission}>Você não tem permissão para acessar essa página</h1>
+			)
+		} else {
+			return (
+				<div>
+					<Navbar></Navbar>
+					<Grid container className={classes.form}>
+						<Grid item sm>
+							<UpdateCardUsers users={this.state.listUsers}></UpdateCardUsers>
+						</Grid>
+						<Grid item sm={5}>
+							<Avatar className={classes.avatar}>
+								<LockOpenIcon />
+							</Avatar>
+							<Typography component="h1" variant="h5">
+								Novo Avaliador
 					</Typography>
-						<form noValidate onSubmit={this.handleSubmit}>
-							<TextField
-								variant="outlined"
-								margin="normal"
-								required
-								id="email"
-								name="email"
-								type="email"
-								label="Email"
-								className={classes.textField}
-								helperText={errors.email}
-								error={errors.email ? true : false}
-								value={this.state.email}
-								onChange={this.handleChange}
-								fullWidth />
-							<FormControl className={classes.textField} variant="outlined">
-								<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-								<OutlinedInput
-									id="outlined-adornment-password"
-									type={this.state.showPassword ? 'text' : 'password'}
-									value={this.state.password}
-									name="password"
+							<form noValidate onSubmit={this.handleSubmit}>
+								<TextField
+									variant="outlined"
+									margin="normal"
+									required
+									id="email"
+									name="email"
+									type="email"
+									label="Email"
+									className={classes.textField}
+									helperText={errors.email}
+									error={errors.email ? true : false}
+									value={this.state.email}
 									onChange={this.handleChange}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={this.handleClickShowPassword}
-												onMouseDown={this.handleMouseDownPassword}
-												edge="end"
-											>
-												{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-											</IconButton>
-										</InputAdornment>
-									}
-									labelWidth={70}
-								/>
-							</FormControl>
-							<FormControl className={classes.textField} variant="outlined">
-								<InputLabel htmlFor="outlined-adornment-password"> Confirm Password</InputLabel>
-								<OutlinedInput
-									id="outlined-adornment-password"
-									type={this.state.showPassword ? 'text' : 'password'}
-									value={this.state.confirmPassword}
-									name="confirmPassword"
+									fullWidth />
+								<FormControl className={classes.textField} variant="outlined">
+									<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+									<OutlinedInput
+										id="outlined-adornment-password"
+										type={this.state.showPassword ? 'text' : 'password'}
+										value={this.state.password}
+										name="password"
+										onChange={this.handleChange}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={this.handleClickShowPassword}
+													onMouseDown={this.handleMouseDownPassword}
+													edge="end"
+												>
+													{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+												</IconButton>
+											</InputAdornment>
+										}
+										labelWidth={70}
+									/>
+								</FormControl>
+								<FormControl className={classes.textField} variant="outlined">
+									<InputLabel htmlFor="outlined-adornment-password"> Confirm Password</InputLabel>
+									<OutlinedInput
+										id="outlined-adornment-password"
+										type={this.state.showPassword ? 'text' : 'password'}
+										value={this.state.confirmPassword}
+										name="confirmPassword"
+										onChange={this.handleChange}
+										helperText={errors.confirmPassword}
+										error={errors.confirmPassword ? true : false}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={this.handleClickShowPassword}
+													onMouseDown={this.handleMouseDownPassword}
+													edge="end"
+												>
+													{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+												</IconButton>
+											</InputAdornment>
+										}
+										labelWidth={70}
+									/>
+								</FormControl>
+								<TextField
+									variant="outlined"
+									margin="normal"
+									required
+									id="userName"
+									name="userName"
+									type="text"
+									label="Name"
+									className={classes.textField}
+									helperText={errors.userName}
+									error={errors.userName ? true : false}
+									value={this.state.userName}
 									onChange={this.handleChange}
-									helperText={errors.confirmPassword}
-									error={errors.confirmPassword ? true : false}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={this.handleClickShowPassword}
-												onMouseDown={this.handleMouseDownPassword}
-												edge="end"
-											>
-												{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-											</IconButton>
-										</InputAdornment>
-									}
-									labelWidth={70}
-								/>
-							</FormControl>
-							<TextField
-								variant="outlined"
-								margin="normal"
-								required
-								id="userName"
-								name="userName"
-								type="text"
-								label="Name"
-								className={classes.textField}
-								helperText={errors.userName}
-								error={errors.userName ? true : false}
-								value={this.state.userName}
-								onChange={this.handleChange}
-								fullWidth />
-							<TextField
-								variant="outlined"
-								margin="normal"
-								required
-								id="course"
-								name="course"
-								type="text"
-								label="Course"
-								className={classes.textField}
-								helperText={errors.course}
-								error={errors.course ? true : false}
-								value={this.state.course}
-								onChange={this.handleChange}
-								fullWidth />
-							{errors.general && (
-								<Typography variant="body2" className={classes.customError}>
-									{errors.general}
-								</Typography>
-							)}
-							<Button
-								type="submit"
-								variant="contained"
-								color="primary"
-								className={classes.button}
-								disabled={loading}>
-								CADASTRAR
-							{loading && (
-									<CircularProgress size={30} className={classes.progress} />
+									fullWidth />
+								<TextField
+									variant="outlined"
+									margin="normal"
+									required
+									id="course"
+									name="course"
+									type="text"
+									label="Course"
+									className={classes.textField}
+									helperText={errors.course}
+									error={errors.course ? true : false}
+									value={this.state.course}
+									onChange={this.handleChange}
+									fullWidth />
+								{errors.general && (
+									<Typography variant="body2" className={classes.customError}>
+										{errors.general}
+									</Typography>
 								)}
-							</Button>
-						</form>
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									className={classes.button}
+									disabled={loading}>
+									CADASTRAR
+							{loading && (
+										<CircularProgress size={30} className={classes.progress} />
+									)}
+								</Button>
+							</form>
+						</Grid>
 					</Grid>
-				</Grid>
-			</div>
-		);
+				</div>
+			);
+		}
 	}
 }
 
