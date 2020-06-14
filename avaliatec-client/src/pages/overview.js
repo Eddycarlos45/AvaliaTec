@@ -23,6 +23,8 @@ export default function overview(props) {
 					members={form.members}
 					criteria={form.criteria}
 					teachers={form.teachers}
+					date={form.date}
+					time={form.time}
 					course={form.course}>
 				</UpdateCard>)}
 			</Grid>

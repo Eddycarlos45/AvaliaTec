@@ -16,6 +16,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 
+import DatePicker from '../components/DatePicker';
+
+let dateSplit = []
 const useStyles = makeStyles({
 	root: {
 		width: '387px',
@@ -35,7 +38,8 @@ const useStyles = makeStyles({
 		padding: '13px',
 	},
 	smallForm: {
-		color: 'blue'
+		color: 'blue',
+		display: 'block'
 	},
 	button: {
 		fontSize: '17px',
@@ -108,6 +112,7 @@ export default function SimpleCard(props) {
 		teacher2: '',
 		teacher3: '',
 		teacher4: '',
+		date: ''
 	});
 
 	const handleClickOpen = () => {
@@ -251,11 +256,14 @@ export default function SimpleCard(props) {
 					name: values.teacher4,
 					filled: false
 				})
+			dateSplit = values.date.split("T")
 			const updateFile = {
 				theme: values.title,
 				course: values.course,
 				criteria: values.criteria,
 				teachers: values.teachers,
+				date: dateSplit[0],
+				time: dateSplit[1],
 				formId: id
 			}
 			axios.put('/form', updateFile)
@@ -566,6 +574,11 @@ export default function SimpleCard(props) {
 							value={values.teacher4}
 							onChange={handleChange('teacher4')}
 							fullWidth />
+						<small className={classes.smallForm}>Data e Hora da avaliação: </small>
+						<small>{props.date}</small>
+						<small> Hora: {props.time} </small>
+						<small className={classes.smallForm}> Alterar data e hora:</small>
+						<DatePicker onchange={(e) => setValues({ ...values, date: e.target.value })} value={values.date}></DatePicker>
 					</DialogContentText>
 				</DialogContent>
 			);
