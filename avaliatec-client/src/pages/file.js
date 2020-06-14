@@ -14,6 +14,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Avatar from '@material-ui/core/Avatar';
 
 import MyTextField from '../components/MyTextField'
+import DatePicker from '../components/DatePicker'
 
 const styles = {
   form: {
@@ -58,6 +59,7 @@ const styles = {
 };
 
 let sliderValue = 0
+let dateSplit = []
 class file extends Component {
   constructor() {
     super();
@@ -89,7 +91,9 @@ class file extends Component {
       isCriteria: true,
       btnStatus: true,
       value: null,
-      themes: ['']
+      themes: [''],
+      date: 'AAAA-MM-DDTHH:MM',
+      time: ''
     }
   }
   componentDidMount() {
@@ -178,11 +182,14 @@ class file extends Component {
       })
 
     const findCourse = this.state.themes.find(item => item.theme === this.state.theme)
+    dateSplit = this.state.date.split("T");
     const newFile = {
       course: findCourse.course,
       criteria: this.state.criteria,
       teachers: this.state.teachers,
-      theme: this.state.theme
+      theme: this.state.theme,
+      date: dateSplit[0],
+      time: dateSplit[1]
     }
 
     axios.post('/form', newFile)
@@ -607,6 +614,7 @@ class file extends Component {
             <option value=''>Novo Professor</option>
             {listTeachers.map((item) => <option value={item.userName}>{item.userName}</option>)}
           </select>
+          <DatePicker onchange={(e) => this.setState({ date: e.target.value })} value={this.state.date}></DatePicker>
         </Grid>
       </Grid >
     );
