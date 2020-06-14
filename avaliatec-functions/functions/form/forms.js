@@ -8,7 +8,9 @@ exports.createForm = (req, res) => {
 		course: req.body.course,
 		criteria: req.body.criteria,
 		teachers: req.body.teachers,
-		theme: req.body.theme
+		theme: req.body.theme,
+		date: req.body.date,
+		time: req.body.time
 	};
 
 	const { valid, errosForm } = validateForm(newForm);
@@ -28,6 +30,8 @@ exports.createForm = (req, res) => {
 					criteria: newForm.criteria,
 					teachers: newForm.teachers,
 					theme: newForm.theme,
+					date: req.body.date,
+					time: req.body.time,
 					formId
 				}
 				return db.doc(`/forms/${formId}`).set(addForm), res.status(200).json({ Sucess: 'Formulário criado com sucesso' });
@@ -75,12 +79,16 @@ exports.updateForm = (req, res) => {
 		criteria: req.body.criteria,
 		teachers: req.body.teachers,
 		theme: req.body.theme,
+		date: req.body.date,
+		time: req.body.time,
 		formId: req.body.formId
 	}
 	return db.collection('forms').doc(updateForm.formId).update({
 		course: updateForm.course,
 		criteria: updateForm.criteria,
 		teachers: updateForm.teachers,
+		date: updateForm.date,
+		time: updateForm.time,
 		theme: updateForm.theme
 	}).then(() => { return res.status(200).json({ res: 'Atualizado com Sucesso' }) })
 		.catch((err) => {

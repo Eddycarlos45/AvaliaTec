@@ -47,3 +47,21 @@ exports.getFormsFilled = (req, res) => {
         })
         .catch((err) => console.error(err));
 };
+
+exports.getFormsFinished = (req, res) => {
+    admin
+        .firestore()
+        .collection()
+        .get()
+        .then((data) => {
+            let forms = [];
+            data.forEach((doc) => {
+                forms.push(doc.data());
+            });
+            return res.json(forms);
+        })
+        .catch((err) => console.error(err));
+};
+
+
+
