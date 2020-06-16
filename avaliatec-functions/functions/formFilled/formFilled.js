@@ -5,9 +5,7 @@ exports.formFilled = (req, res) => {
 
     const formFilled = {
         score: req.body.score,
-        formId: req.body.formId,
-        teacher: req.body.teacher,
-        comment: req.body.comment
+        formId: req.body.formId
     };
     let formId;
     return db.collection('formsFilled')
@@ -18,9 +16,7 @@ exports.formFilled = (req, res) => {
         .then(() => {
             const addFormFilled = {
                 score: formFilled.score,
-                teacher: formFilled.teacher,
                 formId: formFilled.formId,
-                comment: req.body.comment
             }
             return db.doc(`/formsFilled/${formId}`).set(addFormFilled), res.status(200).json({ Sucess: 'Formulário preenchido com sucesso' });
         })
