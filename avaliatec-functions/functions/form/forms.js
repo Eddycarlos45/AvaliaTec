@@ -97,7 +97,7 @@ exports.updateForm = (req, res) => {
 		})
 }
 
-exports.getFormsUnfilled = (req, res) => {
+exports.getUnfilledForms = (req, res) => {
     const find = {
 		filled: false,
         name: req.body.teacher
