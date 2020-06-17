@@ -3,8 +3,8 @@ const app = require('express')();
 
 const { signup, login, getUsers, deleteUser, updateUser} = require('./user/userActivity');
 const { createTheme, getThemes, deleteTheme, updateTheme } = require('./theme/themes');
-const { createForm, getForms, deleteForm, updateForm, getFormsUnfilled } = require('./form/forms');
-const { formFilled } = require('./formFilled/formFilled');
+const { createForm, getForms, deleteForm, updateForm, getUnfilledForms } = require('./form/forms');
+const { FilledForm } = require('./FilledForm/filledForm');
 
 //Users route
 app.post('/signup', signup);
@@ -22,7 +22,7 @@ app.post('/form', createForm);
 app.get('/form', getForms);
 app.delete('/form', deleteForm);
 app.put('/form', updateForm);
-app.post('/filled', formFilled);
-app.post('/user/unfilled', getFormsUnfilled);
+app.post('/filled', FilledForm);
+app.post('/user/unfilled', getUnfilledForms);
 
 exports.api = functions.https.onRequest(app); 

@@ -1,24 +1,24 @@
 const { db, admin } = require('../util/admin');
 const functions = require('firebase-functions');
 
-exports.formFilled = (req, res) => {
+exports.FilledForm = (req, res) => {
 
-    const formFilled = {
+    const FilledForm = {
         score: req.body.score,
         formId: req.body.formId
     };
     let formId;
-    return db.collection('formsFilled')
-        .add(formFilled)
+    return db.collection('FilledForms')
+        .add(FilledForm)
         .then((data) => {
             formId = data.id;
         })
         .then(() => {
             const addFormFilled = {
-                score: formFilled.score,
-                formId: formFilled.formId,
+                score: FilledForm.score,
+                formId: FilledForm.formId,
             }
-            return db.doc(`/formsFilled/${formId}`).set(addFormFilled), res.status(200).json({ Sucess: 'Formulário preenchido com sucesso' });
+            return db.doc(`/FilledForms/${formId}`).set(addFormFilled), res.status(200).json({ Sucess: 'Formulário preenchido com sucesso' });
         })
         .catch((err) => {
             console.error(err);
@@ -26,13 +26,13 @@ exports.formFilled = (req, res) => {
         })
 }
 
-exports.getFormsFilled = (req, res) => {
+exports.getFilledForms = (req, res) => {
     const find = {
         teacher: req.body.teacher
     }
     admin
         .firestore()
-        .collection('formsFilled').where('teacher', '==', find.teacher)
+        .collection('FilledForms').where('teacher', '==', find.teacher)
         .get()
         .then((data) => {
             let forms = [];
@@ -44,7 +44,7 @@ exports.getFormsFilled = (req, res) => {
         .catch((err) => console.error(err));
 };
 
-exports.getFormsFinished = (req, res) => {
+exports.getFinishedForms = (req, res) => {
     admin
         .firestore()
         .collection()
