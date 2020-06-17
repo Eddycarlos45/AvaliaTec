@@ -4,9 +4,9 @@ import { AppNavigator } from './components/navigation.component';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import { AsyncStorage } from 'react-native';
-import HomeScreen from './components/home.component.test';
-import { FormScreen } from './components/form.component';
-import { LoginScreen } from './components/login.component';
+import HomeScreen from './components/home.component.test.two';
+import FormScreen from './components/form.component.test';
+import LoginScreen from './components/login.component.test';
 
 
 const { Navigator, Screen } = createStackNavigator();
@@ -48,7 +48,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     try {
-      AsyncStorage.getItem('USER', (err, item) => item == null ? this.setState({ authStatus: false }) : this.setState({ authStatus: true }));
+      AsyncStorage.getItem('EMAIL', (err, item) => item == null ? this.setState({ authStatus: false }) : this.setState({ authStatus: true }));
     } catch {
       console.log('COMPONENT MOUNT FAIL')
     }
@@ -56,7 +56,7 @@ export default class App extends React.Component {
   
   componentDidUpdate() {
     try {
-      AsyncStorage.getItem('USER', (err, item) => item == null ? this.setState({ authStatus: false }) : this.setState({ authStatus: true }));
+      AsyncStorage.getItem('EMAIL', (err, item) => item == null ? this.setState({ authStatus: false }) : this.setState({ authStatus: true }));
     } catch {
       console.log('COMPONENT UPDATE FAIL')
     }
