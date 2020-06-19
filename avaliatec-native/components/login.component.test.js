@@ -41,6 +41,8 @@ export default class LoginScreen extends React.Component {
                         if (user.email == this.state.email) {
                             AsyncStorage.setItem('EMAIL', this.state.email)
                             AsyncStorage.setItem('NAME', user.userName)
+                            console.log(AsyncStorage.getItem('EMAIL', (err, item) => item))
+                            console.log(AsyncStorage.getItem('NAME', err))
                             console.log('AUTHENTICATION DATA STORED')
                         }
                     })

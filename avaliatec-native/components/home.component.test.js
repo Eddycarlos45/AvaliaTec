@@ -1,18 +1,16 @@
 import React from 'react';
-import { Appbar, Avatar, Button, Card, Divider, List, Provider, Menu, Text, ActivityIndicator, Colors } from 'react-native-paper';
+import { Appbar, Avatar, Button, Card, Divider, List, ActivityIndicator, Menu } from 'react-native-paper';
 import { View, ScrollView } from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { StackActions, useFocusEffect } from '@react-navigation/native';
+// import { StackActions, useFocusEffect } from '@react-navigation/native';
 import styles from '../assets/stylesheet/General'
 import axios from 'axios';
 
 const proxy = 'https://us-central1-avaliatec-80c1a.cloudfunctions.net/api'
 
-const Pending = props => <Avatar.Icon {...props} icon="dots-horizontal" />
-const Done = props => <Avatar.Icon {...props} icon="check" />
-const Student = props => <List.Icon {...props} icon="school" />
-const StringFill = 'Preencher'
-const StringFilled = 'Preenchido'
+const IconForm = props => <Avatar.Icon {...props} icon="dots-horizontal" />
+const IconStudent = props => <List.Icon {...props} icon="school" />
+const TextFill = 'Preencher'
 
 export default class HomeScreen extends React.Component {
 
@@ -28,6 +26,7 @@ export default class HomeScreen extends React.Component {
     }
 
     componentDidMount() {
+        
         try {
             const find = {
                 teacher: 'Filipe',
@@ -46,26 +45,26 @@ export default class HomeScreen extends React.Component {
                         this.setState({
                             theme: res.data
                         })
-                        console.log(this.state.theme)
+                        // console.log(this.state.theme)
 
-                        console.log('#---')
+                        // console.log('#---')
                         // this.state.theme ? (
                         //     this.state.theme.map((file) => file.members.map(file2 => console.log(file2)))
                         // ) : (console.log('loading'))
 
                         // find the theme based on the map function that will load the components in the screen
-                        var chose = this.state.theme.find((title) =>
-                            title.theme.indexOf('Plus Ultra!') > -1
-                        )
-                        console.log(chose)
+                        // var chose = this.state.theme.find((title) =>
+                        //     title.theme.indexOf('Plus Ultra!') > -1
+                        // )
+                        // console.log(chose)
 
                         // if (chose) {
                         //     chose.map((members) => console.log(members.member))
                         // }
 
-                        chose ? (
-                            chose.members.map((member) => console.log(member))
-                        ) : (console.log('loading'))
+                        // chose ? (
+                        //     chose.members.map((member) => console.log(member))
+                        // ) : (console.log('loading'))
 
                         // console.log(chose.members)
 
@@ -95,17 +94,13 @@ export default class HomeScreen extends React.Component {
                         if (member) {
                             return (<List.Item
                                 title={member ? (member) : ('Nenhum membro')}
-                                left={Student}
+                                left={IconStudent}
                             />)
                         }
                     })
                 )
             }
         }
-
-        // if (chose) {
-        //     chose.map((members) => console.log(members.member))
-        // }
 
         themeObject ? (
             themeObject.members.map((member) => console.log(member + 'HORA'))
@@ -127,23 +122,6 @@ export default class HomeScreen extends React.Component {
 
     // const [firstRun, setFirstRun] = React.useState('true');
     // const [soyVisible, setSoyVisible] = React.useState(true);
-
-    navigateDetails = () => {
-        navigation.navigate('Details');
-    };
-
-    navigateForm(formID) {
-        this.navigation.navigate(formID)
-    };
-
-    _handleNavigationDrawer = () => {
-        console.log('Navigation drawer');
-    }
-
-    navigateDetails = () => {
-        navigation.navigate('Details');
-    };
-
     // const[menuVisible, setMenuVisible] = React.useState(false);
 
     _openMenu() {
@@ -174,23 +152,11 @@ export default class HomeScreen extends React.Component {
         }
     }
 
-    //     (async function () {
-    //     try {
-    //         console.log(await AsyncStorage.getItem('USER'))
-    //         console.log(navigation.)
-
-
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // })();
-
-    // (async function () {
-    //     if (firstRun == 'true') {
-    //         setFirstRun('false')
-    //         // navigation.dispatch(StackActions.popToTop());
-    //     }
-    // })();
+    _navigateForm(form) {
+        this.props.navigation.navigate('Form', {
+            form: form
+        })
+    }
 
     render() {
         return (
@@ -202,12 +168,12 @@ export default class HomeScreen extends React.Component {
                     />
                     <Menu
                         visible={this.state.menuVisible}
-                        onDismiss={() => _closeMenu()}
+                        onDismiss={() => this._closeMenu()}
                         anchor={
-                            <Appbar.Action icon="dots-vertical" onPress={() => _openMenu()} />
+                            <Appbar.Action icon="dots-vertical" onPress={() => this._openMenu()} />
                         }
                     >
-                        <Menu.Item onPress={() => _logout()} title="Sair" />
+                        <Menu.Item onPress={() => this._logout()} title="Sair" />
                     </Menu>
 
                 </Appbar.Header>
@@ -227,14 +193,14 @@ export default class HomeScreen extends React.Component {
                         this.state.data ? (
                             this.state.data.map((form) => (
                                 <Card style={[styles.card, styles.spacer]}>
-                                    <Card.Title title={form.theme} left={Pending} />
+                                    <Card.Title title={form.theme} left={IconForm} />
                                     <Divider />
                                     <Card.Content style={styles.defaultHalfPaddingHorizontal}>
                                         {this.showCards(form.theme)}
                                     </Card.Content>
                                     <Divider />
                                     <Card.Actions style={styles.cardActionsRight}>
-                                        <Button disabled={false}>{StringFill}</Button>
+                                        <Button disabled={false} onPress={() => this._navigateForm(form)}>{TextFill}</Button>
                                     </Card.Actions>
                                 </Card>
                             ))
