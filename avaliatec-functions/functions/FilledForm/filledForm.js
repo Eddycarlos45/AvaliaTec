@@ -5,7 +5,8 @@ exports.FilledForm = (req, res) => {
 
     const FilledForm = {
         score: req.body.score,
-        formId: req.body.formId
+        formId: req.body.formId,
+        theme: req.body.theme
     };
     let formId;
     return db.collection('FilledForms')
@@ -17,6 +18,7 @@ exports.FilledForm = (req, res) => {
             const addFormFilled = {
                 score: FilledForm.score,
                 formId: FilledForm.formId,
+                theme: FilledForm.theme
             }
             return db.doc(`/FilledForms/${formId}`).set(addFormFilled), res.status(200).json({ Sucess: 'Formulário preenchido com sucesso' });
         })
@@ -47,17 +49,14 @@ exports.getFilledForms = (req, res) => {
 exports.getFinishedForms = (req, res) => {
     admin
         .firestore()
-        .collection()
+        .collection('FilledForms')
         .get()
         .then((data) => {
-            let forms = [];
+            let filledForms = [];
             data.forEach((doc) => {
-                forms.push(doc.data());
+                filledForms.push(doc.data());
             });
-            return res.json(forms);
+            return res.json(filledForms);
         })
         .catch((err) => console.error(err));
 };
-
-
-
