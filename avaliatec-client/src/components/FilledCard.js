@@ -89,11 +89,13 @@ export default function SimpleCard(props) {
 			.then(res => {
 				setForm(res.data)
 			})
+			.catch(err => console.log(err))
 			.then(axios.post('/theme/find', findTheme)
 				.then(res => {
 					setWork(res.data)
 				})
 			)
+			.then(res => {console.log('Sucess')})
 			.catch(err => console.log(err))
 	}
 
@@ -175,7 +177,10 @@ export default function SimpleCard(props) {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose} className={classes.buttonNo}>Voltar</Button>
-					<Button onClick={(e) => createPdf(props.theme, props.score)} className={classes.buttonYes}>Gerar</Button>
+					<Button
+						onClick={(e) => createPdf(props.theme, props.score)}
+						className={classes.buttonYes}>
+						Gerar</Button>
 				</DialogActions>
 			</Dialog>
 		</div>
