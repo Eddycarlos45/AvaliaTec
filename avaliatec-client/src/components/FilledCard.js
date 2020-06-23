@@ -95,7 +95,7 @@ export default function SimpleCard(props) {
 					setWork(res.data)
 				})
 			)
-			.then(res => {console.log('Sucess')})
+			.then(res => { console.log('Sucess') })
 			.catch(err => console.log(err))
 	}
 
@@ -109,8 +109,30 @@ export default function SimpleCard(props) {
         <h2 style="margin-top:20px;margin-left: 250px">Arthur de Azevedo</h2>
         <h3 style="margin-top:30px;margin-left: 280px">Ficha de Avaliação</h3>
         <p style="margin-top: 760px; margin-left:100px">________________________________________________________________<br>
-        ASSINATURA DO AVALIADOR(A)</p>
+		ASSINATURA DO AVALIADOR(A)</p>
 		`
+			//media
+			var sumNote = 0;
+			var sumWeight = 0;
+			var media = 0;
+			sumNote =
+				(parseInt(score[i].criteria[0].score) * parseInt(score[0].criteria[0].weight)) +
+				(parseInt(score[i].criteria[1].score) * parseInt(score[0].criteria[1].weight)) +
+				(parseInt(score[i].criteria[2].score) * parseInt(score[0].criteria[2].weight)) +
+				(parseInt(score[i].criteria[3].score) * parseInt(score[0].criteria[3].weight)) +
+				(parseInt(score[i].criteria[4].score) * parseInt(score[0].criteria[4].weight)) +
+				(parseInt(score[i].criteria[5].score) * parseInt(score[0].criteria[5].weight)) +
+				(parseInt(score[i].criteria[6].score) * parseInt(score[0].criteria[6].weight)) +
+				(parseInt(score[i].criteria[7].score) * parseInt(score[0].criteria[7].weight)) +
+				(parseInt(score[i].criteria[8].score) * parseInt(score[0].criteria[8].weight)) +
+				(parseInt(score[i].criteria[9].score) * parseInt(score[0].criteria[9].weight))
+			sumWeight =
+				parseInt(score[0].criteria[0].weight) + parseInt(score[0].criteria[1].weight) +
+				parseInt(score[0].criteria[2].weight) + parseInt(score[0].criteria[3].weight) +
+				parseInt(score[0].criteria[4].weight) + parseInt(score[0].criteria[5].weight) +
+				parseInt(score[0].criteria[6].weight) + parseInt(score[0].criteria[7].weight) +
+				parseInt(score[0].criteria[8].weight) + parseInt(score[0].criteria[9].weight)
+			media = (sumNote / sumWeight) * 2
 			doc.autoTable({
 				theme: 'grid',
 				startY: 140,
@@ -125,6 +147,8 @@ export default function SimpleCard(props) {
 					['DATA', form[0].date],
 				]
 			})
+			//media
+
 			doc.autoTable({
 				theme: 'grid',
 				startY: 360,
@@ -141,7 +165,7 @@ export default function SimpleCard(props) {
 					[form[0].criteria[7].type, score[0].criteria[7].weight, score[i].criteria[7].score],
 					[form[0].criteria[8].type, score[0].criteria[8].weight, score[i].criteria[8].score],
 					[form[0].criteria[9].type, score[0].criteria[9].weight, score[i].criteria[9].score],
-					['PONTUAÇÃO TOTAL', '1.0'],
+					['PONTUAÇÃO TOTAL', media.toFixed(1)],
 				]
 			})
 			doc.fromHTML(content)
