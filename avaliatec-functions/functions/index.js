@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 
-const { signup, login, getUsers, deleteUser, updateUser } = require('./user/userActivity');
+const { signup, login, getUsers, deleteUser, updateUser, resetPassword } = require('./user/userActivity');
 const { createTheme, getThemes, deleteTheme, updateTheme, findTheme } = require('./theme/themes');
 const { createForm, getForms, deleteForm, updateForm, getUnfilledForms, findForm } = require('./form/forms');
 const { FilledForm, getFilledForms, getFinishedForms } = require('./FilledForm/filledForm');
@@ -11,6 +11,7 @@ app.post('/signup', signup);
 app.put('/users', updateUser);
 app.delete('/users', deleteUser);
 app.post('/login', login);
+app.post('/resetPassword', resetPassword);
 app.get('/users', getUsers);
 //Theme route
 app.post('/theme', createTheme);
