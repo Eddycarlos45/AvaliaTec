@@ -83,3 +83,21 @@ exports.updateTheme = (req, res) => {
 			return res.status(500).json({ error: err.code });
 		})
 }
+
+exports.findTheme = (req, res) => {
+	const find = {
+		theme: req.body.theme
+	}
+	admin
+		.firestore()
+		.collection('themes').where('theme', '==', find.theme)
+		.get()
+		.then((data) => {
+			let theme = [];
+			data.forEach((doc) => {
+				theme.push(doc.data());
+			});
+			return res.json(theme);
+		})
+		.catch((err) => console.error(err));
+}

@@ -576,9 +576,6 @@ class file extends Component {
               className={classes.button}
               disabled={this.state.btnStatus}>
               Adicionar
-							{loading && (
-                <CircularProgress size={30} className={classes.progress} />
-              )}
             </Button>
           </form>
         </Grid>

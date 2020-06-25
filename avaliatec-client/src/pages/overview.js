@@ -30,7 +30,9 @@ export default function overview(props) {
 			</Grid>
 			<Grid item sm>{props.filled.map((filled) =>
 				<FilledCard
-					filled={filled.teacher}>
+					theme={filled.theme}
+					score={filled.score}
+					>
 				</FilledCard>)}
 			</Grid>
 		</Grid >

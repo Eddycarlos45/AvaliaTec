@@ -56,7 +56,7 @@ export class home extends Component {
 					this.setState({
 						listThemes: res.data
 					})
-				})).then(axios.get('/filled')
+				})).then(axios.get('/filled/finished')
 					.then(res => {
 						this.setState({
 							listFilled: res.data
@@ -74,7 +74,6 @@ export class home extends Component {
 				<Avaluation></Avaluation>
 			)
 		} if (page === 'file') {
-			console.log(localStorage.getItem('token'))
 			return (
 				<File></File>
 			)

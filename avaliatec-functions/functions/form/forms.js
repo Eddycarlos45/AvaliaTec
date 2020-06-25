@@ -98,20 +98,38 @@ exports.updateForm = (req, res) => {
 }
 
 exports.getUnfilledForms = (req, res) => {
-    const find = {
+	const find = {
 		filled: false,
-        name: req.body.teacher
-    }
-    admin
-        .firestore()
-        .collection('forms').where('teachers', 'array-contains', find)
-        .get()
-        .then((data) => {
-            let forms = [];
-            data.forEach((doc) => {
-                forms.push(doc.data());
-            });
-            return res.json(forms);
-        })
-        .catch((err) => console.error(err));
+		name: req.body.teacher
+	}
+	admin
+		.firestore()
+		.collection('forms').where('teachers', 'array-contains', find)
+		.get()
+		.then((data) => {
+			let forms = [];
+			data.forEach((doc) => {
+				forms.push(doc.data());
+			});
+			return res.json(forms);
+		})
+		.catch((err) => console.error(err));
 };
+
+exports.findForm = (req, res) => {
+	const find = {
+		theme: req.body.theme
+	}
+	admin
+		.firestore()
+		.collection('forms').where('theme', '==', find.theme)
+		.get()
+		.then((data) => {
+			let form = [];
+			data.forEach((doc) => {
+				form.push(doc.data());
+			});
+			return res.json(form);
+		})
+		.catch((err) => console.error(err));
+}

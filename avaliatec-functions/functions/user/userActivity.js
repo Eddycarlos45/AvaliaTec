@@ -120,3 +120,17 @@ exports.updateUser = (req, res) => {
 			return res.status(500).json({ error: err.code });
 		})
 }
+
+exports.resetPassword = (req, res) => {
+	const userReset = {
+		email: req.body.email
+	}
+	var auth = firebase.auth();
+	var emailAddress = userReset.email;
+
+	auth.sendPasswordResetEmail(emailAddress).then(function () {
+		return res.status(200).json({ res: "Email enviado" })
+	}).catch((err) => {
+		return res.status(500).json({ error: err.code })
+	});
+}
