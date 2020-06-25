@@ -1,5 +1,5 @@
 const { db, admin } = require('../util/admin');
-const functions = require('firebase-functions'); 
+const functions = require('firebase-functions');
 
 exports.FilledForm = (req, res) => {
 
@@ -8,23 +8,38 @@ exports.FilledForm = (req, res) => {
         formId: req.body.formId,
         theme: req.body.theme
     };
-    let formId;
-    return db.collection('FilledForms')
-        .add(FilledForm)
-        .then((data) => {
-            formId = data.id;
-        })
-        .then(() => {
-            const addFormFilled = {
-                score: FilledForm.score,
-                formId: FilledForm.formId,
-                theme: FilledForm.theme
+    db.doc(`/FilledForms/${FilledForm.formId}`)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                let newAvaluation  =  db.collection('FilledForms').doc(FilledForm.formId);
+                let arrUnion;
+                return arrUnion = newAvaluation.update({
+                    score: admin.firestore.FieldValue.arrayUnion(FilledForm.score)
+                }).then(() => { return res.status(200).json({ res: 'Atualizado com Sucesso' }) })
+                    .catch((err) => {
+                        console.error(err);
+                        return res.status(500).json({ error: err.code });
+                    })
+            } else {
+                return db.collection('FilledForms')
+                    .add(FilledForm)
+                    .then((data) => {
+                        formId = data.id;
+                    })
+                    .then(() => {
+                        const addFormFilled = {
+                            score: FilledForm.score,
+                            formId: FilledForm.formId,
+                            theme: FilledForm.theme
+                        }
+                        return db.doc(`/FilledForms/${FilledForm.formId}`).set(addFormFilled), res.status(200).json({ Sucess: 'Formulário preenchido com sucesso' });
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        return res.status(500).json({ error: err.code });
+                    }) 
             }
-            return db.doc(`/FilledForms/${formId}`).set(addFormFilled), res.status(200).json({ Sucess: 'Formulário preenchido com sucesso' });
-        })
-        .catch((err) => {
-            console.error(err);
-            return res.status(500).json({ error: err.code });
         })
 }
 
