@@ -17,10 +17,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
     },
     title: {
-        fontFamily: 'monospace',
-        fontWeight: 'bold',
-        alignSelf: 'center',
-        textTransform: 'uppercase'
+        
     },
     card: {
         borderColor: '#bdbdbd',
@@ -42,6 +39,12 @@ export default StyleSheet.create({
     },
     errorText: {
         color: '#ff5252',
+    },
+    successText: {
+        color: '#7cb342',
+    },
+    normalText: {
+        color: '#000000',
     },
     defaultPaddingHorizontal: {
         paddingLeft: 12,
@@ -66,5 +69,11 @@ export default StyleSheet.create({
     defaultMarginVertical: {
         marginTop: 12,
         marginBottom: 12,
-    }
+    },
+    fab: {
+        position: 'absolute',
+        margin: 12,
+        right: 0,
+        bottom: 0,
+    },
 })
