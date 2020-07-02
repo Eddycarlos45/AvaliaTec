@@ -10,6 +10,30 @@ const Comment = props => <Avatar.Icon {...props} icon="comment" />
 const StringFill = 'Preencher'
 const StringFilled = 'Preenchido'
 const axiosFillForm = 'https://us-central1-avaliatec-80c1a.cloudfunctions.net/api/filled'
+const axiosUpdateForm = 'https://us-central1-avaliatec-80c1a.cloudfunctions.net/api/form'
+
+const strings = {
+    error: 'Algo deu errado',
+    action1: 'Ocorreu um problema ao carregar as avaliações. Por favor retorne à tela inicial e abra o formulário novamente.',
+    action2: 'Existem uma ou mais questões não preenchidas. Por favor avalie todas as questões existentes no formulário.',
+    action3: 'Não foi possível enviar o formulário. Por favor tente novamente mais tarde.',
+    submitTitle: 'Deseja enviar o formulário?',
+    submitDescription: 'Não será mais possível alterar esse formulário depois de enviado.',
+    submitButton: 'Enviar',
+    editButton: 'Editar',
+    submitingTitle: 'Quase lá...',
+    submitingDescription: 'O formulário está sendo enviado.',
+    submitingButton: 'Enviando',
+    submitedTitle: 'Tudo pronto',
+    submitedDescription: 'O formulário foi enviado com sucesso.',
+    finishButton: 'Finalizar',
+    goBackTitle: 'Tem certeza?',
+    goBackDescription: 'Se você voltar agora todos os campos preenchidos serão perdidos.',
+    yesButton: 'Sim',
+    noButton: 'Não',
+    criteria: 'Questões',
+    comment: 'Comentário',
+}
 
 export default class FormScreen extends React.Component {
 
@@ -18,17 +42,40 @@ export default class FormScreen extends React.Component {
         this.state = {
             visibleDialogSend: false,
             visibleDialogBack: false,
+            visibleDialogError: false,
+            visibleDialogSending: false,
             form: this.props.route.params.form,
-            score: [],
+            formId: this.props.route.params.form.formId,
+            theme: this.props.route.params.form.theme,
             comment: '',
+            criteria: [],
+            teacher: this.props.route.params.teacher,
+            sending: true,
+            errorMessage: strings.error,
+            errorAction: strings.action1,
         };
     }
 
     componentDidMount() {
         try {
-            AsyncStorage.getItem('USER', (err, item) => item == null ? this.setState({ teacher: 'null' }) : this.setState({ teacher: item }));
+            if (this.state.form.criteria) {
+                let newArray = []
+                this.state.form.criteria.map((criteria, index) => {
+                    let newObject = {
+                        'index': index,
+                        'score': 0,
+                        'criteria': criteria.type,
+                        'weight': criteria.weight
+                    }
+
+                    newArray.push(newObject)
+                })
+                this.setState({
+                    criteria: newArray
+                })
+            }
         } catch (e) {
-            console.log('')
+            console.log(e)
         }
     }
 
@@ -40,6 +87,14 @@ export default class FormScreen extends React.Component {
         this.setState({ visibleDialogSend: false })
     }
 
+    _showDialogSending() {
+        this.setState({ visibleDialogSending: true })
+    }
+
+    _hideDialogSending() {
+        this.setState({ visibleDialogSending: false })
+    }
+
     _showDialogBack() {
         this.setState({ visibleDialogBack: true })
     }
@@ -48,55 +103,158 @@ export default class FormScreen extends React.Component {
         this.setState({ visibleDialogBack: false })
     }
 
+    _showDialogError() {
+        this.setState({ visibleDialogError: true })
+    }
+
+    _hideDialogError() {
+        this.setState({ visibleDialogError: false })
+    }
+
     _handleNavigationBack() {
         this.props.navigation.goBack();
     };
 
-    _sendForm(filled) {
+    _confirmSend() {
+        this.state({ confirmSend: true })
+    }
+
+    _validateFields() {
+        try {
+            let errorCode = 0
+
+            if (this.state.criteria == []) {
+                errorCode = 1
+            } else {
+                this.state.criteria.map((criteria, index) => {
+                    if (criteria.criteria != "") {
+                        if (criteria.score < 1 || criteria.score > 5 || criteria.score == null) {
+                            errorCode = 2
+                        }
+                    }
+                })
+            }
+
+            if (errorCode == 2) {
+                this.setState({ errorAction: strings.action2 })
+                this._showDialogError()
+            } else if (errorCode == 1) {
+                this.setState({ errorAction: strings.action1 })
+                this._showDialogError()
+            } else if (errorCode == 0) {
+                this._showDialogSend()
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    _triggerSend() {
+        this.setState({ sending: true })
+
+        this._hideDialogSend()
+        this._showDialogSending()
+
+        // SUBMIT FORM
+        try {
+            this._sendForm()
+        } catch (e) {
+            console.log(e)
+            this.setState({ errorAction: strings.action3 })
+            this._hideDialogSending()
+            this._showDialogError()
+            this.setState({ sending: false })
+        }
+    }
+
+    _sendForm() {
+        let filled = {
+            formId: this.state.formId,
+            theme: this.state.theme,
+            score: {
+                comment: this.state.comment,
+                criteria: this.state.criteria,
+                teacher: this.state.teacher
+            },
+        }
+
         axios.post(axiosFillForm, filled)
             .then(res => {
-                console.log(filled)
-                console.log('FILL SUCCESS')
+                this._sendUpdate()
             })
             .catch(err => {
                 console.log('FILL FAIL')
+                this.setState({ errorAction: strings.action3 })
+                this._hideDialogSending()
+                this._showDialogError()
+                this.setState({ sending: false })
             })
     }
 
-    _handleSend() {
-        let formFilled = {
-            score: this.state.score,
-            formId: this.state.form.formId,
-            teacher: this.props.route.params.teacher,
-            comment: this.state.comment
-        }
+    _sendUpdate() {
+        let formUpdated = this.state.form
+        let teacherIndex = -1
 
-        this._sendForm(formFilled)
+        if (formUpdated) {
+            formUpdated.teachers.find((teacher, index) => {
+                if (teacher.name.indexOf(this.state.teacher) > -1) {
+                    teacherIndex = index
+                }
+            })
+            if (teacherIndex > -1) {
+                formUpdated.teachers[teacherIndex] = {
+                    filled: true,
+                    name: this.state.teacher
+                }
+
+                axios.put(axiosUpdateForm, formUpdated)
+                    .then(res => {
+                        // FINAL DESTINATION
+                        this.setState({ sending: false })
+                    })
+                    .catch(err => {
+                        console.log('UPDATE FAIL')
+                        this.setState({ errorAction: strings.action3 })
+                        this._hideDialogSending()
+                        this._showDialogError()
+                        this.setState({ sending: false })
+                    })
+            } else {
+                this.setState({ errorAction: strings.action3 })
+                this._hideDialogSending()
+                this._showDialogError()
+                this.setState({ sending: false })
+            }
+        }
     }
 
     showCriteria(criteriaList) {
         if (criteriaList) {
             return (
-                criteriaList.map((score, index) => {
-                    if (score.type) {
+                criteriaList.map((criteria, index) => {
+                    if (criteria.type) {
                         return (
                             <View style={styles.spacer}>
-                                <Text style={styles.spacer}>{score.type}</Text>
+                                <Text style={styles.spacer}>{criteria.type}</Text>
                                 <ToggleButton.Row
                                     onValueChange={
                                         value => {
-                                            let scoreCopy = JSON.parse(JSON.stringify(this.state.score))
+                                            let criteriaCopy = JSON.parse(JSON.stringify(this.state.criteria))
                                             //make changes to ingredients
-                                            scoreCopy[index] = {
-                                                note: value,
-                                                weight: score.weight
+                                            criteriaCopy[index] = {
+                                                'index': index,
+                                                'score': value,
+                                                'criteria': criteria.type,
+                                                'weight': criteria.weight
                                             }
                                             this.setState({
-                                                score: scoreCopy
+                                                criteria: criteriaCopy
                                             })
                                         }
                                     }
-                                    value={this.state.score[index] ? this.state.score[index].note : 3}
+                                    value={
+                                        this.state.criteria[index] ? this.state.criteria[index].score : 0
+                                    }
                                 >
                                     <ToggleButton icon="numeric-1" value={1} style={{ flex: 1 }} />
                                     <ToggleButton icon="numeric-2" value={2} style={{ flex: 1 }} />
@@ -120,27 +278,105 @@ export default class FormScreen extends React.Component {
             <View style={{ flex: 1 }}>
                 <Appbar.Header style={styles.appBar}>
                     <Appbar.BackAction
-                        onPress={() => this._handleNavigationBack()}
+                        onPress={() => this._showDialogBack()}
                     />
                     <Appbar.Content
                         title="Avaliatec"
                     />
-                    <Appbar.Action icon="send" onPress={() => this._handleSend()} />
+                    <Appbar.Action icon="send" onPress={() => this._validateFields()} />
+
+                    {/* CONFIRM SUBMIT */}
                     <Portal>
                         <Dialog
                             visible={this.state.visibleDialogSend}
-                            onDismiss={() => this._hideDialogSend()}>
-                            <Dialog.Title></Dialog.Title>
+                            dismissable={false}
+                        >
+                            <Dialog.Title>{strings.submitTitle}</Dialog.Title>
                             <Dialog.Content>
-                                <Paragraph>This is simple dialog</Paragraph>
+                                <Paragraph>{strings.submitDescription}</Paragraph>
                             </Dialog.Content>
                             <Dialog.Actions>
-                                <Button mode='text' onPress={() => this._hideDialogSend()} style={styles.defaultMarginHorizontal}>Voltar</Button>
-                                <Button mode='text' onPress={() => this._hideDialogSend()}>Enviar</Button>
+                                <Button
+                                    mode='text'
+                                    style={styles.defaultMarginHorizontal}
+                                    onPress={() => this._hideDialogSend()}
+                                >
+                                    {strings.editButton}
+                                </Button>
+                                <Button
+                                    mode='text'
+                                    onPress={() => this._triggerSend()}
+                                >
+                                    {strings.submitButton}
+                                </Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
+                    {/* CONFIRM GO BACK */}
+                    <Portal>
+                        <Dialog
+                            visible={this.state.visibleDialogBack}
+                            dismissable={false}
+                        >
+                            <Dialog.Title>{strings.goBackTitle}</Dialog.Title>
+                            <Dialog.Content>
+                                <Paragraph>{strings.goBackDescription}</Paragraph>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button
+                                    mode='text'
+                                    style={styles.defaultMarginHorizontal}
+                                    onPress={() => this._hideDialogBack()}
+                                >
+                                    {strings.noButton}
+                                </Button>
+                                <Button
+                                    mode='text'
+                                    onPress={() => this._handleNavigationBack()}
+                                >
+                                    {strings.yesButton}
+                                </Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
+                    {/* SUBMITING */}
+                    <Portal>
+                        <Dialog
+                            visible={this.state.visibleDialogSending}
+                            dismissable={false}
+                        >
+                            <Dialog.Title>{this.state.sending ? strings.submitingTitle : strings.submitedTitle}</Dialog.Title>
+                            <Dialog.Content>
+                                <Paragraph>{this.state.sending ? strings.submitingDescription : strings.submitedDescription}</Paragraph>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button
+                                    mode='text'
+                                    onPress={() => this._handleNavigationBack()}
+                                    disabled={this.state.sending ? true : false}
+                                    loading={this.state.sending ? true : false}
+                                >
+                                    {this.state.sending ? strings.submitingButton : strings.finishButton}
+                                </Button>
+                            </Dialog.Actions>
+                        </Dialog>
+                    </Portal>
+                    {/* SHOW ERROR MESSAGE */}
+                    <Portal>
+                        <Dialog
+                            visible={this.state.visibleDialogError}
+                            onDismiss={() => this._hideDialogError()}>
+                            <Dialog.Title>{this.state.errorMessage}</Dialog.Title>
+                            <Dialog.Content>
+                                <Paragraph>{this.state.errorAction}</Paragraph>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button mode='text' onPress={() => this._hideDialogError()}>{strings.editButton}</Button>
                             </Dialog.Actions>
                         </Dialog>
                     </Portal>
                 </Appbar.Header>
+
                 <ScrollView style={styles.container} contentContainerStyle={styles.screen}>
 
                     <Card style={[styles.card, styles.spacer]}>
@@ -148,65 +384,21 @@ export default class FormScreen extends React.Component {
                     </Card>
 
                     <Card style={[styles.card, styles.spacer]}>
-                        <Card.Title title="Critérios" left={Items} />
+                        <Card.Title title={strings.criteria} left={Items} />
                         <Divider />
                         <Card.Content style={[styles.defaultPaddingHorizontal, { paddingBottom: 0, paddingTop: 12 }]}>
-
                             {
                                 this.showCriteria(this.state.form.criteria)
                             }
-
-                            {/* <View style={styles.spacer}>
-                                <Text style={styles.spacer}>Critério 1</Text>
-                                <ToggleButton.Row
-                                    onValueChange={value => this.setState({ criteria: { ...this.setState.criteria, ["Criteria" + "1"]: value } })}
-                                    value={this.state.criteria["Criteria" + "1"]}
-                                >
-                                    <ToggleButton icon="numeric-1" value={1} style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-2" value={2} style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-3" value={3} style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-4" value={4} style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-5" value={5} style={{ flex: 1 }} />
-                                </ToggleButton.Row>
-                                <Text>{this.state.criteria["Criteria" + "1"]}</Text>
-                            </View>
-
-                            <View style={styles.spacer}>
-                                <Text style={styles.spacer}>Critério 2</Text>
-                                <ToggleButton.Row
-                                    onValueChange={value => this.setState({ item2: value })}
-                                    value={this.state.item2}
-                                >
-                                    <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-3" value="three" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
-                                </ToggleButton.Row>
-                            </View>
-
-                            <View style={styles.spacer}>
-                                <Text style={styles.spacer}>Critério 3</Text>
-                                <ToggleButton.Row
-                                    onValueChange={value => this.setState({ item3: value })}
-                                    value={this.state.item3}
-                                >
-                                    <ToggleButton icon="numeric-1" value="one" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-2" value="two" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-3" value="three" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-4" value="four" style={{ flex: 1 }} />
-                                    <ToggleButton icon="numeric-5" value="five" style={{ flex: 1 }} />
-                                </ToggleButton.Row>
-                            </View> */}
                         </Card.Content>
                     </Card>
 
                     <Card style={[styles.card, styles.spacer]}>
-                        <Card.Title title="Comentário" left={Comment} />
+                        <Card.Title title={strings.comment} left={Comment} />
                         <Divider />
                         <Card.Content style={[styles.defaultPaddingHorizontal, styles.defaultPaddingVertical]}>
                             <TextInput
-                                label='Comentários'
+                                label={strings.comment}
                                 value={this.state.comment}
                                 onChangeText={value => this.setState({ comment: value })}
                                 mode='outlined'
@@ -214,15 +406,7 @@ export default class FormScreen extends React.Component {
                             />
                         </Card.Content>
                     </Card>
-
-                    <Button mode='contained' onPress={() => console.log(this.state)} style={{ marginBottom: 12, borderRadius: 12 }}>
-                        Show states
-                        </Button>
-                    <Button mode='contained' onPress={() => console.log(this.state.score)} style={{ marginBottom: 12, borderRadius: 12 }}>
-                        Show states for criteria
-                        </Button>
-
-
+                    <Button onPress={() => console.log(this.state.form)}>Print form</Button>
                 </ScrollView>
             </View >
         );
