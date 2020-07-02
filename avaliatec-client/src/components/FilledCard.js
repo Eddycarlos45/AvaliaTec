@@ -101,7 +101,10 @@ export default function SimpleCard(props) {
 
 	const createPdf = (theme, score) => {
 		var scoreLenght = 0;
-		score.map((ele) => scoreLenght = scoreLenght + 1)
+		var scoreArray = [];
+		scoreArray.push(score)
+		console.log(form)
+		scoreArray.map((ele) => scoreLenght = scoreLenght + 1)
 		for (var i = 0; i < scoreLenght; i++) {
 			var doc = new jsPDF('p', 'pt');
 			var content = `
@@ -116,22 +119,22 @@ export default function SimpleCard(props) {
 			var sumWeight = 0;
 			var media = 0;
 			sumNote =
-				(parseInt(score[i].criteria[0].score) * parseInt(score[0].criteria[0].weight)) +
-				(parseInt(score[i].criteria[1].score) * parseInt(score[0].criteria[1].weight)) +
-				(parseInt(score[i].criteria[2].score) * parseInt(score[0].criteria[2].weight)) +
-				(parseInt(score[i].criteria[3].score) * parseInt(score[0].criteria[3].weight)) +
-				(parseInt(score[i].criteria[4].score) * parseInt(score[0].criteria[4].weight)) +
-				(parseInt(score[i].criteria[5].score) * parseInt(score[0].criteria[5].weight)) +
-				(parseInt(score[i].criteria[6].score) * parseInt(score[0].criteria[6].weight)) +
-				(parseInt(score[i].criteria[7].score) * parseInt(score[0].criteria[7].weight)) +
-				(parseInt(score[i].criteria[8].score) * parseInt(score[0].criteria[8].weight)) +
-				(parseInt(score[i].criteria[9].score) * parseInt(score[0].criteria[9].weight))
+				(parseInt(scoreArray[i].criteria[0].score) * parseInt(scoreArray[0].criteria[0].weight)) +
+				(parseInt(scoreArray[i].criteria[1].score) * parseInt(scoreArray[0].criteria[1].weight)) +
+				(parseInt(scoreArray[i].criteria[2].score) * parseInt(scoreArray[0].criteria[2].weight)) +
+				(parseInt(scoreArray[i].criteria[3].score) * parseInt(scoreArray[0].criteria[3].weight)) +
+				(parseInt(scoreArray[i].criteria[4].score) * parseInt(scoreArray[0].criteria[4].weight)) +
+				(parseInt(scoreArray[i].criteria[5].score) * parseInt(scoreArray[0].criteria[5].weight)) +
+				(parseInt(scoreArray[i].criteria[6].score) * parseInt(scoreArray[0].criteria[6].weight)) +
+				(parseInt(scoreArray[i].criteria[7].score) * parseInt(scoreArray[0].criteria[7].weight)) +
+				(parseInt(scoreArray[i].criteria[8].score) * parseInt(scoreArray[0].criteria[8].weight)) +
+				(parseInt(scoreArray[i].criteria[9].score) * parseInt(scoreArray[0].criteria[9].weight))
 			sumWeight =
-				parseInt(score[0].criteria[0].weight) + parseInt(score[0].criteria[1].weight) +
-				parseInt(score[0].criteria[2].weight) + parseInt(score[0].criteria[3].weight) +
-				parseInt(score[0].criteria[4].weight) + parseInt(score[0].criteria[5].weight) +
-				parseInt(score[0].criteria[6].weight) + parseInt(score[0].criteria[7].weight) +
-				parseInt(score[0].criteria[8].weight) + parseInt(score[0].criteria[9].weight)
+				parseInt(scoreArray[0].criteria[0].weight) + parseInt(scoreArray[0].criteria[1].weight) +
+				parseInt(scoreArray[0].criteria[2].weight) + parseInt(scoreArray[0].criteria[3].weight) +
+				parseInt(scoreArray[0].criteria[4].weight) + parseInt(scoreArray[0].criteria[5].weight) +
+				parseInt(scoreArray[0].criteria[6].weight) + parseInt(scoreArray[0].criteria[7].weight) +
+				parseInt(scoreArray[0].criteria[8].weight) + parseInt(scoreArray[0].criteria[9].weight)
 			media = (sumNote / sumWeight) * 2
 			doc.autoTable({
 				theme: 'grid',
@@ -143,7 +146,7 @@ export default function SimpleCard(props) {
 					['', work[0].members[3]],
 					['CURSO', form[0].course],
 					['TÍTULO', theme],
-					['AVALIADOR', form[0].teachers[i].name],
+					['AVALIADOR', scoreArray[i].teacher],
 					['DATA', form[0].date],
 				]
 			})
@@ -155,16 +158,16 @@ export default function SimpleCard(props) {
 				head: [['', '   AVALIAÇÃO', '']],
 				body: [
 					['CRITÉRIO', 'VALOR', 'AVALIAÇÃO'],
-					[form[0].criteria[0].type, score[0].criteria[0].weight, score[i].criteria[0].score],
-					[form[0].criteria[1].type, score[0].criteria[1].weight, score[i].criteria[1].score],
-					[form[0].criteria[2].type, score[0].criteria[2].weight, score[i].criteria[2].score],
-					[form[0].criteria[3].type, score[0].criteria[3].weight, score[i].criteria[3].score],
-					[form[0].criteria[4].type, score[0].criteria[4].weight, score[i].criteria[4].score],
-					[form[0].criteria[5].type, score[0].criteria[5].weight, score[i].criteria[5].score],
-					[form[0].criteria[6].type, score[0].criteria[6].weight, score[i].criteria[6].score],
-					[form[0].criteria[7].type, score[0].criteria[7].weight, score[i].criteria[7].score],
-					[form[0].criteria[8].type, score[0].criteria[8].weight, score[i].criteria[8].score],
-					[form[0].criteria[9].type, score[0].criteria[9].weight, score[i].criteria[9].score],
+					[form[0].criteria[0].type, scoreArray[0].criteria[0].weight, scoreArray[i].criteria[0].score],
+					[form[0].criteria[1].type, scoreArray[0].criteria[1].weight, scoreArray[i].criteria[1].score],
+					[form[0].criteria[2].type, scoreArray[0].criteria[2].weight, scoreArray[i].criteria[2].score],
+					[form[0].criteria[3].type, scoreArray[0].criteria[3].weight, scoreArray[i].criteria[3].score],
+					[form[0].criteria[4].type, scoreArray[0].criteria[4].weight, scoreArray[i].criteria[4].score],
+					[form[0].criteria[5].type, scoreArray[0].criteria[5].weight, scoreArray[i].criteria[5].score],
+					[form[0].criteria[6].type, scoreArray[0].criteria[6].weight, scoreArray[i].criteria[6].score],
+					[form[0].criteria[7].type, scoreArray[0].criteria[7].weight, scoreArray[i].criteria[7].score],
+					[form[0].criteria[8].type, scoreArray[0].criteria[8].weight, scoreArray[i].criteria[8].score],
+					[form[0].criteria[9].type, scoreArray[0].criteria[9].weight, scoreArray[i].criteria[9].score],
 					['PONTUAÇÃO TOTAL', media.toFixed(1)],
 				]
 			})
@@ -173,7 +176,6 @@ export default function SimpleCard(props) {
 		}
 
 	}
-
 	return (
 		<div>
 			<Card className={classes.root}>
