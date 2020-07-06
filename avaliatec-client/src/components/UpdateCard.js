@@ -16,7 +16,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 
+//components
 import DatePicker from '../components/DatePicker';
+
 
 let dateSplit = []
 const useStyles = makeStyles({
@@ -266,15 +268,18 @@ export default function SimpleCard(props) {
 				time: dateSplit[1],
 				formId: id
 			}
+			console.log(updateFile.date)
+			console.log(updateFile.time)
+			if(updateFile.date === "" && updateFile.time === undefined){alert("Você precisa selecionar a Data e Hora")}
 			axios.put('/form', updateFile)
 				.then(res => {
 					console.log(res.data);
+					alert('Atualizado com sucesso')
 					window.location.reload()
 				})
 				.catch(err => {
 					console.log(err.response.data)
 				})
-			alert('Atualizado com sucesso')
 		} else {
 			values.members.splice(0, 4, values.member, values.member1, values.member2, values.member3)
 			const updateTheme = {
