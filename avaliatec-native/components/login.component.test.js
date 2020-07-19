@@ -104,6 +104,7 @@ export default class LoginScreen extends React.Component {
             .catch(err => {
                 this.setState({ requestNewPasswordLoading: false, requestNewPasswordStatus: 0 })
                 console.log('PASSWORD REQUEST FAIL')
+                console.log(err)
             })
     }
 

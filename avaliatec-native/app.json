@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Blank Template",
+    "name": "Avaliatec",
     "slug": "avaliatec-native",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -23,8 +23,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.avaliatec.efjv",
+      "versionCode": 1
+    },
     "ios": {
       "supportsTablet": true
-    }
+    }    
   }
 }

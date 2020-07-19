@@ -406,7 +406,7 @@ export default class FormScreen extends React.Component {
                             />
                         </Card.Content>
                     </Card>
-                    <Button onPress={() => console.log(this.state.form)}>Print form</Button>
+                    {/* <Button onPress={() => console.log(this.state.form)}>Print form</Button> */}
                 </ScrollView>
             </View >
         );
