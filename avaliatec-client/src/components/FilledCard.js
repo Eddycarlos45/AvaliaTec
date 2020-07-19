@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import { IconButton, Dialog } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -11,8 +10,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+//Pdf plugins
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+//Import axios
 import axios from 'axios';
 
 const useStyles = makeStyles({
@@ -61,6 +62,10 @@ const useStyles = makeStyles({
 		'&:hover': {
 			color: 'black',
 			backgroundColor: 'green'
+		},
+		'&:disabled': {
+			color: 'black',
+			backgroundColor: '#9e9e9e'
 		}
 	}
 });
@@ -71,6 +76,7 @@ export default function SimpleCard(props) {
 	const [work, setWork] = React.useState();
 	const [form, setForm] = React.useState();
 	const [open, setOpen] = React.useState(false);
+	const [btnStatus, setBtnStatus] = React.useState(true)
 
 	const handleClickOpen = (theme) => {
 		setOpen(true);
@@ -95,11 +101,12 @@ export default function SimpleCard(props) {
 					setWork(res.data)
 				})
 			)
-			.then(res => { console.log('Sucess') })
+			.then(res => { setBtnStatus(false) })
 			.catch(err => console.log(err))
 	}
 
 	const createPdf = (theme, score) => {
+		console.log(score)
 		var scoreLenght = 0;
 		score.map((ele) => scoreLenght = scoreLenght + 1)
 		for (var i = 0; i < scoreLenght; i++) {
@@ -143,7 +150,7 @@ export default function SimpleCard(props) {
 					['', work[0].members[3]],
 					['CURSO', form[0].course],
 					['TÍTULO', theme],
-					['AVALIADOR', form[0].teachers[i].name],
+					['AVALIADOR', score[i].teacher],
 					['DATA', form[0].date],
 				]
 			})
@@ -173,7 +180,6 @@ export default function SimpleCard(props) {
 		}
 
 	}
-
 	return (
 		<div>
 			<Card className={classes.root}>
@@ -202,6 +208,7 @@ export default function SimpleCard(props) {
 				<DialogActions>
 					<Button onClick={handleClose} className={classes.buttonNo}>Voltar</Button>
 					<Button
+						disabled={btnStatus}
 						onClick={(e) => createPdf(props.theme, props.score)}
 						className={classes.buttonYes}>
 						Gerar</Button>

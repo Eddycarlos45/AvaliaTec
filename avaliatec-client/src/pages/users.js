@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 //MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -12,14 +11,10 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Avatar from '@material-ui/core/Avatar';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Card from '@material-ui/core/Card';
 
 //My Components
 import Navbar from '../components/Navbar'
@@ -103,6 +98,7 @@ class users extends Component {
 				this.setState({
 					loading: false
 				})
+				alert('Novo avaliador adicionado')
 				window.location.reload()
 			})
 			.catch(err => {
@@ -130,6 +126,12 @@ class users extends Component {
 	render() {
 		const { classes } = this.props;
 		const { errors, loading } = this.state;
+
+		if(errors.error === "auth/weak-password"){
+			errors.weak = "Weak password"
+		}if(errors.error === "auth/email-already-in-use"){
+			errors.alreadyInUse = "Email already in use"
+		}
 
 		if (localStorage.getItem('token') === null) {
 			return (
@@ -160,19 +162,26 @@ class users extends Component {
 									type="email"
 									label="Email"
 									className={classes.textField}
-									helperText={errors.email}
-									error={errors.email ? true : false}
+									helperText={errors.email,errors.alreadyInUse}
+									error={errors.email || errors.alreadyInUse ? true : false}
 									value={this.state.email}
 									onChange={this.handleChange}
 									fullWidth />
-								<FormControl className={classes.textField} variant="outlined">
-									<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-									<OutlinedInput
-										id="outlined-adornment-password"
+									<TextField
+										id="password"
+										variant="outlined"
+										margin="normal"
 										type={this.state.showPassword ? 'text' : 'password'}
 										value={this.state.password}
+										className={classes.textField}
+										required
 										name="password"
+										type="password"
+										label="Password"
 										onChange={this.handleChange}
+										helperText={errors.password, errors.weak}
+										error={errors.password || errors.weak ? true : false}
+										fullWidth
 										endAdornment={
 											<InputAdornment position="end">
 												<IconButton
@@ -187,14 +196,16 @@ class users extends Component {
 										}
 										labelWidth={70}
 									/>
-								</FormControl>
-								<FormControl className={classes.textField} variant="outlined">
-									<InputLabel htmlFor="outlined-adornment-password"> Confirm Password</InputLabel>
-									<OutlinedInput
-										id="outlined-adornment-password"
+									<TextField
+										id="confirmPassword"
+										variant="outlined"
+										margin="normal"
 										type={this.state.showPassword ? 'text' : 'password'}
 										value={this.state.confirmPassword}
 										name="confirmPassword"
+										type="password"
+										label="confirmPassword"
+										className={classes.textField}
 										onChange={this.handleChange}
 										helperText={errors.confirmPassword}
 										error={errors.confirmPassword ? true : false}
@@ -212,7 +223,6 @@ class users extends Component {
 										}
 										labelWidth={70}
 									/>
-								</FormControl>
 								<TextField
 									variant="outlined"
 									margin="normal"
